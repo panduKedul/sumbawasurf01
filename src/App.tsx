@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
-import { Toaster } from 'react-hot-toast';
 import Header from './components/Header';
 import Map from './components/Map';
 import Maps from './components/Maps';
@@ -210,14 +209,6 @@ function App() {
       <Routes>
         <Route path="/" element={<AppContent />} />
       </Routes>
-      <Toaster position="top-right" toastOptions={{
-        style: {
-          background: '#2D2D2D',
-          color: '#fff',
-          borderRadius: '8px',
-          border: '1px solid #363636',
-        },
-      }} />
     </Router>
   );
 }
