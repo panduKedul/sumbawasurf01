@@ -1,0 +1,275 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: 'Titillium Web', sans-serif;
+  background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 25%, #2d2d2d 50%, #1a1a1a 75%, #0a0a0a 100%);
+  min-height: 100vh;
+}
+
+/* Elegant gradient backgrounds */
+.bg-dark-100 {
+  background: #1a1a1a !important;
+}
+
+.bg-dark-200 {
+  background: #242424 !important;
+  border: 1px solid rgba(0, 246, 255, 0.2);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.bg-dark-300 {
+  background: #2d2d2d !important;
+  border: 1px solid rgba(0, 246, 255, 0.2);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+}
+
+.bg-dark-400 {
+  background: #363636 !important;
+  border: 1px solid rgba(0, 246, 255, 0.25);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+/* Enhanced gradient radial backgrounds */
+.bg-gradient-radial {
+  background: radial-gradient(ellipse at center, rgba(0, 246, 255, 0.02) 0%, rgba(26, 26, 26, 1) 70%) !important;
+}
+
+/* Mobile body padding for fixed header */
+@media (max-width: 768px) {
+  body {
+    padding-top: 0;
+  }
+}
+
+/* Elegant card styling */
+.card-elegant {
+  background: rgba(45, 45, 45, 0.8);
+  border: 1px solid rgba(0, 246, 255, 0.3);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.4),
+    0 2px 8px rgba(0, 246, 255, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.card-elegant:hover {
+  transform: translateY(-2px);
+  box-shadow: 
+    0 12px 40px rgba(0, 0, 0, 0.5),
+    0 4px 12px rgba(0, 246, 255, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  border-color: rgba(0, 246, 255, 0.5);
+}
+
+/* Elegant header styling */
+.header-elegant {
+  background: rgba(26, 26, 26, 0.9);
+  border-bottom: 1px solid rgba(0, 246, 255, 0.3);
+  box-shadow: 
+    0 4px 16px rgba(0, 0, 0, 0.4),
+    0 1px 4px rgba(0, 246, 255, 0.2);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+/* Elegant button styling */
+.btn-elegant {
+  background: rgba(0, 246, 255, 0.15);
+  border: 1px solid rgba(0, 246, 255, 0.3);
+  box-shadow: 
+    0 2px 6px rgba(0, 246, 255, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+  color: #ffffff;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.btn-elegant:hover {
+  background: rgba(0, 246, 255, 0.25);
+  border-color: rgba(0, 246, 255, 0.5);
+  box-shadow: 
+    0 4px 12px rgba(0, 246, 255, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+  transform: translateY(-1px);
+}
+
+/* Elegant input styling */
+.input-elegant {
+  background: rgba(54, 54, 54, 0.8);
+  border: 1px solid rgba(0, 246, 255, 0.2);
+  box-shadow: 
+    inset 0 2px 4px rgba(0, 0, 0, 0.3),
+    0 1px 2px rgba(0, 246, 255, 0.1);
+  transition: all 0.3s ease;
+  color: #ffffff;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.input-elegant:focus {
+  border-color: rgba(0, 246, 255, 0.5);
+  box-shadow: 
+    inset 0 2px 4px rgba(0, 0, 0, 0.3),
+    0 0 0 3px rgba(0, 246, 255, 0.2),
+    0 2px 8px rgba(0, 246, 255, 0.3);
+  background: rgba(64, 64, 64, 0.9);
+  color: #ffffff;
+}
+
+.spot-label {
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.leaflet-zoom-animated.leaflet-zoom-level-11 .spot-label,
+.leaflet-zoom-animated.leaflet-zoom-level-12 .spot-label,
+.leaflet-zoom-animated.leaflet-zoom-level-13 .spot-label,
+.leaflet-zoom-animated.leaflet-zoom-level-14 .spot-label,
+.leaflet-zoom-animated.leaflet-zoom-level-15 .spot-label {
+  opacity: 1;
+}
+
+/* Dark theme for Leaflet map */
+.leaflet-container {
+  background-color: #1a1a1a !important;
+}
+
+.leaflet-popup-content-wrapper {
+  background: #242424 !important;
+  color: #fff !important;
+  border: 1px solid #363636;
+  font-family: 'Titillium Web', sans-serif;
+}
+
+.leaflet-popup-tip {
+  background: #242424 !important;
+  border: 1px solid #363636;
+}
+
+/* Modern scrollbar design for all devices */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(26, 26, 26, 0.3);
+  border-radius: 6px;
+  margin: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #00F6FF 0%, #007FFF 100%);
+  border-radius: 6px;
+  border: 1px solid rgba(0, 246, 255, 0.3);
+  box-shadow: 0 2px 4px rgba(0, 246, 255, 0.2);
+  transition: all 0.2s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #00F6FF 0%, #0066CC 100%);
+  border: 1px solid rgba(0, 246, 255, 0.5);
+  box-shadow: 0 4px 8px rgba(0, 246, 255, 0.3);
+  transform: scale(1.05);
+}
+
+::-webkit-scrollbar-thumb:active {
+  background: linear-gradient(180deg, #007FFF 0%, #004C99 100%);
+  transform: scale(0.98);
+}
+
+/* Firefox scrollbar styling */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #007FFF rgba(26, 26, 26, 0.3);
+}
+
+/* Hide scrollbar on mobile devices */
+@media (max-width: 768px) {
+  /* Hide scrollbar for webkit browsers (Chrome, Safari, Edge) */
+  ::-webkit-scrollbar {
+    display: none;
+    width: 0px;
+    background: transparent;
+  }
+  
+  /* Hide scrollbar for all elements on mobile */
+  * {
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+  }
+  
+  /* Ensure scrolling still works */
+  body, html {
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+  
+  /* Hide scrollbar for specific containers */
+  .overflow-auto,
+  .overflow-y-auto,
+  .overflow-x-auto {
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+  }
+  
+  .overflow-auto::-webkit-scrollbar,
+  .overflow-y-auto::-webkit-scrollbar,
+  .overflow-x-auto::-webkit-scrollbar {
+    display: none;
+    width: 0px;
+  }
+  
+  /* Exception: Show scrollbar for spots list */
+  .spots-list-container {
+    scrollbar-width: auto !important; /* Firefox */
+    -ms-overflow-style: auto !important; /* IE and Edge */
+  }
+  
+  .spots-list-container::-webkit-scrollbar {
+    display: block !important;
+    width: 8px !important;
+    background: transparent !important;
+  }
+  
+  .spots-list-container::-webkit-scrollbar-track {
+    background: rgba(26, 26, 26, 0.3) !important;
+    border-radius: 6px !important;
+    margin: 4px !important;
+  }
+  
+  .spots-list-container::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #00F6FF 0%, #007FFF 100%) !important;
+    border-radius: 6px !important;
+    border: 1px solid rgba(0, 246, 255, 0.3) !important;
+    box-shadow: 0 2px 4px rgba(0, 246, 255, 0.2) !important;
+  }
+  
+  .spots-list-container::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, #00F6FF 0%, #0066CC 100%) !important;
+    border: 1px solid rgba(0, 246, 255, 0.5) !important;
+    box-shadow: 0 4px 8px rgba(0, 246, 255, 0.3) !important;
+    transform: scale(1.1) !important;
+  }
+  
+  .spots-list-container::-webkit-scrollbar-thumb:active {
+    background: linear-gradient(180deg, #007FFF 0%, #004C99 100%) !important;
+    transform: scale(0.95) !important;
+  }
+}
+
+/* Mobile menu animations */
+
+/* Line clamp utility for text truncation */
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
