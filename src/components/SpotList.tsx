@@ -1,5 +1,5 @@
 import React from 'react';
-import { MapPin, Waves, ExternalLink, Star } from 'lucide-react';
+import { Waves, Star } from 'lucide-react';
 import { SurfSpot } from '../types';
 
 interface SpotListProps {

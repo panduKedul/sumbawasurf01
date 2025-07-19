@@ -37,7 +37,7 @@ export default function Map({ spots, onSelectSpot, selectedSpot }: MapProps) {
 
       // Add markers for each spot
       spots.forEach((spot) => {
-        const marker = L.marker([spot.latitude, spot.longitude])
+        const marker = L.marker([spot.coordinates[0], spot.coordinates[1]])
           .addTo(map)
           .bindPopup(`
             <div class="p-2">
@@ -45,7 +45,7 @@ export default function Map({ spots, onSelectSpot, selectedSpot }: MapProps) {
               <p class="text-sm text-gray-600">${spot.description}</p>
               <div class="mt-2">
                 <span class="inline-block bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">
-                  ${spot.skill_level}
+                  ${spot.skillLevel}
                 </span>
               </div>
             </div>
@@ -93,16 +93,16 @@ export default function Map({ spots, onSelectSpot, selectedSpot }: MapProps) {
               <p className="text-sm text-gray-600 mt-1">{selectedSpot.description}</p>
               <div className="flex items-center space-x-2 mt-2">
                 <span className="inline-block bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">
-                  {selectedSpot.skill_level}
+                  {selectedSpot.skillLevel}
                 </span>
                 <span className="inline-block bg-green-100 text-green-800 text-xs px-2 py-1 rounded">
-                  {selectedSpot.wave_type}
+                  {selectedSpot.waveType}
                 </span>
               </div>
             </div>
-            {selectedSpot.forecast_url && (
+            {selectedSpot.forecastUrl && (
               <a
-                href={selectedSpot.forecast_url}
+                href={selectedSpot.forecastUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center space-x-1 text-blue-600 hover:text-blue-800 text-sm"

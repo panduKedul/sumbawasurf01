@@ -1,103 +1,42 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
-import Header from '../frontend/components/Header';
-import Map from '../frontend/components/Map';
-import Maps from '../frontend/components/Maps';
-import TideDemo from '../frontend/components/TideDemo';
-import SpotList from '../frontend/components/SpotList';
-import SpotDetails from '../frontend/components/SpotDetails';
-import Footer from '../frontend/components/Footer';
-import UserDashboard from '../frontend/components/UserDashboard';
-import AdminPanel from '../frontend/components/AdminPanel';
-import Login from '../frontend/pages/Login';
-import Register from '../frontend/pages/Register';
-import { SURF_SPOTS } from '../frontend/utils/spots';
-import { fetchSpotsFromDatabase } from '../frontend/utils/spots';
-import { SurfSpot } from '../frontend/types';
-import { AuthProvider } from '../frontend/contexts/AuthContext';
-import { useAdmin } from '../frontend/hooks/useAdmin';
-import { useAuth } from '../frontend/contexts/AuthContext';
+import Header from './components/Header';
+import Map from './components/Map';
+import Maps from './components/Maps';
+import TideDemo from './components/TideDemo';
+import SpotList from './components/SpotList';
+import SpotDetails from './components/SpotDetails';
+import Footer from './components/Footer';
+import { SURF_SPOTS } from './data/spots';
+import { SurfSpot } from './types';
 
 function AppContent() {
-  const [spots, setSpots] = useState<SurfSpot[]>(SURF_SPOTS);
+  const [spots] = useState<SurfSpot[]>(SURF_SPOTS);
   const [selectedSpot, setSelectedSpot] = useState<SurfSpot | null>(null);
   const [showMaps, setShowMaps] = useState(false);
   const [showTide, setShowTide] = useState(false);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const [showMobileSpots, setShowMobileSpots] = useState(false);
-  const [showUserDashboard, setShowUserDashboard] = useState(false);
-  const [showAdminPanel, setShowAdminPanel] = useState(false);
-  const { user } = useAuth();
-  const { isAdmin } = useAdmin();
 
-  // Load spots from database on component mount
-  useEffect(() => {
-    const loadSpots = async () => {
-      try {
-        const databaseSpots = await fetchSpotsFromDatabase();
-        setSpots(databaseSpots);
-      } catch (error) {
-        console.warn('Failed to load spots from database, using static data:', error);
-        setSpots(SURF_SPOTS);
-      }
-    };
-    loadSpots();
-  }, []);
-
-  const handleSpotsUpdate = async () => {
-    try {
-      const updatedSpots = await fetchSpotsFromDatabase();
-      setSpots(updatedSpots);
-    } catch (error) {
-      console.warn('Failed to update spots from database:', error);
-      // Keep current spots if update fails
-    }
-  };
-
-  const showHome = !showMaps && !showTide && !showUserDashboard && !showAdminPanel;
+  const showHome = !showMaps && !showTide;
 
   const handleSpotSelect = (spot: SurfSpot) => {
     setSelectedSpot(spot);
     setShowMaps(false);
     setShowTide(false);
-    setShowAdminPanel(false);
   };
 
   const toggleMaps = () => {
     setShowMaps(!showMaps);
     setShowTide(false);
     setSelectedSpot(null);
-    setShowUserDashboard(false);
-    setShowAdminPanel(false);
   };
 
   const toggleTide = () => {
     setShowMaps(false);
     setShowTide(!showTide);
     setSelectedSpot(null);
-    setShowUserDashboard(false);
-    setShowAdminPanel(false);
-  };
-
-  const toggleUserDashboard = () => {
-    setShowMaps(false);
-    setShowTide(false);
-    setShowUserDashboard(!showUserDashboard);
-    setSelectedSpot(null);
-    setShowMobileMenu(false);
-    setShowMobileSpots(false);
-    setShowAdminPanel(false);
-  };
-
-  const toggleAdminPanel = () => {
-    setShowMaps(false);
-    setShowTide(false);
-    setShowUserDashboard(false);
-    setShowAdminPanel(!showAdminPanel);
-    setSelectedSpot(null);
-    setShowMobileMenu(false);
-    setShowMobileSpots(false);
   };
 
   const resetToHome = () => {
@@ -106,8 +45,6 @@ function AppContent() {
     setSelectedSpot(null);
     setShowMobileMenu(false);
     setShowMobileSpots(false);
-    setShowUserDashboard(false);
-    setShowAdminPanel(false);
   };
 
   const toggleMobileMenu = () => {
@@ -144,10 +81,6 @@ function AppContent() {
         showTide={showTide}
         resetToHome={resetToHome}
         showHome={showHome}
-        toggleUserDashboard={toggleUserDashboard}
-        showUserDashboard={showUserDashboard}
-        toggleAdminPanel={isAdmin ? toggleAdminPanel : undefined}
-        showAdminPanel={showAdminPanel}
         toggleMobileMenu={toggleMobileMenu}
         showMobileMenu={showMobileMenu}
         toggleMobileSpots={toggleMobileSpots}
@@ -167,10 +100,6 @@ function AppContent() {
             <Maps />
           ) : showTide ? (
             <TideDemo />
-          ) : showUserDashboard ? (
-            <UserDashboard />
-          ) : showAdminPanel ? (
-            <AdminPanel onSpotsUpdate={handleSpotsUpdate} />
           ) : (
             /* Default view with map and spot details */
             <div className="flex flex-col flex-1">
@@ -234,35 +163,30 @@ function AppContent() {
                       </div>
 
                       <div className="bg-dark-300 p-6 rounded-lg border border-dark-400">
-                        <h3 className="text-lg font-semibold text-neon-blue mb-3">Create Your Free Account</h3>
+                        <h3 className="text-lg font-semibold text-neon-blue mb-3">Explore Sumbawa Surf Spots</h3>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-left mb-6">
                           <div className="flex items-start space-x-2">
                             <div className="text-neon-blue mt-1">★</div>
-                            <p className="text-gray-300 text-sm">Save your favorite surf spots for quick access</p>
+                            <p className="text-gray-300 text-sm">Discover 11 world-class surf spots</p>
                           </div>
                           <div className="flex items-start space-x-2">
                             <div className="text-neon-blue mt-1">★</div>
-                            <p className="text-gray-300 text-sm">Receive custom alerts for perfect surf conditions</p>
+                            <p className="text-gray-300 text-sm">Real-time weather and tide information</p>
                           </div>
                           <div className="flex items-start space-x-2">
                             <div className="text-neon-blue mt-1">★</div>
-                            <p className="text-gray-300 text-sm">Get personalized spot recommendations</p>
+                            <p className="text-gray-300 text-sm">Interactive maps and forecasts</p>
                           </div>
                           <div className="flex items-start space-x-2">
                             <div className="text-neon-blue mt-1">★</div>
-                            <p className="text-gray-300 text-sm">Access exclusive local surf reports</p>
+                            <p className="text-gray-300 text-sm">Detailed spot information and guides</p>
                           </div>
                         </div>
-                        {!user && (
-                          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                            <Link to="/register" className="px-6 py-2 bg-neon-blue text-dark-100 font-medium rounded-md hover:bg-opacity-90 transition-colors text-center">
-                              Register
-                            </Link>
-                            <Link to="/login" className="px-6 py-2 border border-neon-blue text-neon-blue font-medium rounded-md hover:bg-neon-blue hover:bg-opacity-10 transition-colors text-center">
-                              Sign In
-                            </Link>
-                          </div>
-                        )}
+                        <div className="text-center">
+                          <p className="text-gray-400 text-sm">
+                            Click on any surf spot to start exploring
+                          </p>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -283,21 +207,17 @@ function AppContent() {
 function App() {
   return (
     <Router>
-      <AuthProvider>
-        <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/" element={<AppContent />} />
-        </Routes>
-        <Toaster position="top-right" toastOptions={{
-          style: {
-            background: '#2D2D2D',
-            color: '#fff',
-            borderRadius: '8px',
-            border: '1px solid #363636',
-          },
-        }} />
-      </AuthProvider>
+      <Routes>
+        <Route path="/" element={<AppContent />} />
+      </Routes>
+      <Toaster position="top-right" toastOptions={{
+        style: {
+          background: '#2D2D2D',
+          color: '#fff',
+          borderRadius: '8px',
+          border: '1px solid #363636',
+        },
+      }} />
     </Router>
   );
 }

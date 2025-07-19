@@ -1,7 +1,5 @@
 import { SurfSpot } from '../types';
-import { supabase } from '../database/supabase';
 
-// Static surf spots data as fallback
 export const SURF_SPOTS: SurfSpot[] = [
   {
     id: 'northern-right',
@@ -136,41 +134,3 @@ export const SURF_SPOTS: SurfSpot[] = [
     imageUrl: 'https://images.pexels.com/photos/1032657/pexels-photo-1032657.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'
   }
 ];
-
-// Function to fetch spots from database
-export const fetchSpotsFromDatabase = async (): Promise<SurfSpot[]> => {
-  try {
-    const { data, error } = await supabase
-      .from('surf_spots')
-      .select('*')
-      .eq('is_active', true)
-      .order('created_at', { ascending: true });
-
-    if (error) {
-      // If table doesn't exist or any database error, fall back to static data silently
-      if (error.code === '42P01' || error.code === 'PGRST116') {
-        // Silently fall back to static data without logging warnings
-        return SURF_SPOTS;
-      }
-      // For other errors, also fall back to static data
-      return SURF_SPOTS;
-    }
-
-    // Convert database format to app format
-    return (data || []).map(spot => ({
-      id: spot.id,
-      name: spot.name,
-      description: spot.description,
-      waveType: spot.wave_type,
-      skillLevel: spot.skill_level,
-      bestSeason: spot.best_season,
-      tideConditions: spot.tide_conditions,
-      coordinates: [spot.latitude, spot.longitude] as [number, number],
-      forecastUrl: spot.forecast_url,
-      imageUrl: spot.image_url
-    }));
-  } catch (error) {
-    // Silently fall back to static data for any errors
-    return SURF_SPOTS;
-  }
-};
