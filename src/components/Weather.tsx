@@ -95,11 +95,11 @@ export default function Weather({ spots }: WeatherProps) {
   };
 
   const getUVLevel = (uvIndex: number) => {
-    if (uvIndex <= 2) return { level: 'Low', color: 'text-green-500', bg: 'bg-green-100', border: 'border-green-200' };
-    if (uvIndex <= 5) return { level: 'Moderate', color: 'text-yellow-500', bg: 'bg-yellow-100', border: 'border-yellow-200' };
-    if (uvIndex <= 7) return { level: 'High', color: 'text-orange-500', bg: 'bg-orange-100', border: 'border-orange-200' };
-    if (uvIndex <= 10) return { level: 'Very High', color: 'text-red-500', bg: 'bg-red-100', border: 'border-red-200' };
-    return { level: 'Extreme', color: 'text-purple-500', bg: 'bg-purple-100', border: 'border-purple-200' };
+    if (uvIndex <= 2) return { level: 'Low', color: 'text-green-500' };
+    if (uvIndex <= 5) return { level: 'Moderate', color: 'text-yellow-500' };
+    if (uvIndex <= 7) return { level: 'High', color: 'text-orange-500' };
+    if (uvIndex <= 10) return { level: 'Very High', color: 'text-red-500' };
+    return { level: 'Extreme', color: 'text-purple-500' };
   };
 
   const uvIndex = calculateUVIndex();
@@ -113,8 +113,8 @@ export default function Weather({ spots }: WeatherProps) {
     return (
       <div className={`min-h-screen flex items-center justify-center ${themeClasses.bg} pt-16`}>
         <div className="text-center">
-          <div className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <p className={`${themeClasses.textSecondary} text-sm`}>Loading weather data...</p>
+          <div className="w-6 h-6 sm:w-8 sm:h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <p className={`${themeClasses.textSecondary} text-xs sm:text-sm`}>Loading weather data...</p>
         </div>
       </div>
     );
@@ -122,11 +122,11 @@ export default function Weather({ spots }: WeatherProps) {
 
   return (
     <div className={`min-h-screen ${themeClasses.bg} pt-16 overflow-x-hidden`}>
-      {/* Header */}
+      {/* Mobile-First Header */}
       <div className={`${themeClasses.cardBg} border-b ${themeClasses.border} p-3 sm:p-4 lg:p-6`}>
         <div className="max-w-4xl mx-auto text-center">
-          <div className="flex items-center justify-center space-x-3 mb-3">
-            <div className={`p-2 ${themeClasses.headerBg} rounded-lg shadow-lg`}>
+          <div className="flex flex-col items-center space-y-3 mb-4">
+            <div className={`p-2 ${themeClasses.headerBg} rounded-lg shadow-sm`}>
               <Cloud className="w-5 h-5 text-white" />
             </div>
             <div>
@@ -139,8 +139,8 @@ export default function Weather({ spots }: WeatherProps) {
             </div>
           </div>
 
-          {/* Spot Selector */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-3 max-w-md mx-auto">
+          {/* Mobile-Optimized Spot Selector */}
+          <div className="flex flex-col space-y-2 max-w-sm mx-auto">
             <select
               value={selectedSpot.id}
               onChange={(e) => {
@@ -158,7 +158,7 @@ export default function Weather({ spots }: WeatherProps) {
             <button
               onClick={loadWeatherData}
               disabled={loading}
-              className={`${themeClasses.button} px-3 sm:px-4 py-2 rounded-lg flex items-center justify-center space-x-2 text-xs sm:text-sm w-full sm:w-auto transition-all duration-300 shadow-lg`}
+              className={`${themeClasses.button} px-3 py-2 rounded-lg flex items-center justify-center space-x-2 text-xs sm:text-sm w-full transition-all duration-300 shadow-sm`}
             >
               <RefreshCw className={`w-3 h-3 sm:w-4 sm:h-4 ${loading ? 'animate-spin' : ''}`} />
               <span>Refresh</span>
@@ -168,10 +168,10 @@ export default function Weather({ spots }: WeatherProps) {
       </div>
 
       {/* Main Content */}
-      <div className="p-3 sm:p-4 lg:p-6 space-y-4 sm:space-y-6 max-w-4xl mx-auto">
+      <div className="p-3 sm:p-4 lg:p-6 space-y-4 max-w-4xl mx-auto">
         
-        {/* Weather Map */}
-        <div className={`h-48 sm:h-64 lg:h-80 ${themeClasses.cardBg} rounded-xl overflow-hidden shadow-xl`}>
+        {/* Mobile-First Weather Map */}
+        <div className={`h-40 sm:h-48 lg:h-64 ${themeClasses.cardBg} rounded-xl overflow-hidden shadow-sm`}>
           <iframe
             src={getWindyUrl()}
             className="w-full h-full border-0"
@@ -180,15 +180,15 @@ export default function Weather({ spots }: WeatherProps) {
           />
         </div>
 
-        {/* Current Weather Cards */}
+        {/* Mobile-Optimized Current Weather Cards */}
         {currentWeather && (
-          <div className={`${themeClasses.cardBg} p-3 sm:p-4 lg:p-6 rounded-xl shadow-xl`}>
-            <h2 className={`text-base sm:text-lg lg:text-xl font-bold ${themeClasses.text} mb-3 sm:mb-4 text-center flex items-center justify-center`}>
+          <div className={`${themeClasses.cardBg} p-3 sm:p-4 lg:p-6 rounded-xl shadow-sm`}>
+            <h2 className={`text-sm sm:text-base lg:text-xl font-bold ${themeClasses.text} mb-3 text-center flex items-center justify-center`}>
               <Activity className={`w-4 h-4 sm:w-5 sm:h-5 ${themeClasses.accent} mr-2`} />
               Current Conditions
             </h2>
             
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2 sm:gap-3 lg:gap-4">
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2 sm:gap-3">
               {[
                 { icon: Thermometer, label: 'Air Temp', value: `${currentWeather.airTemperature.toFixed(1)}°C`, color: 'text-orange-500' },
                 { icon: Waves, label: 'Water Temp', value: `${currentWeather.waterTemperature.toFixed(1)}°C`, color: 'text-blue-500' },
@@ -197,8 +197,8 @@ export default function Weather({ spots }: WeatherProps) {
                 { icon: Eye, label: 'Visibility', value: `${currentWeather.visibility.toFixed(1)}km`, color: 'text-purple-500' },
                 { icon: Sun, label: 'UV Index', value: `${uvIndex} - ${uvLevel.level}`, color: uvLevel.color }
               ].map((item, index) => (
-                <div key={index} className={`${themeClasses.cardBg} p-2 sm:p-3 lg:p-4 rounded-lg text-center shadow-md border ${themeClasses.border}`}>
-                  <item.icon className={`w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 ${item.color} mx-auto mb-1 sm:mb-2`} />
+                <div key={index} className={`${themeClasses.cardBg} p-2 sm:p-3 rounded-lg text-center shadow-sm border ${themeClasses.border}`}>
+                  <item.icon className={`w-4 h-4 sm:w-5 sm:h-5 ${item.color} mx-auto mb-1 sm:mb-2`} />
                   <span className={`${themeClasses.textSecondary} text-xs block mb-1`}>{item.label}</span>
                   <span className={`${themeClasses.text} font-semibold text-xs sm:text-sm`}>{item.value}</span>
                 </div>
@@ -207,22 +207,22 @@ export default function Weather({ spots }: WeatherProps) {
           </div>
         )}
 
-        {/* Hourly Forecast */}
-        <div className={`${themeClasses.cardBg} p-3 sm:p-4 lg:p-6 rounded-xl shadow-xl`}>
-          <h3 className={`text-base sm:text-lg lg:text-xl font-bold ${themeClasses.text} mb-3 sm:mb-4 text-center flex items-center justify-center`}>
+        {/* Mobile-Optimized Hourly Forecast */}
+        <div className={`${themeClasses.cardBg} p-3 sm:p-4 lg:p-6 rounded-xl shadow-sm`}>
+          <h3 className={`text-sm sm:text-base lg:text-xl font-bold ${themeClasses.text} mb-3 text-center flex items-center justify-center`}>
             <Activity className={`w-4 h-4 sm:w-5 sm:h-5 ${themeClasses.accent} mr-2`} />
             12-Hour Forecast
           </h3>
           
           <div className="overflow-x-auto">
-            <div className="flex gap-2 sm:gap-3 pb-2" style={{ minWidth: 'max-content' }}>
+            <div className="flex gap-2 pb-2" style={{ minWidth: 'max-content' }}>
               {getHourlyForecast().map((hour, index) => (
-                <div key={index} className={`flex-shrink-0 ${themeClasses.cardBg} rounded-lg p-2 sm:p-3 border ${themeClasses.border} min-w-[80px] sm:min-w-[100px] shadow-md`}>
+                <div key={index} className={`flex-shrink-0 ${themeClasses.cardBg} rounded-lg p-2 sm:p-3 border ${themeClasses.border} min-w-[70px] sm:min-w-[90px] shadow-sm`}>
                   <div className="text-center">
                     <p className={`text-xs ${themeClasses.textSecondary} mb-2 font-medium`}>
                       {new Date(hour.time).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false })}
                     </p>
-                    <div className="space-y-1 sm:space-y-2">
+                    <div className="space-y-1">
                       <div className="flex items-center justify-center space-x-1">
                         <Thermometer className="w-2 h-2 sm:w-3 sm:h-3 text-orange-500" />
                         <span className={`text-xs ${themeClasses.text} font-medium`}>{hour.airTemperature.toFixed(0)}°C</span>
@@ -243,10 +243,10 @@ export default function Weather({ spots }: WeatherProps) {
           </div>
         </div>
 
-        {/* Location Info */}
-        <div className={`${themeClasses.cardBg} p-3 sm:p-4 rounded-xl text-center shadow-xl`}>
-          <div className={`flex flex-col sm:flex-row items-center justify-center space-y-2 sm:space-y-0 sm:space-x-4 ${themeClasses.textSecondary}`}>
-            <div className="flex items-center space-x-2">
+        {/* Mobile-Optimized Location Info */}
+        <div className={`${themeClasses.cardBg} p-3 sm:p-4 rounded-xl text-center shadow-sm`}>
+          <div className={`flex flex-col space-y-2 ${themeClasses.textSecondary}`}>
+            <div className="flex items-center justify-center space-x-2">
               <MapPin className={`w-3 h-3 sm:w-4 sm:h-4 ${themeClasses.accent}`} />
               <span className={`font-medium text-xs sm:text-sm ${themeClasses.text}`}>{selectedSpot.name}</span>
             </div>

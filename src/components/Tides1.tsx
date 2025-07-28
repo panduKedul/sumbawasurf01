@@ -159,32 +159,32 @@ export default function Tides1({ spots }: Tides1Props) {
   return (
     <div className={`min-h-screen ${themeClasses.bg} pt-16 overflow-x-hidden`}>
       {/* Hero Header */}
-      <div className={`${themeClasses.cardBg} border-b ${themeClasses.border} p-4 lg:p-8`}>
+      <div className={`${themeClasses.cardBg} border-b ${themeClasses.border} p-3 sm:p-4 lg:p-6`}>
         <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-6">
-            <div className="flex items-center justify-center space-x-3 mb-4">
-              <div className={`p-3 ${themeClasses.headerBg} rounded-xl shadow-sm`}>
-                <Anchor className="w-6 h-6 text-white" />
+          <div className="text-center mb-4">
+            <div className="flex flex-col items-center space-y-3 mb-4">
+              <div className={`p-2 ${themeClasses.headerBg} rounded-lg shadow-sm`}>
+                <Anchor className="w-5 h-5 text-white" />
               </div>
               <div>
-                <h1 className={`text-xl lg:text-4xl font-bold ${themeClasses.accent}`}>
+                <h1 className={`text-lg sm:text-xl lg:text-3xl font-bold ${themeClasses.accent}`}>
                   Marine Tide Station
                 </h1>
-                <p className={`text-sm lg:text-lg ${themeClasses.textSecondary}`}>
+                <p className={`text-xs sm:text-sm lg:text-base ${themeClasses.textSecondary}`}>
                   Advanced tidal analysis and predictions
                 </p>
               </div>
             </div>
 
-            {/* Spot Selector */}
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-3 max-w-md mx-auto">
+            {/* Mobile-Optimized Spot Selector */}
+            <div className="flex flex-col space-y-2 max-w-sm mx-auto">
               <select
                 value={selectedSpot.id}
                 onChange={(e) => {
                   const spot = spots.find(s => s.id === e.target.value);
                   if (spot) setSelectedSpot(spot);
                 }}
-                className={`${themeClasses.cardBg} ${themeClasses.border} ${themeClasses.text} px-4 py-2 rounded-lg w-full text-sm focus:outline-none focus:ring-2 focus:ring-blue-500`}
+                className={`${themeClasses.cardBg} ${themeClasses.border} ${themeClasses.text} px-3 py-2 rounded-lg w-full text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500`}
               >
                 {spots.map((spot) => (
                   <option key={spot.id} value={spot.id}>
@@ -195,9 +195,9 @@ export default function Tides1({ spots }: Tides1Props) {
               <button
                 onClick={loadTideData}
                 disabled={loading}
-                className={`${themeClasses.button} px-4 py-2 rounded-lg flex items-center justify-center space-x-2 text-sm w-full sm:w-auto transition-all duration-300 shadow-sm`}
+                className={`${themeClasses.button} px-3 py-2 rounded-lg flex items-center justify-center space-x-2 text-xs sm:text-sm w-full transition-all duration-300 shadow-sm`}
               >
-                <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
+                <RefreshCw className={`w-3 h-3 sm:w-4 sm:h-4 ${loading ? 'animate-spin' : ''}`} />
                 <span>Refresh</span>
               </button>
             </div>
@@ -206,7 +206,7 @@ export default function Tides1({ spots }: Tides1Props) {
       </div>
 
       {/* Main Content */}
-      <div className="p-4 lg:p-6 space-y-6 max-w-4xl mx-auto">
+      <div className="p-3 sm:p-4 lg:p-6 space-y-4 max-w-4xl mx-auto">
         
         {/* Current Tide Status Hero */}
         {currentStatus && (
@@ -214,26 +214,26 @@ export default function Tides1({ spots }: Tides1Props) {
             <div className="p-6 lg:p-8">
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 {/* Left Side - Current Status */}
-                <div className="text-center lg:text-left">
-                  <h2 className={`text-lg lg:text-2xl font-bold ${themeClasses.text} mb-4`}>Current Tide Status</h2>
-                  <div className="flex items-center justify-center lg:justify-start space-x-4 mb-4">
-                    <div className={`p-4 ${themeClasses.headerBg} rounded-xl`}>
+                <div className="text-center">
+                  <h2 className={`text-sm sm:text-base lg:text-xl font-bold ${themeClasses.text} mb-3 sm:mb-4`}>Current Tide Status</h2>
+                  <div className="flex items-center justify-center space-x-3 sm:space-x-4 mb-3 sm:mb-4">
+                    <div className={`p-2 sm:p-3 ${themeClasses.headerBg} rounded-lg`}>
                       {getTideIcon(currentStatus.current.type)}
                     </div>
                     <div>
-                      <div className={`text-2xl lg:text-4xl font-bold ${themeClasses.accent}`}>
+                      <div className={`text-xl sm:text-2xl lg:text-3xl font-bold ${themeClasses.accent}`}>
                         {currentStatus.status === 'rising' ? 'Rising' : 'Falling'}
                       </div>
-                      <div className={`text-sm ${themeClasses.textSecondary}`}>
+                      <div className={`text-xs sm:text-sm ${themeClasses.textSecondary}`}>
                         {currentStatus.progress.toFixed(0)}% to next tide
                       </div>
                     </div>
                   </div>
                   
                   {/* Progress Bar */}
-                  <div className={`w-full bg-gray-200 rounded-full h-3 mb-4`}>
+                  <div className={`w-full bg-gray-200 rounded-full h-2 sm:h-3 mb-3 sm:mb-4`}>
                     <div 
-                      className={`h-3 rounded-full transition-all duration-300 ${
+                      className={`h-2 sm:h-3 rounded-full transition-all duration-300 ${
                         currentStatus.status === 'rising' ? 'bg-blue-500' : 'bg-orange-500'
                       }`}
                       style={{ width: `${currentStatus.progress}%` }}
@@ -242,16 +242,16 @@ export default function Tides1({ spots }: Tides1Props) {
                   
                   <div className="grid grid-cols-2 gap-4">
                     <div className="text-center">
-                      <div className={`text-lg font-bold ${themeClasses.text}`}>
+                      <div className={`text-sm sm:text-base font-bold ${themeClasses.text}`}>
                         {getTideHeight(currentStatus.current.height)}
                       </div>
-                      <div className={`text-xs ${themeClasses.textSecondary}`}>Current Level</div>
+                      <div className={`text-xs sm:text-sm ${themeClasses.textSecondary}`}>Current Level</div>
                     </div>
                     <div className="text-center">
-                      <div className={`text-lg font-bold ${themeClasses.text}`}>
+                      <div className={`text-sm sm:text-base font-bold ${themeClasses.text}`}>
                         {getTideHeight(currentStatus.next.height)}
                       </div>
-                      <div className={`text-xs ${themeClasses.textSecondary}`}>Next Level</div>
+                      <div className={`text-xs sm:text-sm ${themeClasses.textSecondary}`}>Next Level</div>
                     </div>
                   </div>
                 </div>
@@ -259,21 +259,21 @@ export default function Tides1({ spots }: Tides1Props) {
                 {/* Right Side - Next Tide Info */}
                 <div className="space-y-4">
                   {nextTide && (
-                    <div className={`${themeClasses.cardBg} p-4 rounded-xl border ${themeClasses.border}`}>
+                    <div className={`${themeClasses.cardBg} p-3 sm:p-4 rounded-lg border ${themeClasses.border}`}>
                       <div className="flex items-center space-x-3 mb-3">
-                        <Navigation className={`w-5 h-5 ${themeClasses.accent}`} />
-                        <h3 className={`font-bold ${themeClasses.text}`}>Next Tide</h3>
+                        <Navigation className={`w-4 h-4 sm:w-5 sm:h-5 ${themeClasses.accent}`} />
+                        <h3 className={`text-sm sm:text-base font-bold ${themeClasses.text}`}>Next Tide</h3>
                       </div>
                       <div className="text-center">
-                        <div className={`text-2xl font-bold mb-2 ${
+                        <div className={`text-lg sm:text-xl font-bold mb-2 ${
                           nextTide.type === 'high' ? 'text-blue-600' : 'text-orange-600'
                         }`}>
                           {formatTime(nextTide.time)}
                         </div>
-                        <div className={`text-lg font-bold ${themeClasses.text} mb-2`}>
+                        <div className={`text-sm sm:text-base font-bold ${themeClasses.text} mb-2`}>
                           {getTideHeight(nextTide.height)}
                         </div>
-                        <span className={`px-3 py-1 rounded-full text-sm font-medium ${
+                        <span className={`px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-medium ${
                           nextTide.type === 'high'
                             ? 'bg-blue-100 text-blue-700'
                             : 'bg-orange-100 text-orange-700'
@@ -285,16 +285,16 @@ export default function Tides1({ spots }: Tides1Props) {
                   )}
 
                   {/* Surf Conditions */}
-                  <div className={`${themeClasses.cardBg} p-4 rounded-xl border ${themeClasses.border}`}>
+                  <div className={`${themeClasses.cardBg} p-3 sm:p-4 rounded-lg border ${themeClasses.border}`}>
                     <div className="flex items-center space-x-3 mb-3">
-                      <Waves className={`w-5 h-5 ${themeClasses.accent}`} />
-                      <h3 className={`font-bold ${themeClasses.text}`}>Surf Conditions</h3>
+                      <Waves className={`w-4 h-4 sm:w-5 sm:h-5 ${themeClasses.accent}`} />
+                      <h3 className={`text-sm sm:text-base font-bold ${themeClasses.text}`}>Surf Conditions</h3>
                     </div>
                     <div className="text-center">
-                      <div className={`text-lg font-bold ${themeClasses.accent} mb-2`}>
+                      <div className={`text-sm sm:text-base font-bold ${themeClasses.accent} mb-2`}>
                         {selectedSpot.tideConditions}
                       </div>
-                      <div className={`text-sm ${themeClasses.textSecondary}`}>
+                      <div className={`text-xs sm:text-sm ${themeClasses.textSecondary}`}>
                         Best for {selectedSpot.skillLevel}
                       </div>
                     </div>
@@ -307,41 +307,41 @@ export default function Tides1({ spots }: Tides1Props) {
 
         {/* Today's Tides Timeline */}
         <div className={`${themeClasses.cardBg} rounded-2xl shadow-sm overflow-hidden`}>
-          <div className="p-4 border-b border-gray-200">
-            <h3 className={`text-lg font-bold ${themeClasses.text} text-center flex items-center justify-center space-x-2`}>
-              <Clock className={`w-5 h-5 ${themeClasses.accent}`} />
+          <div className={`p-3 sm:p-4 border-b ${themeClasses.border}`}>
+            <h3 className={`text-sm sm:text-base lg:text-lg font-bold ${themeClasses.text} text-center flex items-center justify-center space-x-2`}>
+              <Clock className={`w-4 h-4 sm:w-5 sm:h-5 ${themeClasses.accent}`} />
               <span>Today's Tide Timeline</span>
             </h3>
           </div>
           
-          <div className="p-6">
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="p-3 sm:p-4 lg:p-6">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-3">
               {todayTides.map((tide, index) => (
                 <div
                   key={index}
-                  className={`${themeClasses.cardBg} p-4 rounded-xl transition-all duration-300 hover:scale-105 shadow-sm border-2 ${
+                  className={`${themeClasses.cardBg} p-2 sm:p-3 rounded-lg transition-all duration-300 hover:scale-105 shadow-sm border ${
                     tide.type === 'high'
                       ? 'border-blue-200 bg-gradient-to-br from-blue-50 to-cyan-50'
                       : 'border-orange-200 bg-gradient-to-br from-orange-50 to-red-50'
                   }`}
                 >
                   <div className="text-center">
-                    <div className="flex items-center justify-center space-x-2 mb-3">
+                    <div className="flex items-center justify-center space-x-1 sm:space-x-2 mb-2">
                       {getTideIcon(tide.type)}
                       {getPhaseIcon(tide.time)}
                     </div>
                     
-                    <h3 className={`text-lg font-bold mb-2 ${
+                    <h3 className={`text-xs sm:text-sm font-bold mb-1 sm:mb-2 ${
                       tide.type === 'high' ? 'text-blue-600' : 'text-orange-600'
                     }`}>
                       {formatTime(tide.time)}
                     </h3>
                     
-                    <p className={`text-xl font-bold ${themeClasses.text} mb-2`}>
+                    <p className={`text-sm sm:text-base font-bold ${themeClasses.text} mb-1 sm:mb-2`}>
                       {getTideHeight(tide.height)}
                     </p>
                     
-                    <span className={`px-3 py-1 rounded-full text-sm font-medium ${
+                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${
                       tide.type === 'high'
                         ? 'bg-blue-100 text-blue-700'
                         : 'bg-orange-100 text-orange-700'
@@ -357,16 +357,16 @@ export default function Tides1({ spots }: Tides1Props) {
 
         {/* Tide Chart Visualization */}
         <div className={`${themeClasses.cardBg} rounded-2xl shadow-sm overflow-hidden`}>
-          <div className="p-4 border-b border-gray-200">
-            <h3 className={`text-lg font-bold ${themeClasses.text} text-center flex items-center justify-center space-x-2`}>
-              <BarChart3 className={`w-5 h-5 ${themeClasses.accent}`} />
+          <div className={`p-3 sm:p-4 border-b ${themeClasses.border}`}>
+            <h3 className={`text-sm sm:text-base lg:text-lg font-bold ${themeClasses.text} text-center flex items-center justify-center space-x-2`}>
+              <BarChart3 className={`w-4 h-4 sm:w-5 sm:h-5 ${themeClasses.accent}`} />
               <span>24-Hour Tide Chart</span>
             </h3>
           </div>
           
-          <div className="p-6">
-            <div className={`relative h-48 lg:h-64 ${themeClasses.cardBg} rounded-xl p-4 border ${themeClasses.border} shadow-inner`}>
-              <div className="absolute inset-4">
+          <div className="p-3 sm:p-4 lg:p-6">
+            <div className={`relative h-32 sm:h-40 lg:h-48 ${themeClasses.cardBg} rounded-lg p-2 sm:p-3 border ${themeClasses.border} shadow-inner`}>
+              <div className="absolute inset-2 sm:inset-3">
                 {/* Y-axis labels */}
                 <div className={`absolute left-0 top-0 bottom-0 flex flex-col justify-between text-xs ${themeClasses.textSecondary}`}>
                   <span>2.5m</span>
@@ -378,7 +378,7 @@ export default function Tides1({ spots }: Tides1Props) {
                 </div>
                 
                 {/* Chart area */}
-                <div className="ml-8 h-full relative">
+                <div className="ml-6 sm:ml-8 h-full relative">
                   {/* Grid lines */}
                   <div className="absolute inset-0">
                     {[0, 20, 40, 60, 80, 100].map((percent) => (
@@ -400,7 +400,7 @@ export default function Tides1({ spots }: Tides1Props) {
                           className="flex flex-col items-center"
                           style={{ height: `${heightPercent}%` }}
                         >
-                          <div className={`w-4 h-4 rounded-full mb-2 shadow-lg ${
+                          <div className={`w-2 h-2 sm:w-3 sm:h-3 rounded-full mb-1 sm:mb-2 shadow-sm ${
                             tide.type === 'high' ? 'bg-blue-500' : 'bg-orange-500'
                           }`} />
                           <div className={`text-xs ${themeClasses.textSecondary} text-center`}>
@@ -419,19 +419,19 @@ export default function Tides1({ spots }: Tides1Props) {
 
         {/* Weekly Tide Overview */}
         <div className={`${themeClasses.cardBg} rounded-2xl shadow-sm overflow-hidden`}>
-          <div className="p-4 border-b border-gray-200">
-            <h3 className={`text-lg font-bold ${themeClasses.text} text-center`}>7-Day Tide Overview</h3>
+          <div className={`p-3 sm:p-4 border-b ${themeClasses.border}`}>
+            <h3 className={`text-sm sm:text-base lg:text-lg font-bold ${themeClasses.text} text-center`}>7-Day Tide Overview</h3>
           </div>
-          <div className="p-4">
+          <div className="p-3 sm:p-4">
             <div className="overflow-x-auto">
-              <div className="flex space-x-3 pb-2" style={{ minWidth: 'max-content' }}>
+              <div className="flex space-x-2 pb-2" style={{ minWidth: 'max-content' }}>
                 {Object.entries(weeklyTides).map(([date, tides], dayIndex) => (
-                  <div key={dayIndex} className={`flex-shrink-0 ${themeClasses.cardBg} rounded-xl p-3 border ${themeClasses.border} min-w-[140px] shadow-sm`}>
-                    <h4 className={`text-center font-bold ${themeClasses.text} mb-3 text-sm`}>{formatDateShort(date)}</h4>
-                    <div className="space-y-2">
+                  <div key={dayIndex} className={`flex-shrink-0 ${themeClasses.cardBg} rounded-lg p-2 sm:p-3 border ${themeClasses.border} min-w-[100px] sm:min-w-[120px] shadow-sm`}>
+                    <h4 className={`text-center font-bold ${themeClasses.text} mb-2 text-xs sm:text-sm`}>{formatDateShort(date)}</h4>
+                    <div className="space-y-1">
                       {tides.map((tide, tideIndex) => (
                         <div key={tideIndex} className="flex items-center justify-between text-xs">
-                          <div className="flex items-center space-x-2">
+                          <div className="flex items-center space-x-1">
                             {getTideIcon(tide.type)}
                             <span className={`${themeClasses.textSecondary}`}>{formatTime(tide.time)}</span>
                           </div>
@@ -452,32 +452,32 @@ export default function Tides1({ spots }: Tides1Props) {
 
         {/* Surf Spot Information */}
         <div className={`${themeClasses.cardBg} rounded-2xl shadow-sm overflow-hidden`}>
-          <div className="p-4 border-b border-gray-200">
-            <h3 className={`text-lg font-bold ${themeClasses.text} text-center`}>
+          <div className={`p-3 sm:p-4 border-b ${themeClasses.border}`}>
+            <h3 className={`text-sm sm:text-base lg:text-lg font-bold ${themeClasses.text} text-center`}>
               {selectedSpot.name} - Marine Information
             </h3>
           </div>
-          <div className="p-6">
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
+          <div className="p-3 sm:p-4 lg:p-6">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-3 mb-3 sm:mb-4">
               <div className="text-center">
-                <div className={`${themeClasses.accent} font-semibold mb-1 text-sm`}>Wave Type</div>
-                <div className={`${themeClasses.textSecondary} text-sm`}>{selectedSpot.waveType}</div>
+                <div className={`${themeClasses.accent} font-semibold mb-1 text-xs sm:text-sm`}>Wave Type</div>
+                <div className={`${themeClasses.textSecondary} text-xs`}>{selectedSpot.waveType}</div>
               </div>
               <div className="text-center">
-                <div className={`${themeClasses.accent} font-semibold mb-1 text-sm`}>Skill Level</div>
-                <div className={`${themeClasses.textSecondary} text-sm`}>{selectedSpot.skillLevel}</div>
+                <div className={`${themeClasses.accent} font-semibold mb-1 text-xs sm:text-sm`}>Skill Level</div>
+                <div className={`${themeClasses.textSecondary} text-xs`}>{selectedSpot.skillLevel}</div>
               </div>
               <div className="text-center">
-                <div className={`${themeClasses.accent} font-semibold mb-1 text-sm`}>Best Season</div>
-                <div className={`${themeClasses.textSecondary} text-sm`}>{selectedSpot.bestSeason}</div>
+                <div className={`${themeClasses.accent} font-semibold mb-1 text-xs sm:text-sm`}>Best Season</div>
+                <div className={`${themeClasses.textSecondary} text-xs`}>{selectedSpot.bestSeason}</div>
               </div>
               <div className="text-center">
-                <div className={`${themeClasses.accent} font-semibold mb-1 text-sm`}>Tide Conditions</div>
-                <div className={`${themeClasses.textSecondary} text-sm`}>{selectedSpot.tideConditions}</div>
+                <div className={`${themeClasses.accent} font-semibold mb-1 text-xs sm:text-sm`}>Tide Conditions</div>
+                <div className={`${themeClasses.textSecondary} text-xs`}>{selectedSpot.tideConditions}</div>
               </div>
             </div>
             <div className="text-center">
-              <p className={`${themeClasses.textSecondary} text-sm leading-relaxed`}>
+              <p className={`${themeClasses.textSecondary} text-xs sm:text-sm leading-relaxed`}>
                 {selectedSpot.description}
               </p>
             </div>
@@ -485,17 +485,17 @@ export default function Tides1({ spots }: Tides1Props) {
         </div>
 
         {/* Location & Update Info */}
-        <div className={`${themeClasses.cardBg} p-4 rounded-xl text-center shadow-sm`}>
-          <div className={`flex flex-col sm:flex-row items-center justify-center space-y-2 sm:space-y-0 sm:space-x-4 ${themeClasses.textSecondary}`}>
+        <div className={`${themeClasses.cardBg} p-3 sm:p-4 rounded-xl text-center shadow-sm`}>
+          <div className={`flex flex-col space-y-2 ${themeClasses.textSecondary}`}>
             <div className="flex items-center space-x-2">
-              <MapPin className={`w-4 h-4 ${themeClasses.accent}`} />
-              <span className={`font-medium text-sm ${themeClasses.text}`}>{selectedSpot.name}</span>
+              <MapPin className={`w-3 h-3 sm:w-4 sm:h-4 ${themeClasses.accent}`} />
+              <span className={`font-medium text-xs sm:text-sm ${themeClasses.text}`}>{selectedSpot.name}</span>
             </div>
-            <div className="text-sm">
+            <div className="text-xs sm:text-sm">
               {selectedSpot.coordinates[0].toFixed(4)}, {selectedSpot.coordinates[1].toFixed(4)}
             </div>
             {lastUpdated && (
-              <div className="text-sm">
+              <div className="text-xs">
                 Last updated: {lastUpdated.toLocaleTimeString()}
               </div>
             )}

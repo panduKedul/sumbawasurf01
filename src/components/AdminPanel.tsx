@@ -224,8 +224,8 @@ export default function AdminPanel({ spots, onSpotsUpdate }: AdminPanelProps) {
       {/* Header */}
       <div className={`${themeClasses.cardBg} border-b ${themeClasses.border} p-3 sm:p-4 lg:p-6`}>
         <div className="max-w-4xl mx-auto">
-          <div className="flex items-center justify-center space-x-3 mb-3">
-            <div className={`p-2 ${themeClasses.headerBg} rounded-lg shadow-lg`}>
+          <div className="flex flex-col items-center space-y-3 mb-4">
+            <div className={`p-2 ${themeClasses.headerBg} rounded-lg shadow-sm`}>
               <Settings className="w-5 h-5 text-white" />
             </div>
             <div className="text-center">
@@ -234,18 +234,18 @@ export default function AdminPanel({ spots, onSpotsUpdate }: AdminPanelProps) {
             </div>
           </div>
           
-          <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-2 sm:gap-3">
+          <div className="flex flex-col space-y-2 max-w-sm mx-auto">
             <button
               onClick={handleCreate}
               disabled={loading}
-              className={`${themeClasses.button} px-3 sm:px-4 py-2 rounded-lg font-medium flex items-center justify-center space-x-2 text-xs sm:text-sm transition-all duration-300 shadow-lg`}
+              className={`${themeClasses.button} px-3 py-2 rounded-lg font-medium flex items-center justify-center space-x-2 text-xs sm:text-sm w-full transition-all duration-300 shadow-sm`}
             >
               <Plus className="w-3 h-3 sm:w-4 sm:h-4" />
               <span>Add New Spot</span>
             </button>
             <button
               onClick={handleLogout}
-              className="bg-red-600 hover:bg-red-700 text-white px-3 sm:px-4 py-2 rounded-lg font-medium flex items-center justify-center space-x-2 text-xs sm:text-sm transition-all duration-300 shadow-lg"
+              className="bg-red-600 hover:bg-red-700 text-white px-3 py-2 rounded-lg font-medium flex items-center justify-center space-x-2 text-xs sm:text-sm w-full transition-all duration-300 shadow-sm"
             >
               <LogOut className="w-3 h-3 sm:w-4 sm:h-4" />
               <span>Logout</span>
@@ -255,13 +255,13 @@ export default function AdminPanel({ spots, onSpotsUpdate }: AdminPanelProps) {
       </div>
 
       {/* Main Content */}
-      <div className="p-3 sm:p-4 lg:p-6 space-y-4 sm:space-y-6 max-w-4xl mx-auto">
+      <div className="p-3 sm:p-4 lg:p-6 space-y-4 max-w-4xl mx-auto">
 
         {/* Create/Edit Form */}
         {(isCreating || isEditing) && (
           <div className={`${themeClasses.cardBg} p-3 sm:p-4 lg:p-6 rounded-xl shadow-xl`}>
             <div className="flex items-center justify-between mb-4 sm:mb-6">
-              <h2 className={`text-base sm:text-lg lg:text-xl font-bold ${themeClasses.text}`}>
+              <h2 className={`text-sm sm:text-base lg:text-lg font-bold ${themeClasses.text}`}>
                 {isCreating ? 'Create New Surf Spot' : 'Edit Surf Spot'}
               </h2>
               <button
@@ -272,7 +272,7 @@ export default function AdminPanel({ spots, onSpotsUpdate }: AdminPanelProps) {
               </button>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4 lg:gap-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4">
               <div>
                 <label className={`block text-xs sm:text-sm font-medium ${themeClasses.text} mb-2`}>
                   Spot Name
@@ -376,7 +376,7 @@ export default function AdminPanel({ spots, onSpotsUpdate }: AdminPanelProps) {
                 <textarea
                   value={formData.description}
                   onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                  className={`${themeClasses.cardBg} ${themeClasses.border} ${themeClasses.text} w-full px-3 py-2 rounded-lg h-20 sm:h-24 resize-none text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500`}
+                  className={`${themeClasses.cardBg} ${themeClasses.border} ${themeClasses.text} w-full px-3 py-2 rounded-lg h-16 sm:h-20 resize-none text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500`}
                   placeholder="Describe the surf spot..."
                 />
               </div>
@@ -408,18 +408,18 @@ export default function AdminPanel({ spots, onSpotsUpdate }: AdminPanelProps) {
               </div>
             </div>
 
-            <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-end gap-2 sm:gap-3 mt-4 sm:mt-6">
+            <div className="flex flex-col space-y-2 mt-4">
               <button
                 onClick={handleCancel}
                 disabled={loading}
-                className={`px-3 sm:px-4 py-2 ${themeClasses.textSecondary} hover:${themeClasses.text} transition-colors text-xs sm:text-sm`}
+                className={`px-3 py-2 ${themeClasses.textSecondary} hover:${themeClasses.text} transition-colors text-xs sm:text-sm w-full text-center`}
               >
                 Cancel
               </button>
               <button
                 onClick={handleSave}
                 disabled={loading}
-                className={`${themeClasses.button} px-3 sm:px-4 py-2 rounded-lg font-medium flex items-center justify-center space-x-2 text-xs sm:text-sm transition-all duration-300 shadow-lg`}
+                className={`${themeClasses.button} px-3 py-2 rounded-lg font-medium flex items-center justify-center space-x-2 text-xs sm:text-sm w-full transition-all duration-300 shadow-sm`}
               >
                 <Save className="w-3 h-3 sm:w-4 sm:h-4" />
                 <span>{loading ? 'Saving...' : 'Save Spot'}</span>
@@ -430,46 +430,39 @@ export default function AdminPanel({ spots, onSpotsUpdate }: AdminPanelProps) {
 
         {/* Spots List */}
         <div className={`${themeClasses.cardBg} rounded-xl shadow-xl overflow-hidden`}>
-          <div className={`p-3 sm:p-4 lg:p-6 border-b ${themeClasses.border}`}>
-            <h2 className={`text-base sm:text-lg lg:text-xl font-bold ${themeClasses.text} text-center`}>Surf Spots ({spots.length})</h2>
+          <div className={`p-3 sm:p-4 border-b ${themeClasses.border}`}>
+            <h2 className={`text-sm sm:text-base lg:text-lg font-bold ${themeClasses.text} text-center`}>Surf Spots ({spots.length})</h2>
           </div>
           
-          <div className={`divide-y ${themeClasses.border}`}>
+          <div className={`divide-y ${themeClasses.border} max-h-96 overflow-y-auto`}>
             {spots.map((spot) => (
-              <div key={spot.id} className={`p-3 sm:p-4 lg:p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4 hover:${themeClasses.buttonHover} transition-colors`}>
-                <div className="flex items-start sm:items-center space-x-3 sm:space-x-4 flex-1 min-w-0">
-                  <div className={`p-2 ${themeClasses.accent} bg-opacity-20 rounded-lg`}>
-                    <Waves className={`w-3 h-3 sm:w-4 sm:h-4 lg:w-5 lg:h-5 ${themeClasses.accent}`} />
+              <div key={spot.id} className={`p-3 sm:p-4 flex items-center justify-between hover:${themeClasses.buttonHover} transition-colors`}>
+                <div className="flex items-center space-x-3 flex-1 min-w-0">
+                  <div className={`p-2 ${themeClasses.headerBg} rounded-lg shadow-sm`}>
+                    <Waves className="w-4 h-4 text-white" />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <h3 className={`font-bold ${themeClasses.text} text-xs sm:text-sm lg:text-base truncate`}>{spot.name}</h3>
-                    <div className={`flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-4 text-xs ${themeClasses.textSecondary}`}>
-                      <span className="truncate">{spot.waveType}</span>
-                      <span className="hidden sm:inline">•</span>
-                      <span className="truncate">{spot.skillLevel}</span>
-                      <span className="hidden sm:inline">•</span>
-                      <div className="flex items-center space-x-1">
-                        <MapPin className="w-2 h-2 sm:w-3 sm:h-3 lg:w-4 lg:h-4 flex-shrink-0" />
-                        <span className="truncate">{spot.coordinates[0].toFixed(4)}, {spot.coordinates[1].toFixed(4)}</span>
-                      </div>
+                    <h3 className={`font-bold ${themeClasses.text} text-xs sm:text-sm truncate`}>{spot.name}</h3>
+                    <div className={`text-xs ${themeClasses.textSecondary} truncate`}>
+                      {spot.skillLevel} • {spot.waveType}
                     </div>
                   </div>
                 </div>
                 
-                <div className="flex items-center space-x-2 flex-shrink-0">
+                <div className="flex items-center space-x-1 flex-shrink-0">
                   <button
                     onClick={() => handleEdit(spot)}
                     disabled={loading}
-                    className={`p-2 ${themeClasses.textSecondary} hover:${themeClasses.accent} transition-colors`}
+                    className={`p-2 ${themeClasses.textSecondary} hover:${themeClasses.accent} transition-colors rounded-lg`}
                   >
-                    <Edit className="w-3 h-3 sm:w-4 sm:h-4 lg:w-5 lg:h-5" />
+                    <Edit className="w-4 h-4" />
                   </button>
                   <button
                     onClick={() => handleDelete(spot)}
                     disabled={loading}
-                    className={`p-2 ${themeClasses.textSecondary} hover:text-red-500 transition-colors`}
+                    className={`p-2 ${themeClasses.textSecondary} hover:text-red-500 transition-colors rounded-lg`}
                   >
-                    <Trash2 className="w-3 h-3 sm:w-4 sm:h-4 lg:w-5 lg:h-5" />
+                    <Trash2 className="w-4 h-4" />
                   </button>
                 </div>
               </div>
