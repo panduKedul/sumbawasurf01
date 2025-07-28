@@ -148,115 +148,141 @@ export default function Header({
           </div>
         </div>
 
-        {/* Mobile Menu */}
-        </div>
+      </div>
 
-        {/* Mobile Menu - Fixed positioning and z-index */}
-        {showMobileMenu && (
-          <div className={`md:hidden absolute top-full left-0 right-0 mt-2 mx-2 p-3 ${themeClasses.cardBg} rounded-lg mb-3 shadow-2xl border ${themeClasses.border} z-50`}>
-            <div className="space-y-2">
-              <button
-                onClick={() => {
-                  resetToHome();
-                  toggleMobileMenu();
-                }}
-                className={`w-full text-left px-3 py-2 rounded-lg font-medium transition-all duration-300 text-sm ${
-                  showHome 
-                    ? `${themeClasses.button}` 
-                    : `${themeClasses.text} ${themeClasses.buttonHover}`
-                }`}
-              >
-                Home
-              </button>
-              
-              <button
-                onClick={() => {
-                  toggleWeather();
-                  toggleMobileMenu();
-                }}
-                className={`w-full text-left px-3 py-2 rounded-lg font-medium transition-all duration-300 text-sm ${
-                  showWeather 
-                    ? `${themeClasses.button}` 
-                    : `${themeClasses.text} ${themeClasses.buttonHover}`
-                }`}
-              >
-                Weather
-              </button>
-              
-              <button
-                onClick={() => {
-                  toggleTides();
-                  toggleMobileMenu();
-                }}
-                className={`w-full text-left px-3 py-2 rounded-lg font-medium transition-all duration-300 text-sm ${
-                  showTides 
-                    ? `${themeClasses.button}` 
-                    : `${themeClasses.text} ${themeClasses.buttonHover}`
-                }`}
-              >
-                Tides
-              </button>
-              
-              {isAdminLoggedIn ? (
+      {/* Mobile Menu - Portal style with fixed positioning */}
+      {showMobileMenu && (
+        <div className="md:hidden fixed inset-0 z-[9999] pointer-events-none">
+          {/* Backdrop */}
+          <div 
+            className="absolute inset-0 bg-black/20 backdrop-blur-sm pointer-events-auto"
+            onClick={toggleMobileMenu}
+          />
+          
+          {/* Menu Content */}
+          <div className="absolute top-14 lg:top-16 left-0 right-0 pointer-events-auto">
+            <div className={`mx-3 mt-2 p-4 ${themeClasses.cardBg} rounded-xl shadow-2xl border ${themeClasses.border}`}>
+              <div className="space-y-3">
                 <button
-                  onClick={() => {
-                    toggleAdmin();
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    resetToHome();
                     toggleMobileMenu();
                   }}
-                  className={`w-full text-left px-3 py-2 rounded-lg font-medium transition-all duration-300 text-sm ${
-                    showAdmin 
+                  className={`w-full text-left px-4 py-3 rounded-lg font-medium transition-all duration-300 text-sm touch-manipulation ${
+                    showHome 
                       ? `${themeClasses.button}` 
                       : `${themeClasses.text} ${themeClasses.buttonHover}`
                   }`}
                 >
-                  Admin Panel
-                </button>
-              ) : (
-                <button
-                  onClick={() => {
-                    toggleAdminLogin();
-                    toggleMobileMenu();
-                  }}
-                  className={`w-full text-left px-3 py-2 rounded-lg font-medium transition-all duration-300 flex items-center space-x-2 text-sm ${themeClasses.text} ${themeClasses.buttonHover}`}
-                >
-                  <Lock className="w-4 h-4" />
-                  <span>Admin Login</span>
-                </button>
-              )}
-
-              {/* Surf Spots for Mobile */}
-              <div>
-                <button
-                  onClick={toggleMobileSpots}
-                  className={`w-full text-left px-3 py-2 rounded-lg transition-all duration-300 flex items-center justify-between font-medium text-sm ${themeClasses.text} ${themeClasses.buttonHover}`}
-                >
-                  <span>Surf Spots</span>
-                  <span className={`transform transition-transform ${showMobileSpots ? 'rotate-180' : ''}`}>
-                    ▼
-                  </span>
+                  Home
                 </button>
                 
-                {showMobileSpots && (
-                  <div className="ml-4 mt-2 space-y-1 max-h-48 overflow-y-auto">
-                    {spots.map((spot) => (
-                      <button
-                        key={spot.id}
-                        onClick={() => {
-                          onSelectSpot(spot);
-                          toggleMobileMenu();
-                        }}
-                        className={`w-full text-left px-3 py-2 rounded-lg transition-all duration-300 flex items-center space-x-2 text-sm ${themeClasses.textSecondary} ${themeClasses.buttonHover}`}
-                      >
-                        <MapPin className="w-3 h-3 flex-shrink-0" />
-                        <span className="truncate">{spot.name}</span>
-                      </button>
-                    ))}
-                  </div>
+                <button
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    toggleWeather();
+                    toggleMobileMenu();
+                  }}
+                  className={`w-full text-left px-4 py-3 rounded-lg font-medium transition-all duration-300 text-sm touch-manipulation ${
+                    showWeather 
+                      ? `${themeClasses.button}` 
+                      : `${themeClasses.text} ${themeClasses.buttonHover}`
+                  }`}
+                >
+                  Weather
+                </button>
+                
+                <button
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    toggleTides();
+                    toggleMobileMenu();
+                  }}
+                  className={`w-full text-left px-4 py-3 rounded-lg font-medium transition-all duration-300 text-sm touch-manipulation ${
+                    showTides 
+                      ? `${themeClasses.button}` 
+                      : `${themeClasses.text} ${themeClasses.buttonHover}`
+                  }`}
+                >
+                  Tides
+                </button>
+                
+                {isAdminLoggedIn ? (
+                  <button
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      toggleAdmin();
+                      toggleMobileMenu();
+                    }}
+                    className={`w-full text-left px-4 py-3 rounded-lg font-medium transition-all duration-300 text-sm touch-manipulation ${
+                      showAdmin 
+                        ? `${themeClasses.button}` 
+                        : `${themeClasses.text} ${themeClasses.buttonHover}`
+                    }`}
+                  >
+                    Admin Panel
+                  </button>
+                ) : (
+                  <button
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      toggleAdminLogin();
+                      toggleMobileMenu();
+                    }}
+                    className={`w-full text-left px-4 py-3 rounded-lg font-medium transition-all duration-300 flex items-center space-x-2 text-sm touch-manipulation ${themeClasses.text} ${themeClasses.buttonHover}`}
+                  >
+                    <Lock className="w-4 h-4" />
+                    <span>Admin Login</span>
+                  </button>
                 )}
+
+                {/* Surf Spots for Mobile */}
+                <div>
+                  <button
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      toggleMobileSpots();
+                    }}
+                    className={`w-full text-left px-4 py-3 rounded-lg transition-all duration-300 flex items-center justify-between font-medium text-sm touch-manipulation ${themeClasses.text} ${themeClasses.buttonHover}`}
+                  >
+                    <span>Surf Spots</span>
+                    <span className={`transform transition-transform duration-200 ${showMobileSpots ? 'rotate-180' : ''}`}>
+                      ▼
+                    </span>
+                  </button>
+                  
+                  {showMobileSpots && (
+                    <div className="ml-4 mt-2 space-y-2 max-h-48 overflow-y-auto">
+                      {spots.map((spot) => (
+                        <button
+                          key={spot.id}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            onSelectSpot(spot);
+                            toggleMobileMenu();
+                          }}
+                          className={`w-full text-left px-4 py-3 rounded-lg transition-all duration-300 flex items-center space-x-2 text-sm touch-manipulation ${themeClasses.textSecondary} ${themeClasses.buttonHover}`}
+                        >
+                          <MapPin className="w-3 h-3 flex-shrink-0" />
+                          <span className="truncate">{spot.name}</span>
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
           </div>
-        )}
+        </div>
+      )}
     </header>
   );
 }

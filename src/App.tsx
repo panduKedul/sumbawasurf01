@@ -108,18 +108,6 @@ function AppContent() {
   const MainContent = () => (
     <div 
       className={`min-h-screen flex flex-col ${themeClasses.bg} ${themeClasses.text} pt-16 relative`}
-      onClick={() => {
-        if (showMobileMenu) {
-          setShowMobileMenu(false);
-          setShowMobileSpots(false);
-        }
-      }}
-      onTouchStart={() => {
-        if (showMobileMenu) {
-          setShowMobileMenu(false);
-          setShowMobileSpots(false);
-        }
-      }}
     >
       <Header 
         toggleWeather={toggleWeather}
@@ -147,7 +135,7 @@ function AppContent() {
       {/* Admin Login Modal */}
       {showAdminLogin && <AdminLogin />}
       
-      <main className={`flex flex-1 overflow-hidden mt-0 transition-all duration-300 ${showMobileMenu ? 'blur-sm pointer-events-none' : ''}`}>
+      <main className={`flex flex-1 overflow-hidden mt-0 transition-all duration-300`}>
         {/* Desktop Sidebar */}
         <div className={`hidden lg:flex w-80 xl:w-96 ${themeClasses.cardBg} border-r ${themeClasses.border} shadow-xl flex-shrink-0 flex-col mt-0`}>
           <SpotList spots={spots} onSelectSpot={handleSpotSelect} selectedSpot={selectedSpot} />
