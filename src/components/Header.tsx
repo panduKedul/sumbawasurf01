@@ -1,5 +1,5 @@
 import React from 'react';
-import { Menu, X, MapPin, Waves, Settings, Lock, Sun, Moon, Palette } from 'lucide-react';
+import { Menu, X, MapPin, Waves, Settings, Lock, Sun, Moon } from 'lucide-react';
 import { SurfSpot } from '../types';
 import { useAdmin } from '../contexts/AdminContext';
 import { useTheme } from '../contexts/ThemeContext';
@@ -43,6 +43,36 @@ export default function Header({
 
   const getThemeIcon = () => {
     return theme === 'light' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />;
+  };
+
+  // Handle menu item clicks
+  const handleHomeClick = () => {
+    resetToHome();
+    toggleMobileMenu();
+  };
+
+  const handleWeatherClick = () => {
+    toggleWeather();
+    toggleMobileMenu();
+  };
+
+  const handleTidesClick = () => {
+    toggleTides();
+    toggleMobileMenu();
+  };
+
+  const handleAdminClick = () => {
+    if (isAdminLoggedIn) {
+      toggleAdmin();
+    } else {
+      toggleAdminLogin();
+    }
+    toggleMobileMenu();
+  };
+
+  const handleSpotClick = (spot: SurfSpot) => {
+    onSelectSpot(spot);
+    toggleMobileMenu();
   };
 
   return (
@@ -147,31 +177,28 @@ export default function Header({
             </button>
           </div>
         </div>
-
       </div>
 
-      {/* Mobile Menu - Portal style with fixed positioning */}
+      {/* Mobile Menu Overlay */}
       {showMobileMenu && (
-        <div className="md:hidden fixed inset-0 z-[9999]">
-          {/* Backdrop */}
-          <div 
-            className="absolute inset-0 bg-black/60 backdrop-blur-md"
-            onClick={toggleMobileMenu}
-          />
-          
+        <div className="md:hidden fixed inset-0 z-[60] bg-black/60 backdrop-blur-md">
           {/* Menu Content */}
-          <div className="absolute top-14 lg:top-16 left-0 right-0 animate-slideIn">
-            <div 
-              className={`mx-3 mt-2 p-4 ${themeClasses.cardBg} rounded-xl shadow-2xl border ${themeClasses.border} backdrop-blur-xl`}
-            >
+          <div className="absolute top-14 left-0 right-0">
+            <div className={`mx-3 mt-2 p-4 ${themeClasses.cardBg} rounded-xl shadow-2xl border ${themeClasses.border} backdrop-blur-xl`}>
               <div className="space-y-3">
+                {/* Close Button */}
+                <div className="flex justify-end mb-2">
+                  <button
+                    onClick={toggleMobileMenu}
+                    className={`p-2 rounded-lg ${themeClasses.buttonHover} ${themeClasses.text}`}
+                  >
+                    <X className="w-5 h-5" />
+                  </button>
+                </div>
+
+                {/* Home */}
                 <button
-                  onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    resetToHome();
-                    toggleMobileMenu();
-                  }}
+                  onClick={handleHomeClick}
                   className={`w-full text-left px-4 py-3 rounded-lg font-medium transition-all duration-300 text-sm ${
                     showHome 
                       ? `${themeClasses.button}` 
@@ -181,13 +208,9 @@ export default function Header({
                   Home
                 </button>
                 
+                {/* Weather */}
                 <button
-                  onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    toggleWeather();
-                    toggleMobileMenu();
-                  }}
+                  onClick={handleWeatherClick}
                   className={`w-full text-left px-4 py-3 rounded-lg font-medium transition-all duration-300 text-sm ${
                     showWeather 
                       ? `${themeClasses.button}` 
@@ -197,13 +220,9 @@ export default function Header({
                   Weather
                 </button>
                 
+                {/* Tides */}
                 <button
-                  onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    toggleTides();
-                    toggleMobileMenu();
-                  }}
+                  onClick={handleTidesClick}
                   className={`w-full text-left px-4 py-3 rounded-lg font-medium transition-all duration-300 text-sm ${
                     showTides 
                       ? `${themeClasses.button}` 
@@ -213,46 +232,24 @@ export default function Header({
                   Tides
                 </button>
                 
-                {isAdminLoggedIn ? (
-                  <button
-                    onClick={(e) => {
-                      e.preventDefault();
-                      e.stopPropagation();
-                      toggleAdmin();
-                      toggleMobileMenu();
-                    }}
-                    className={`w-full text-left px-4 py-3 rounded-lg font-medium transition-all duration-300 text-sm ${
-                      showAdmin 
-                        ? `${themeClasses.button}` 
-                        : `${themeClasses.text} ${themeClasses.buttonHover}`
-                    }`}
-                  >
-                    Admin Panel
-                  </button>
-                ) : (
-                  <button
-                    onClick={(e) => {
-                      e.preventDefault();
-                      e.stopPropagation();
-                      toggleAdminLogin();
-                      toggleMobileMenu();
-                    }}
-                    className={`w-full text-left px-4 py-3 rounded-lg font-medium transition-all duration-300 flex items-center space-x-2 text-sm ${themeClasses.text} ${themeClasses.buttonHover}`}
-                  >
-                    <Lock className="w-4 h-4" />
-                    <span>Admin Login</span>
-                  </button>
-                )}
+                {/* Admin */}
+                <button
+                  onClick={handleAdminClick}
+                  className={`w-full text-left px-4 py-3 rounded-lg font-medium transition-all duration-300 flex items-center space-x-2 text-sm ${
+                    (showAdmin && isAdminLoggedIn)
+                      ? `${themeClasses.button}` 
+                      : `${themeClasses.text} ${themeClasses.buttonHover}`
+                  }`}
+                >
+                  <Lock className="w-4 h-4" />
+                  <span>{isAdminLoggedIn ? 'Admin Panel' : 'Admin Login'}</span>
+                </button>
 
-                {/* Surf Spots for Mobile */}
+                {/* Surf Spots */}
                 <div>
                   <button
-                    onClick={(e) => {
-                      e.preventDefault();
-                      e.stopPropagation();
-                      toggleMobileSpots();
-                    }}
-                    className={`w-full text-left px-4 py-3 rounded-lg transition-all duration-300 flex items-center justify-between font-medium text-sm ${themeClasses.text} ${themeClasses.buttonHover} select-none`}
+                    onClick={toggleMobileSpots}
+                    className={`w-full text-left px-4 py-3 rounded-lg transition-all duration-300 flex items-center justify-between font-medium text-sm ${themeClasses.text} ${themeClasses.buttonHover}`}
                   >
                     <span>Surf Spots</span>
                     <span className={`transform transition-transform duration-200 ${showMobileSpots ? 'rotate-180' : ''}`}>
@@ -261,17 +258,12 @@ export default function Header({
                   </button>
                   
                   {showMobileSpots && (
-                    <div className="ml-4 mt-2 space-y-2 max-h-48 overflow-y-auto animate-fadeIn">
+                    <div className="ml-4 mt-2 space-y-2 max-h-48 overflow-y-auto">
                       {spots.map((spot) => (
                         <button
                           key={spot.id}
-                          onClick={(e) => {
-                            e.preventDefault();
-                            e.stopPropagation();
-                            onSelectSpot(spot);
-                            toggleMobileMenu();
-                          }}
-                          className={`w-full text-left px-4 py-3 rounded-lg transition-all duration-300 flex items-center space-x-2 text-sm ${themeClasses.textSecondary} ${themeClasses.buttonHover} select-none`}
+                          onClick={() => handleSpotClick(spot)}
+                          className={`w-full text-left px-4 py-3 rounded-lg transition-all duration-300 flex items-center space-x-2 text-sm ${themeClasses.textSecondary} ${themeClasses.buttonHover}`}
                         >
                           <MapPin className="w-3 h-3 flex-shrink-0" />
                           <span className="truncate">{spot.name}</span>
