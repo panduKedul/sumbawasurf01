@@ -22,7 +22,6 @@ function AppContent() {
   const [showWeather, setShowWeather] = useState(false);
   const [showTides, setShowTides] = useState(false);
   const [showAdmin, setShowAdmin] = useState(false);
-  const [showAdmin, setShowAdmin] = useState(false);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const [showMobileSpots, setShowMobileSpots] = useState(false);
   const [loading, setLoading] = useState(true);
