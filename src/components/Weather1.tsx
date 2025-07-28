@@ -446,25 +446,26 @@ export default function Weather1({ spots }: Weather1Props) {
           </div>
         </div>
 
-              {/* Desktop: Grid Layout */}
-              <div className="hidden lg:grid lg:grid-cols-6 gap-4">
-        {/* Location & Update Info */}
-        <div className="relative overflow-hidden rounded-xl">
-          <div className="absolute inset-0 bg-gradient-to-br from-gray-500/5 to-slate-500/5 backdrop-blur-sm"></div>
-          <div className={`relative ${themeClasses.cardBg} p-4 lg:p-6 text-center shadow-lg border ${themeClasses.border}`}>
-            <div className={`flex flex-col space-y-2 ${themeClasses.textSecondary}`}>
-              <div className="flex items-center justify-center space-x-2">
-                <MapPin className={`w-4 h-4 lg:w-5 lg:h-5 ${themeClasses.accent}`} />
-                <span className={`font-medium text-sm lg:text-base ${themeClasses.text}`}>{selectedSpot.name}</span>
-              </div>
-              <div className="text-xs lg:text-sm">
-                {selectedSpot.coordinates[0].toFixed(4)}, {selectedSpot.coordinates[1].toFixed(4)}
-              </div>
-              {lastUpdated && (
-                <div className="text-xs lg:text-sm">
-                  Last updated: {lastUpdated.toLocaleTimeString()}
+        {/* Desktop: Grid Layout */}
+        <div className="hidden lg:grid lg:grid-cols-6 gap-4">
+          {/* Location & Update Info */}
+          <div className="relative overflow-hidden rounded-xl">
+            <div className="absolute inset-0 bg-gradient-to-br from-gray-500/5 to-slate-500/5 backdrop-blur-sm"></div>
+            <div className={`relative ${themeClasses.cardBg} p-4 lg:p-6 text-center shadow-lg border ${themeClasses.border}`}>
+              <div className={`flex flex-col space-y-2 ${themeClasses.textSecondary}`}>
+                <div className="flex items-center justify-center space-x-2">
+                  <MapPin className={`w-4 h-4 lg:w-5 lg:h-5 ${themeClasses.accent}`} />
+                  <span className={`font-medium text-sm lg:text-base ${themeClasses.text}`}>{selectedSpot.name}</span>
                 </div>
-              )}
+                <div className="text-xs lg:text-sm">
+                  {selectedSpot.coordinates[0].toFixed(4)}, {selectedSpot.coordinates[1].toFixed(4)}
+                </div>
+                {lastUpdated && (
+                  <div className="text-xs lg:text-sm">
+                    Last updated: {lastUpdated.toLocaleTimeString()}
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </div>
