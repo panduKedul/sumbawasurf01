@@ -1,59 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { Cloud, Wind, Waves, Thermometer, Eye, Droplets, MapPin, RefreshCw } from 'lucide-react';
+import { Sun, Thermometer, Eye, Droplets, MapPin, RefreshCw, Wind, Waves } from 'lucide-react';
 import { fetchWeatherData, WeatherData, getFallbackWeatherData } from '../services/weatherApi';
 import { SURF_SPOTS } from '../data/spots';
 
 export default function Weather() {
-  const [activeMap, setActiveMap] = useState('wind');
   const [selectedSpot, setSelectedSpot] = useState(SURF_SPOTS[0]);
   const [weatherData, setWeatherData] = useState<WeatherData[]>([]);
   const [loading, setLoading] = useState(false);
   const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
-
-  const mapTypes = [
-    {
-      id: 'wind',
-      name: 'Wind',
-      icon: Wind,
-      description: 'Real-time wind patterns and forecasts',
-      color: 'from-blue-500 to-cyan-500'
-    },
-    {
-      id: 'waves',
-      name: 'Waves',
-      icon: Waves,
-      description: 'Wave height and swell direction',
-      color: 'from-cyan-500 to-teal-500'
-    },
-    {
-      id: 'temp',
-      name: 'Temperature',
-      icon: Thermometer,
-      description: 'Air and water temperature',
-      color: 'from-orange-500 to-red-500'
-    },
-    {
-      id: 'visibility',
-      name: 'Visibility',
-      icon: Eye,
-      description: 'Weather visibility conditions',
-      color: 'from-purple-500 to-pink-500'
-    },
-    {
-      id: 'rain',
-      name: 'Rain',
-      icon: Droplets,
-      description: 'Precipitation and rainfall',
-      color: 'from-indigo-500 to-blue-500'
-    },
-    {
-      id: 'clouds',
-      name: 'Clouds',
-      icon: Cloud,
-      description: 'Cloud coverage and patterns',
-      color: 'from-gray-500 to-slate-500'
-    }
-  ];
 
   useEffect(() => {
     loadWeatherData();
@@ -66,7 +20,6 @@ export default function Weather() {
       if (data.length > 0) {
         setWeatherData(data);
       } else {
-        // Use fallback data if API fails
         setWeatherData(getFallbackWeatherData());
       }
       setLastUpdated(new Date());
@@ -84,7 +37,7 @@ export default function Weather() {
     return weatherData[0];
   };
 
-  const getWindyUrl = (layer: string) => {
+  const getWindyUrl = () => {
     const baseUrl = 'https://embed.windy.com/embed2.html';
     const params = new URLSearchParams({
       lat: selectedSpot.coordinates[0].toString(),
@@ -95,7 +48,7 @@ export default function Weather() {
       height: '100%',
       zoom: '9',
       level: 'surface',
-      overlay: layer,
+      overlay: 'wind',
       product: 'ecmwf',
       menu: '',
       message: '',
@@ -114,153 +67,176 @@ export default function Weather() {
 
   const currentWeather = getCurrentWeather();
 
+  // Calculate UV Index (simplified calculation based on time and cloud cover)
+  const calculateUVIndex = () => {
+    if (!currentWeather) return 0;
+    const hour = new Date().getHours();
+    const baseUV = hour >= 10 && hour <= 16 ? 8 : hour >= 8 && hour <= 18 ? 5 : 2;
+    const cloudReduction = (currentWeather.cloudCover / 100) * 3;
+    return Math.max(0, Math.round(baseUV - cloudReduction));
+  };
+
+  const getUVLevel = (uvIndex: number) => {
+    if (uvIndex <= 2) return { level: 'Low', color: 'text-green-400', bg: 'bg-green-400/20' };
+    if (uvIndex <= 5) return { level: 'Moderate', color: 'text-yellow-400', bg: 'bg-yellow-400/20' };
+    if (uvIndex <= 7) return { level: 'High', color: 'text-orange-400', bg: 'bg-orange-400/20' };
+    if (uvIndex <= 10) return { level: 'Very High', color: 'text-red-400', bg: 'bg-red-400/20' };
+    return { level: 'Extreme', color: 'text-purple-400', bg: 'bg-purple-400/20' };
+  };
+
+  const uvIndex = calculateUVIndex();
+  const uvLevel = getUVLevel(uvIndex);
+
   return (
     <div className="h-full flex flex-col bg-dark-100">
-      {/* Header */}
-      <div className="p-6 bg-dark-200 border-b border-dark-400">
-        <div className="max-w-6xl mx-auto">
+      {/* Interactive Weather Map */}
+      <div className="flex-1">
+        <div className="h-full card-elegant m-6 overflow-hidden">
+          <iframe
+            src={getWindyUrl()}
+            className="w-full h-full"
+            frameBorder="0"
+            title="Weather Forecast Map"
+          />
+        </div>
+      </div>
+
+      {/* Weather Information Panel */}
+      <div className="bg-dark-200 border-t border-dark-400 p-6">
+        <div className="max-w-7xl mx-auto">
+          {/* Header */}
           <div className="text-center mb-6">
-            <h1 className="text-3xl font-bold bg-gradient-to-r from-neon-blue to-white bg-clip-text text-transparent mb-2">
+            <h1 className="text-2xl font-bold bg-gradient-to-r from-neon-blue to-white bg-clip-text text-transparent mb-2">
               Weather Forecast
             </h1>
-            <p className="text-lg text-gray-300 max-w-2xl mx-auto">
-              Real-time weather conditions and forecasts for West Sumbawa surf spots
+            <p className="text-gray-300">
+              Real-time conditions for West Sumbawa surf spots
             </p>
           </div>
 
           {/* Spot Selector */}
-          <div className="mb-6">
-            <label className="block text-sm font-medium text-gray-300 mb-2">
-              Select Surf Spot
-            </label>
-            <div className="flex items-center space-x-4">
-              <select
-                value={selectedSpot.id}
-                onChange={(e) => {
-                  const spot = SURF_SPOTS.find(s => s.id === e.target.value);
-                  if (spot) setSelectedSpot(spot);
-                }}
-                className="input-elegant px-4 py-2 rounded-lg flex-1 max-w-md"
-              >
-                {SURF_SPOTS.map((spot) => (
-                  <option key={spot.id} value={spot.id}>
-                    {spot.name}
-                  </option>
-                ))}
-              </select>
-              <button
-                onClick={loadWeatherData}
-                disabled={loading}
-                className="btn-elegant px-4 py-2 rounded-lg flex items-center space-x-2"
-              >
-                <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
-                <span>Refresh</span>
-              </button>
-            </div>
+          <div className="mb-6 flex items-center justify-center space-x-4">
+            <select
+              value={selectedSpot.id}
+              onChange={(e) => {
+                const spot = SURF_SPOTS.find(s => s.id === e.target.value);
+                if (spot) setSelectedSpot(spot);
+              }}
+              className="input-elegant px-4 py-2 rounded-lg max-w-md"
+            >
+              {SURF_SPOTS.map((spot) => (
+                <option key={spot.id} value={spot.id}>
+                  {spot.name}
+                </option>
+              ))}
+            </select>
+            <button
+              onClick={loadWeatherData}
+              disabled={loading}
+              className="btn-elegant px-4 py-2 rounded-lg flex items-center space-x-2"
+            >
+              <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
+              <span>Refresh</span>
+            </button>
           </div>
 
-          {/* Current Weather Summary */}
+          {/* Current Weather Cards */}
           {currentWeather && (
-            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 mb-6">
-              <div className="card-elegant p-4 text-center">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-6">
+              <div className="card-elegant p-4 text-center bg-gradient-to-br from-orange-500/20 to-red-500/20 border-orange-500/30">
                 <Thermometer className="w-6 h-6 text-orange-400 mx-auto mb-2" />
-                <p className="text-xs text-gray-400 mb-1">Air Temp</p>
+                <p className="text-xs text-gray-300 mb-1">Air Temp</p>
                 <p className="text-lg font-bold text-white">{currentWeather.airTemperature.toFixed(1)}°C</p>
               </div>
-              <div className="card-elegant p-4 text-center">
+              
+              <div className="card-elegant p-4 text-center bg-gradient-to-br from-blue-500/20 to-cyan-500/20 border-blue-500/30">
                 <Waves className="w-6 h-6 text-blue-400 mx-auto mb-2" />
-                <p className="text-xs text-gray-400 mb-1">Water Temp</p>
+                <p className="text-xs text-gray-300 mb-1">Water Temp</p>
                 <p className="text-lg font-bold text-white">{currentWeather.waterTemperature.toFixed(1)}°C</p>
               </div>
-              <div className="card-elegant p-4 text-center">
+              
+              <div className="card-elegant p-4 text-center bg-gradient-to-br from-cyan-500/20 to-teal-500/20 border-cyan-500/30">
                 <Wind className="w-6 h-6 text-cyan-400 mx-auto mb-2" />
-                <p className="text-xs text-gray-400 mb-1">Wind</p>
+                <p className="text-xs text-gray-300 mb-1">Wind Speed</p>
                 <p className="text-lg font-bold text-white">{currentWeather.windSpeed.toFixed(1)} m/s</p>
               </div>
-              <div className="card-elegant p-4 text-center">
+              
+              <div className="card-elegant p-4 text-center bg-gradient-to-br from-teal-500/20 to-green-500/20 border-teal-500/30">
                 <Waves className="w-6 h-6 text-teal-400 mx-auto mb-2" />
-                <p className="text-xs text-gray-400 mb-1">Wave Height</p>
+                <p className="text-xs text-gray-300 mb-1">Wave Height</p>
                 <p className="text-lg font-bold text-white">{currentWeather.waveHeight.toFixed(1)}m</p>
               </div>
-              <div className="card-elegant p-4 text-center">
-                <Cloud className="w-6 h-6 text-gray-400 mx-auto mb-2" />
-                <p className="text-xs text-gray-400 mb-1">Clouds</p>
-                <p className="text-lg font-bold text-white">{currentWeather.cloudCover.toFixed(0)}%</p>
-              </div>
-              <div className="card-elegant p-4 text-center">
+              
+              <div className="card-elegant p-4 text-center bg-gradient-to-br from-purple-500/20 to-pink-500/20 border-purple-500/30">
                 <Eye className="w-6 h-6 text-purple-400 mx-auto mb-2" />
-                <p className="text-xs text-gray-400 mb-1">Visibility</p>
+                <p className="text-xs text-gray-300 mb-1">Visibility</p>
                 <p className="text-lg font-bold text-white">{currentWeather.visibility.toFixed(1)}km</p>
+              </div>
+              
+              <div className={`card-elegant p-4 text-center bg-gradient-to-br ${uvLevel.bg} border-current/30`}>
+                <Sun className={`w-6 h-6 ${uvLevel.color} mx-auto mb-2`} />
+                <p className="text-xs text-gray-300 mb-1">UV Index</p>
+                <p className="text-lg font-bold text-white">{uvIndex}</p>
+                <p className={`text-xs ${uvLevel.color} font-medium`}>{uvLevel.level}</p>
               </div>
             </div>
           )}
 
-          {/* Map Type Selector */}
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-            {mapTypes.map((type) => {
-              const IconComponent = type.icon;
-              return (
-                <button
-                  key={type.id}
-                  onClick={() => setActiveMap(type.id)}
-                  className={`group relative card-elegant p-4 transition-all duration-300 hover:scale-105 ${
-                    activeMap === type.id
-                      ? `bg-gradient-to-br ${type.color} shadow-lg shadow-current/25 text-white border-current/50`
-                      : 'hover:border-neon-blue/30'
-                  }`}
-                >
-                  <div className="text-center">
-                    <div className={`mx-auto mb-3 p-3 rounded-xl ${
-                      activeMap === type.id 
-                        ? 'bg-white/20' 
-                        : 'bg-dark-400 group-hover:bg-dark-300'
-                    }`}>
-                      <IconComponent className="w-5 h-5 mx-auto" />
-                    </div>
-                    <h3 className="font-bold text-sm mb-1">{type.name}</h3>
-                    <p className="text-xs opacity-80">{type.description}</p>
-                  </div>
-                </button>
-              );
-            })}
-          </div>
-        </div>
-      </div>
-
-      {/* Map Display */}
-      <div className="flex-1 p-6">
-        <div className="h-full max-w-7xl mx-auto">
-          <div className="h-full card-elegant overflow-hidden">
-            <iframe
-              src={getWindyUrl(activeMap)}
-              className="w-full h-full"
-              frameBorder="0"
-              title={`${mapTypes.find(t => t.id === activeMap)?.name} Weather Map`}
-            />
-          </div>
-        </div>
-      </div>
-
-      {/* Footer Info */}
-      <div className="p-6 bg-dark-200 border-t border-dark-400">
-        <div className="max-w-6xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
-            <div className="card-elegant p-4">
-              <h4 className="font-bold text-white mb-2">Real-time Data</h4>
-              <p className="text-sm text-gray-400">Updated every 6 hours with latest weather conditions</p>
+          {/* Location Info */}
+          <div className="card-elegant p-4 text-center">
+            <div className="flex items-center justify-center space-x-4 text-gray-300">
+              <div className="flex items-center space-x-2">
+                <MapPin className="w-4 h-4 text-neon-blue" />
+                <span className="font-medium">{selectedSpot.name}</span>
+              </div>
+              <div className="flex items-center space-x-2">
+                <span>{selectedSpot.coordinates[0].toFixed(4)}, {selectedSpot.coordinates[1].toFixed(4)}</span>
+              </div>
               {lastUpdated && (
-                <p className="text-xs text-gray-500 mt-2">
-                  Last updated: {lastUpdated.toLocaleTimeString()}
-                </p>
+                <div className="text-xs text-gray-500">
+                  Updated: {lastUpdated.toLocaleTimeString()}
+                </div>
               )}
             </div>
-            <div className="card-elegant p-4">
-              <h4 className="font-bold text-white mb-2">7-Day Forecast</h4>
-              <p className="text-sm text-gray-400">Extended weather predictions for surf planning</p>
+          </div>
+
+          {/* Weather Tips for Surfers */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
+            <div className="card-elegant p-4 bg-gradient-to-br from-blue-500/20 to-cyan-500/20 border-blue-500/30">
+              <div className="text-center">
+                <Wind className="w-6 h-6 text-blue-400 mx-auto mb-2" />
+                <h4 className="font-bold text-white mb-2">Wind Conditions</h4>
+                <p className="text-sm text-gray-300">
+                  {currentWeather && currentWeather.windSpeed < 10 ? 'Light winds - great for surfing!' : 
+                   currentWeather && currentWeather.windSpeed < 20 ? 'Moderate winds - check direction' : 
+                   'Strong winds - be cautious'}
+                </p>
+              </div>
             </div>
-            <div className="card-elegant p-4">
-              <h4 className="font-bold text-white mb-2">Interactive Maps</h4>
-              <p className="text-sm text-gray-400">Zoom and explore detailed weather patterns</p>
+            
+            <div className={`card-elegant p-4 bg-gradient-to-br ${uvLevel.bg} border-current/30`}>
+              <div className="text-center">
+                <Sun className={`w-6 h-6 ${uvLevel.color} mx-auto mb-2`} />
+                <h4 className="font-bold text-white mb-2">UV Protection</h4>
+                <p className="text-sm text-gray-300">
+                  {uvIndex <= 2 ? 'Low UV - minimal protection needed' :
+                   uvIndex <= 5 ? 'Moderate UV - use sunscreen' :
+                   uvIndex <= 7 ? 'High UV - protection essential' :
+                   'Very high UV - avoid midday sun'}
+                </p>
+              </div>
+            </div>
+            
+            <div className="card-elegant p-4 bg-gradient-to-br from-teal-500/20 to-green-500/20 border-teal-500/30">
+              <div className="text-center">
+                <Waves className="w-6 h-6 text-teal-400 mx-auto mb-2" />
+                <h4 className="font-bold text-white mb-2">Wave Conditions</h4>
+                <p className="text-sm text-gray-300">
+                  {currentWeather && currentWeather.waveHeight < 1 ? 'Small waves - beginner friendly' :
+                   currentWeather && currentWeather.waveHeight < 2 ? 'Good waves - perfect for most surfers' :
+                   'Large waves - experienced surfers only'}
+                </p>
+              </div>
             </div>
           </div>
         </div>

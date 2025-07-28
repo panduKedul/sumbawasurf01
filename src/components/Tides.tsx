@@ -20,7 +20,6 @@ export default function Tides() {
       if (data.length > 0) {
         setTideData(data);
       } else {
-        // Use fallback data if API fails
         setTideData(getFallbackTideData());
       }
       setLastUpdated(new Date());
@@ -85,32 +84,40 @@ export default function Tides() {
 
   return (
     <div className="h-full flex flex-col bg-dark-100">
-      {/* Header */}
-      <div className="p-6 bg-dark-200 border-b border-dark-400">
-        <div className="max-w-6xl mx-auto text-center">
-          <div className="flex items-center justify-center space-x-4 mb-6">
-            <div className="p-3 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-xl shadow-lg">
+      {/* Header with Spot Image */}
+      <div className="relative h-64 md:h-80">
+        <img
+          src={selectedSpot.imageUrl}
+          alt={selectedSpot.name}
+          className="w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
+        
+        {/* Header Content Overlay */}
+        <div className="absolute inset-0 flex flex-col justify-center items-center text-center p-6">
+          <div className="flex items-center space-x-4 mb-4">
+            <div className="p-3 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-xl shadow-lg backdrop-blur-sm">
               <Waves className="w-6 h-6 text-white" />
             </div>
             <div>
-              <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
+              <h1 className="text-3xl md:text-4xl font-bold text-white drop-shadow-lg">
                 Tide Information
               </h1>
-              <p className="text-lg text-gray-300 mt-2">
-                Real-time tide data for West Sumbawa surf spots
+              <p className="text-lg text-gray-200 mt-2 drop-shadow">
+                {selectedSpot.name}
               </p>
             </div>
           </div>
 
           {/* Spot Selector */}
-          <div className="flex items-center justify-center space-x-4 mb-6">
+          <div className="flex items-center space-x-4">
             <select
               value={selectedSpot.id}
               onChange={(e) => {
                 const spot = SURF_SPOTS.find(s => s.id === e.target.value);
                 if (spot) setSelectedSpot(spot);
               }}
-              className="input-elegant px-4 py-2 rounded-lg max-w-md"
+              className="input-elegant px-4 py-2 rounded-lg max-w-md backdrop-blur-sm"
             >
               {SURF_SPOTS.map((spot) => (
                 <option key={spot.id} value={spot.id}>
@@ -121,42 +128,40 @@ export default function Tides() {
             <button
               onClick={loadTideData}
               disabled={loading}
-              className="btn-elegant px-4 py-2 rounded-lg flex items-center space-x-2"
+              className="btn-elegant px-4 py-2 rounded-lg flex items-center space-x-2 backdrop-blur-sm"
             >
               <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
               <span>Refresh</span>
             </button>
           </div>
 
-          {/* Current Station Info */}
-          <div className="card-elegant p-6 max-w-2xl mx-auto">
-            <h2 className="text-2xl font-bold text-white mb-2">{selectedSpot.name}</h2>
-            <div className="flex items-center justify-center space-x-6 text-gray-300">
-              <div className="flex items-center space-x-2">
-                <MapPin className="w-4 h-4" />
-                <span>{selectedSpot.coordinates[0].toFixed(4)}, {selectedSpot.coordinates[1].toFixed(4)}</span>
-              </div>
-              <div className="flex items-center space-x-2">
-                <Calendar className="w-4 h-4" />
-                <span>{new Date().toLocaleDateString('en-US', { 
-                  weekday: 'long', 
-                  year: 'numeric', 
-                  month: 'long', 
-                  day: 'numeric' 
-                })}</span>
-              </div>
+          {/* Location Info */}
+          <div className="flex items-center space-x-6 text-gray-200 mt-4">
+            <div className="flex items-center space-x-2">
+              <MapPin className="w-4 h-4" />
+              <span>{selectedSpot.coordinates[0].toFixed(4)}, {selectedSpot.coordinates[1].toFixed(4)}</span>
             </div>
-            {lastUpdated && (
-              <p className="text-xs text-gray-500 mt-2">
-                Last updated: {lastUpdated.toLocaleTimeString()}
-              </p>
-            )}
+            <div className="flex items-center space-x-2">
+              <Calendar className="w-4 h-4" />
+              <span>{new Date().toLocaleDateString('en-US', { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+              })}</span>
+            </div>
           </div>
+          
+          {lastUpdated && (
+            <p className="text-xs text-gray-300 mt-2 drop-shadow">
+              Last updated: {lastUpdated.toLocaleTimeString()}
+            </p>
+          )}
         </div>
       </div>
 
       {/* Main Content */}
-      <div className="flex-1 p-6 overflow-y-auto">
+      <div className="flex-1 p-6 overflow-y-auto bg-dark-200">
         <div className="max-w-6xl mx-auto space-y-8">
           {/* Today's Tides */}
           <div>
@@ -286,37 +291,32 @@ export default function Tides() {
             </div>
           </div>
 
-          {/* Surfing Tips */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="card-elegant p-6 bg-gradient-to-br from-green-500/20 to-emerald-500/20 border-green-500/30">
+          {/* Surf Spot Info */}
+          <div className="card-elegant p-6 bg-gradient-to-br from-dark-300 to-dark-400">
+            <h3 className="text-xl font-bold text-white mb-4 text-center">
+              {selectedSpot.name} - Surf Information
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div className="text-center">
-                <TrendingUp className="w-8 h-8 text-green-400 mx-auto mb-4" />
-                <h4 className="font-bold text-white mb-2">Best Surf Times</h4>
-                <p className="text-sm text-gray-300">
-                  Mid to high tide typically offers the best surf conditions for most spots
-                </p>
+                <div className="text-neon-blue font-semibold mb-2">Wave Type</div>
+                <div className="text-gray-300">{selectedSpot.waveType}</div>
+              </div>
+              <div className="text-center">
+                <div className="text-neon-blue font-semibold mb-2">Skill Level</div>
+                <div className="text-gray-300">{selectedSpot.skillLevel}</div>
+              </div>
+              <div className="text-center">
+                <div className="text-neon-blue font-semibold mb-2">Best Season</div>
+                <div className="text-gray-300">{selectedSpot.bestSeason}</div>
               </div>
             </div>
-            
-            <div className="card-elegant p-6 bg-gradient-to-br from-yellow-500/20 to-orange-500/20 border-yellow-500/30">
-              <div className="text-center">
-                <Clock className="w-8 h-8 text-yellow-400 mx-auto mb-4" />
-                <h4 className="font-bold text-white mb-2">Tide Changes</h4>
-                <p className="text-sm text-gray-300">
-                  Plan your sessions around tide changes for optimal wave quality
-                </p>
-              </div>
+            <div className="mt-4 text-center">
+              <div className="text-neon-blue font-semibold mb-2">Tide Conditions</div>
+              <div className="text-gray-300">{selectedSpot.tideConditions}</div>
             </div>
-            
-            <div className="card-elegant p-6 bg-gradient-to-br from-blue-500/20 to-purple-500/20 border-blue-500/30">
-              <div className="text-center">
-                <Waves className="w-8 h-8 text-blue-400 mx-auto mb-4" />
-                <h4 className="font-bold text-white mb-2">Safety First</h4>
-                <p className="text-sm text-gray-300">
-                  Always check local conditions and respect the ocean's power
-                </p>
-              </div>
-            </div>
+            <p className="text-gray-400 text-sm mt-4 text-center">
+              {selectedSpot.description}
+            </p>
           </div>
         </div>
       </div>
