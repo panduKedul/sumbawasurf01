@@ -1,7 +1,8 @@
 import React from 'react';
-import { Menu, X, MapPin, Waves, Settings, Lock } from 'lucide-react';
+import { Menu, X, MapPin, Waves, Settings, Lock, Sun, Moon } from 'lucide-react';
 import { SurfSpot } from '../types';
 import { useAdmin } from '../contexts/AdminContext';
+import { useTheme } from '../contexts/ThemeContext';
 
 interface HeaderProps {
   toggleWeather: () => void;
@@ -36,25 +37,27 @@ export default function Header({
   spots,
   onSelectSpot
 }: HeaderProps) {
-  const { isAdminLoggedIn, toggleAdminLogin, logoutAdmin } = useAdmin();
+  const { isAdminLoggedIn, toggleAdminLogin } = useAdmin();
+  const { theme, toggleTheme, getThemeClasses } = useTheme();
+  const themeClasses = getThemeClasses();
 
   return (
-    <header className="header-elegant fixed top-0 left-0 right-0 z-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
+    <header className={`fixed top-0 left-0 right-0 z-50 ${themeClasses.cardBg} backdrop-blur-md`}>
+      <div className="max-w-7xl mx-auto px-3 lg:px-6">
+        <div className="flex items-center justify-between h-14 lg:h-16">
           {/* Logo */}
           <div 
-            className="flex items-center space-x-3 cursor-pointer group"
+            className="flex items-center space-x-2 lg:space-x-3 cursor-pointer group"
             onClick={resetToHome}
           >
-            <div className="p-2 bg-gradient-to-br from-neon-blue to-primary-600 rounded-lg shadow-lg group-hover:shadow-neon-blue/50 transition-all duration-300">
-              <Waves className="w-6 h-6 text-white" />
+            <div className={`p-1.5 lg:p-2 ${themeClasses.button} rounded-lg shadow-lg transition-all duration-300`}>
+              <Waves className="w-4 h-4 lg:w-5 lg:h-5 text-white" />
             </div>
             <div>
-              <h1 className="text-xl font-bold bg-gradient-to-r from-neon-blue to-white bg-clip-text text-transparent">
+              <h1 className={`text-sm lg:text-xl font-bold ${themeClasses.accent}`}>
                 Sumbawa Surf Guide
               </h1>
-              <p className="text-xs text-gray-400 hidden sm:block">West Sumbawa</p>
+              <p className={`text-xs ${themeClasses.textSecondary} hidden sm:block`}>West Sumbawa</p>
             </div>
           </div>
 
@@ -62,8 +65,10 @@ export default function Header({
           <nav className="hidden md:flex items-center space-x-1 flex-1 justify-center">
             <button
               onClick={resetToHome}
-              className={`btn-elegant px-4 py-2 rounded-lg font-medium transition-all duration-300 ${
-                showHome ? 'bg-neon-blue/20 text-neon-blue border-neon-blue/50' : ''
+              className={`px-3 lg:px-4 py-2 rounded-lg font-medium transition-all duration-300 text-sm lg:text-base ${
+                showHome 
+                  ? `${themeClasses.button} shadow-lg` 
+                  : `${themeClasses.text} ${themeClasses.buttonHover}`
               }`}
             >
               Home
@@ -71,8 +76,10 @@ export default function Header({
             
             <button
               onClick={toggleWeather}
-              className={`btn-elegant px-4 py-2 rounded-lg font-medium transition-all duration-300 ${
-                showWeather ? 'bg-neon-blue/20 text-neon-blue border-neon-blue/50' : ''
+              className={`px-3 lg:px-4 py-2 rounded-lg font-medium transition-all duration-300 text-sm lg:text-base ${
+                showWeather 
+                  ? `${themeClasses.button} shadow-lg` 
+                  : `${themeClasses.text} ${themeClasses.buttonHover}`
               }`}
             >
               Weather
@@ -80,8 +87,10 @@ export default function Header({
             
             <button
               onClick={toggleTides}
-              className={`btn-elegant px-4 py-2 rounded-lg font-medium transition-all duration-300 ${
-                showTides ? 'bg-neon-blue/20 text-neon-blue border-neon-blue/50' : ''
+              className={`px-3 lg:px-4 py-2 rounded-lg font-medium transition-all duration-300 text-sm lg:text-base ${
+                showTides 
+                  ? `${themeClasses.button} shadow-lg` 
+                  : `${themeClasses.text} ${themeClasses.buttonHover}`
               }`}
             >
               Tides
@@ -90,8 +99,10 @@ export default function Header({
             {isAdminLoggedIn ? (
               <button
                 onClick={toggleAdmin}
-                className={`btn-elegant px-4 py-2 rounded-lg font-medium transition-all duration-300 ${
-                  showAdmin ? 'bg-neon-blue/20 text-neon-blue border-neon-blue/50' : ''
+                className={`px-3 lg:px-4 py-2 rounded-lg font-medium transition-all duration-300 text-sm lg:text-base ${
+                  showAdmin 
+                    ? `${themeClasses.button} shadow-lg` 
+                    : `${themeClasses.text} ${themeClasses.buttonHover}`
                 }`}
               >
                 Admin Panel
@@ -99,34 +110,52 @@ export default function Header({
             ) : (
               <button
                 onClick={toggleAdminLogin}
-                className="btn-elegant px-4 py-2 rounded-lg font-medium transition-all duration-300 flex items-center space-x-2"
+                className={`px-3 lg:px-4 py-2 rounded-lg font-medium transition-all duration-300 flex items-center space-x-2 text-sm lg:text-base ${themeClasses.text} ${themeClasses.buttonHover}`}
               >
-                <Lock className="w-4 h-4" />
-                <span>Admin Login</span>
+                <Lock className="w-3 h-3 lg:w-4 lg:h-4" />
+                <span>Admin</span>
               </button>
             )}
           </nav>
 
-          {/* Mobile Menu Button */}
-          <button
-            onClick={toggleMobileMenu}
-            className="md:hidden btn-elegant p-2 rounded-lg transition-all duration-300"
-          >
-            {showMobileMenu ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-          </button>
+          {/* Theme Toggle & Mobile Menu */}
+          <div className="flex items-center space-x-2">
+            {/* Theme Toggle Button */}
+            <button
+              onClick={toggleTheme}
+              className={`p-2 rounded-lg transition-all duration-300 ${themeClasses.buttonHover} ${themeClasses.text}`}
+              title={`Switch to ${theme === 'light-gray' ? 'Ocean Blue' : 'Light Gray'} theme`}
+            >
+              {theme === 'light-gray' ? (
+                <Moon className="w-4 h-4 lg:w-5 lg:h-5" />
+              ) : (
+                <Sun className="w-4 h-4 lg:w-5 lg:h-5" />
+              )}
+            </button>
+
+            {/* Mobile Menu Button */}
+            <button
+              onClick={toggleMobileMenu}
+              className={`md:hidden p-2 rounded-lg transition-all duration-300 ${themeClasses.buttonHover} ${themeClasses.text}`}
+            >
+              {showMobileMenu ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            </button>
+          </div>
         </div>
 
         {/* Mobile Menu */}
         {showMobileMenu && (
-          <div className="md:hidden mt-2 p-4 card-elegant rounded-lg">
+          <div className={`md:hidden mt-2 p-3 lg:p-4 ${themeClasses.cardBg} rounded-lg mb-3`}>
             <div className="space-y-2">
               <button
                 onClick={() => {
                   resetToHome();
                   toggleMobileMenu();
                 }}
-                className={`w-full text-left px-3 py-2 rounded-lg font-medium transition-all duration-300 ${
-                  showHome ? 'bg-neon-blue/20 text-neon-blue' : 'text-gray-300 hover:text-white hover:bg-dark-400'
+                className={`w-full text-left px-3 py-2 rounded-lg font-medium transition-all duration-300 text-sm ${
+                  showHome 
+                    ? `${themeClasses.button}` 
+                    : `${themeClasses.text} ${themeClasses.buttonHover}`
                 }`}
               >
                 Home
@@ -137,8 +166,10 @@ export default function Header({
                   toggleWeather();
                   toggleMobileMenu();
                 }}
-                className={`w-full text-left px-3 py-2 rounded-lg font-medium transition-all duration-300 ${
-                  showWeather ? 'bg-neon-blue/20 text-neon-blue' : 'text-gray-300 hover:text-white hover:bg-dark-400'
+                className={`w-full text-left px-3 py-2 rounded-lg font-medium transition-all duration-300 text-sm ${
+                  showWeather 
+                    ? `${themeClasses.button}` 
+                    : `${themeClasses.text} ${themeClasses.buttonHover}`
                 }`}
               >
                 Weather
@@ -149,8 +180,10 @@ export default function Header({
                   toggleTides();
                   toggleMobileMenu();
                 }}
-                className={`w-full text-left px-3 py-2 rounded-lg font-medium transition-all duration-300 ${
-                  showTides ? 'bg-neon-blue/20 text-neon-blue' : 'text-gray-300 hover:text-white hover:bg-dark-400'
+                className={`w-full text-left px-3 py-2 rounded-lg font-medium transition-all duration-300 text-sm ${
+                  showTides 
+                    ? `${themeClasses.button}` 
+                    : `${themeClasses.text} ${themeClasses.buttonHover}`
                 }`}
               >
                 Tides
@@ -162,8 +195,10 @@ export default function Header({
                     toggleAdmin();
                     toggleMobileMenu();
                   }}
-                  className={`w-full text-left px-3 py-2 rounded-lg font-medium transition-all duration-300 ${
-                    showAdmin ? 'bg-neon-blue/20 text-neon-blue' : 'text-gray-300 hover:text-white hover:bg-dark-400'
+                  className={`w-full text-left px-3 py-2 rounded-lg font-medium transition-all duration-300 text-sm ${
+                    showAdmin 
+                      ? `${themeClasses.button}` 
+                      : `${themeClasses.text} ${themeClasses.buttonHover}`
                   }`}
                 >
                   Admin Panel
@@ -174,7 +209,7 @@ export default function Header({
                     toggleAdminLogin();
                     toggleMobileMenu();
                   }}
-                  className="w-full text-left px-3 py-2 rounded-lg font-medium text-gray-300 hover:text-white hover:bg-dark-400 transition-all duration-300 flex items-center space-x-2"
+                  className={`w-full text-left px-3 py-2 rounded-lg font-medium transition-all duration-300 flex items-center space-x-2 text-sm ${themeClasses.text} ${themeClasses.buttonHover}`}
                 >
                   <Lock className="w-4 h-4" />
                   <span>Admin Login</span>
@@ -185,7 +220,7 @@ export default function Header({
               <div>
                 <button
                   onClick={toggleMobileSpots}
-                  className="w-full text-left px-3 py-2 rounded-lg text-gray-300 hover:text-white hover:bg-dark-400 transition-all duration-300 flex items-center justify-between font-medium"
+                  className={`w-full text-left px-3 py-2 rounded-lg transition-all duration-300 flex items-center justify-between font-medium text-sm ${themeClasses.text} ${themeClasses.buttonHover}`}
                 >
                   <span>Surf Spots</span>
                   <span className={`transform transition-transform ${showMobileSpots ? 'rotate-180' : ''}`}>
@@ -202,7 +237,7 @@ export default function Header({
                           onSelectSpot(spot);
                           toggleMobileMenu();
                         }}
-                        className="w-full text-left px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-dark-400 transition-all duration-300 flex items-center space-x-2"
+                        className={`w-full text-left px-3 py-2 rounded-lg transition-all duration-300 flex items-center space-x-2 text-sm ${themeClasses.textSecondary} ${themeClasses.buttonHover}`}
                       >
                         <MapPin className="w-3 h-3 flex-shrink-0" />
                         <span className="truncate">{spot.name}</span>

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import { AdminProvider } from './contexts/AdminContext';
+import { ThemeProvider } from './contexts/ThemeContext';
 import Header from './components/Header';
 import Map from './components/Map';
 import Weather from './components/Weather';
@@ -14,9 +15,12 @@ import Footer from './components/Footer';
 import { loadSpots } from './data/spots';
 import { SurfSpot } from './types';
 import { useAdmin } from './contexts/AdminContext';
+import { useTheme } from './contexts/ThemeContext';
 
 function AppContent() {
   const { isAdminLoggedIn, showAdminLogin } = useAdmin();
+  const { getThemeClasses } = useTheme();
+  const themeClasses = getThemeClasses();
   const [spots, setSpots] = useState<SurfSpot[]>([]);
   const [selectedSpot, setSelectedSpot] = useState<SurfSpot | null>(null);
   const [showWeather, setShowWeather] = useState(false);
@@ -97,7 +101,7 @@ function AppContent() {
 
   const MainContent = () => (
     <div 
-      className="min-h-screen flex flex-col bg-dark-100 text-gray-100 pt-16"
+      className={`min-h-screen flex flex-col ${themeClasses.bg} ${themeClasses.text} pt-16`}
       onClick={() => {
         if (showMobileMenu) {
           setShowMobileMenu(false);
@@ -144,7 +148,7 @@ function AppContent() {
       />
       <main className={`flex flex-1 overflow-hidden mt-0 transition-all duration-300 ${showMobileMenu ? 'blur-sm' : ''}`}>
         {/* Desktop Sidebar */}
-        <div className={`hidden lg:flex w-80 xl:w-96 bg-dark-200 border-r border-dark-400 shadow-xl flex-shrink-0 flex-col mt-0 transition-all duration-300 ${showMobileMenu ? 'blur-[2px] pointer-events-none' : ''}`}>
+        <div className={`hidden lg:flex w-80 xl:w-96 ${themeClasses.cardBg} border-r ${themeClasses.border} shadow-xl flex-shrink-0 flex-col mt-0 transition-all duration-300 ${showMobileMenu ? 'blur-[2px] pointer-events-none' : ''}`}>
           <SpotList spots={spots} onSelectSpot={handleSpotSelect} selectedSpot={selectedSpot} />
         </div>
 
@@ -160,20 +164,20 @@ function AppContent() {
             />
           ) : (
             /* Default view with map and spot details */
-            <div className="flex flex-col flex-1 bg-dark-200">
+            <div className={`flex flex-col flex-1 ${themeClasses.cardBg}`}>
               {/* Welcome Section with Map */}
-              <div className="p-3 lg:p-8 text-center bg-gradient-radial from-dark-300 to-dark-100">
+              <div className={`p-3 lg:p-8 text-center ${themeClasses.bg}`}>
                 <div className="max-w-4xl mx-auto mb-4 lg:mb-6 flex flex-col items-center">
-                  <h1 className="text-lg lg:text-4xl font-bold text-neon-blue mb-2 text-center">Welcome to Sumbawa Surf Guide</h1>
-                  <h2 className="text-base lg:text-2xl font-semibold text-white mb-3 lg:mb-4 text-center">Your Ultimate West Sumbawa Surf Companion</h2>
-                  <p className="text-xs lg:text-base text-gray-400 mb-4 lg:mb-6 text-center max-w-2xl">
+                  <h1 className={`text-lg lg:text-4xl font-bold ${themeClasses.accent} mb-2 text-center`}>Welcome to Sumbawa Surf Guide</h1>
+                  <h2 className={`text-base lg:text-2xl font-semibold ${themeClasses.text} mb-3 lg:mb-4 text-center`}>Your Ultimate West Sumbawa Surf Companion</h2>
+                  <p className={`text-xs lg:text-base ${themeClasses.textSecondary} mb-4 lg:mb-6 text-center max-w-2xl`}>
                     Discover the best surf spots in West Sumbawa with detailed information about wave conditions, 
                     tide times, weather forecasts, and local insights.
                   </p>
                 </div>
                 
                 {/* Interactive Map */}
-                <div className="h-[30vh] lg:h-[50vh] rounded-xl overflow-hidden shadow-2xl border border-dark-400 mb-4 lg:mb-6 max-w-4xl mx-auto">
+                <div className={`h-[30vh] lg:h-[50vh] rounded-xl overflow-hidden shadow-2xl border ${themeClasses.border} mb-4 lg:mb-6 max-w-4xl mx-auto`}>
                   <Map spots={spots} onSelectSpot={handleSpotSelect} selectedSpot={selectedSpot} />
                 </div>
               </div>
@@ -185,8 +189,8 @@ function AppContent() {
                 ) : loading ? (
                   <div className="flex items-center justify-center p-8 text-center">
                     <div className="text-center">
-                      <div className="w-8 h-8 border-4 border-neon-blue border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-                      <p className="text-gray-400">Loading surf spots...</p>
+                      <div className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+                      <p className={themeClasses.textSecondary}>Loading surf spots...</p>
                     </div>
                   </div>
                 ) : (
@@ -194,42 +198,42 @@ function AppContent() {
                     <div className="max-w-2xl mx-auto">
                       {/* Quick Stats */}
                       <div className="grid grid-cols-3 gap-2 lg:gap-4 mb-6 lg:mb-8">
-                        <div className="bg-dark-400 p-2 lg:p-4 rounded-lg border border-dark-500 text-center">
-                          <div className="text-lg lg:text-2xl font-bold text-neon-blue">{spots.length}</div>
-                          <div className="text-xs lg:text-sm text-gray-400">Surf Spots</div>
+                        <div className={`${themeClasses.cardBg} p-2 lg:p-4 rounded-lg border ${themeClasses.border} text-center shadow-lg`}>
+                          <div className={`text-lg lg:text-2xl font-bold ${themeClasses.accent}`}>{spots.length}</div>
+                          <div className={`text-xs lg:text-sm ${themeClasses.textSecondary}`}>Surf Spots</div>
                         </div>
-                        <div className="bg-dark-400 p-2 lg:p-4 rounded-lg border border-dark-500 text-center">
-                          <div className="text-lg lg:text-2xl font-bold text-neon-blue">24/7</div>
-                          <div className="text-xs lg:text-sm text-gray-400">Forecasts</div>
+                        <div className={`${themeClasses.cardBg} p-2 lg:p-4 rounded-lg border ${themeClasses.border} text-center shadow-lg`}>
+                          <div className={`text-lg lg:text-2xl font-bold ${themeClasses.accent}`}>24/7</div>
+                          <div className={`text-xs lg:text-sm ${themeClasses.textSecondary}`}>Forecasts</div>
                         </div>
-                        <div className="bg-dark-400 p-2 lg:p-4 rounded-lg border border-dark-500 text-center">
-                          <div className="text-lg lg:text-2xl font-bold text-neon-blue">Live</div>
-                          <div className="text-xs lg:text-sm text-gray-400">Tide Data</div>
+                        <div className={`${themeClasses.cardBg} p-2 lg:p-4 rounded-lg border ${themeClasses.border} text-center shadow-lg`}>
+                          <div className={`text-lg lg:text-2xl font-bold ${themeClasses.accent}`}>Live</div>
+                          <div className={`text-xs lg:text-sm ${themeClasses.textSecondary}`}>Tide Data</div>
                         </div>
                       </div>
 
                       {/* Features Grid */}
                       <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 lg:gap-4 mb-6 lg:mb-8">
-                        <div className="bg-dark-400 p-3 lg:p-4 rounded-lg border border-dark-500 text-center">
-                          <h3 className="text-neon-blue font-semibold mb-2 text-sm lg:text-base">🗺️ Interactive Maps</h3>
-                          <p className="text-gray-300 text-xs lg:text-sm">Explore surf spots with detailed maps, wind and wave forecasts</p>
+                        <div className={`${themeClasses.cardBg} p-3 lg:p-4 rounded-lg border ${themeClasses.border} text-center shadow-lg`}>
+                          <h3 className={`${themeClasses.accent} font-semibold mb-2 text-sm lg:text-base`}>🗺️ Interactive Maps</h3>
+                          <p className={`${themeClasses.textSecondary} text-xs lg:text-sm`}>Explore surf spots with detailed maps, wind and wave forecasts</p>
                         </div>
-                        <div className="bg-dark-400 p-3 lg:p-4 rounded-lg border border-dark-500 text-center">
-                          <h3 className="text-neon-blue font-semibold mb-2 text-sm lg:text-base">🌊 Tide Information</h3>
-                          <p className="text-gray-300 text-xs lg:text-sm">Real-time tide data and predictions for all surf locations</p>
+                        <div className={`${themeClasses.cardBg} p-3 lg:p-4 rounded-lg border ${themeClasses.border} text-center shadow-lg`}>
+                          <h3 className={`${themeClasses.accent} font-semibold mb-2 text-sm lg:text-base`}>🌊 Tide Information</h3>
+                          <p className={`${themeClasses.textSecondary} text-xs lg:text-sm`}>Real-time tide data and predictions for all surf locations</p>
                         </div>
-                        <div className="bg-dark-400 p-3 lg:p-4 rounded-lg border border-dark-500 text-center">
-                          <h3 className="text-neon-blue font-semibold mb-2 text-sm lg:text-base">📊 Surf Forecasts</h3>
-                          <p className="text-gray-300 text-xs lg:text-sm">Detailed wave height, wind, and weather predictions</p>
+                        <div className={`${themeClasses.cardBg} p-3 lg:p-4 rounded-lg border ${themeClasses.border} text-center shadow-lg`}>
+                          <h3 className={`${themeClasses.accent} font-semibold mb-2 text-sm lg:text-base`}>📊 Surf Forecasts</h3>
+                          <p className={`${themeClasses.textSecondary} text-xs lg:text-sm`}>Detailed wave height, wind, and weather predictions</p>
                         </div>
-                        <div className="bg-dark-400 p-3 lg:p-4 rounded-lg border border-dark-500 text-center">
-                          <h3 className="text-neon-blue font-semibold mb-2 text-sm lg:text-base">📍 Local Insights</h3>
-                          <p className="text-gray-300 text-xs lg:text-sm">Skill levels, best seasons, and local surf conditions</p>
+                        <div className={`${themeClasses.cardBg} p-3 lg:p-4 rounded-lg border ${themeClasses.border} text-center shadow-lg`}>
+                          <h3 className={`${themeClasses.accent} font-semibold mb-2 text-sm lg:text-base`}>📍 Local Insights</h3>
+                          <p className={`${themeClasses.textSecondary} text-xs lg:text-sm`}>Skill levels, best seasons, and local surf conditions</p>
                         </div>
                       </div>
 
                       <div className="text-center">
-                        <p className="text-gray-400 text-xs lg:text-sm">
+                        <p className={`${themeClasses.textSecondary} text-xs lg:text-sm`}>
                           {spots.length > 0 ? 'Click on any surf spot above to start exploring' : 'Loading surf spots...'}
                         </p>
                       </div>
@@ -252,13 +256,15 @@ function AppContent() {
 
 function App() {
   return (
-    <AdminProvider>
-      <Router>
-        <Routes>
-          <Route path="/" element={<AppContent />} />
-        </Routes>
-      </Router>
-    </AdminProvider>
+    <ThemeProvider>
+      <AdminProvider>
+        <Router>
+          <Routes>
+            <Route path="/" element={<AppContent />} />
+          </Routes>
+        </Router>
+      </AdminProvider>
+    </ThemeProvider>
   );
 }
 
