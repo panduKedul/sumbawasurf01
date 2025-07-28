@@ -168,9 +168,9 @@ function AppContent() {
               {/* Welcome Section with Map */}
               <div className={`p-3 lg:p-8 text-center ${themeClasses.bg}`}>
                 <div className="max-w-4xl mx-auto mb-4 lg:mb-6 flex flex-col items-center">
-                  <h1 className={`text-lg lg:text-4xl font-bold ${themeClasses.accent} mb-2 text-center`}>Welcome to Sumbawa Surf Guide</h1>
-                  <h2 className={`text-base lg:text-2xl font-semibold ${themeClasses.text} mb-3 lg:mb-4 text-center`}>Your Ultimate West Sumbawa Surf Companion</h2>
-                  <p className={`text-xs lg:text-base ${themeClasses.textSecondary} mb-4 lg:mb-6 text-center max-w-2xl`}>
+                  <h1 className={`text-lg sm:text-xl lg:text-4xl font-bold ${themeClasses.accent} mb-2 text-center`}>Welcome to Sumbawa Surf Guide</h1>
+                  <h2 className={`text-sm sm:text-base lg:text-2xl font-semibold ${themeClasses.text} mb-3 lg:mb-4 text-center`}>Your Ultimate West Sumbawa Surf Companion</h2>
+                  <p className={`text-xs sm:text-sm lg:text-base ${themeClasses.textSecondary} mb-4 lg:mb-6 text-center max-w-2xl mx-auto`}>
                     Discover the best surf spots in West Sumbawa with detailed information about wave conditions, 
                     tide times, weather forecasts, and local insights.
                   </p>
@@ -187,53 +187,53 @@ function AppContent() {
                 {selectedSpot ? (
                   <SpotDetails spot={selectedSpot} />
                 ) : loading ? (
-                  <div className="flex items-center justify-center p-8 text-center">
+                  <div className="flex items-center justify-center p-4 sm:p-8 text-center">
                     <div className="text-center">
-                      <div className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+                      <div className="w-6 h-6 sm:w-8 sm:h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
                       <p className={themeClasses.textSecondary}>Loading surf spots...</p>
                     </div>
                   </div>
                 ) : (
-                  <div className="p-6 text-center animate-fadeIn">
+                  <div className="p-3 sm:p-6 text-center animate-fadeIn">
                     <div className="max-w-2xl mx-auto">
                       {/* Quick Stats */}
-                      <div className="grid grid-cols-3 gap-2 lg:gap-4 mb-6 lg:mb-8">
-                        <div className={`${themeClasses.cardBg} p-2 lg:p-4 rounded-lg border ${themeClasses.border} text-center shadow-lg`}>
-                          <div className={`text-lg lg:text-2xl font-bold ${themeClasses.accent}`}>{spots.length}</div>
-                          <div className={`text-xs lg:text-sm ${themeClasses.textSecondary}`}>Surf Spots</div>
+                      <div className="grid grid-cols-3 gap-2 sm:gap-3 lg:gap-4 mb-4 sm:mb-6 lg:mb-8">
+                        <div className={`${themeClasses.cardBg} p-2 sm:p-3 lg:p-4 rounded-lg border ${themeClasses.border} text-center shadow-lg`}>
+                          <div className={`text-base sm:text-lg lg:text-2xl font-bold ${themeClasses.accent}`}>{spots.length}</div>
+                          <div className={`text-xs sm:text-sm ${themeClasses.textSecondary}`}>Surf Spots</div>
                         </div>
-                        <div className={`${themeClasses.cardBg} p-2 lg:p-4 rounded-lg border ${themeClasses.border} text-center shadow-lg`}>
-                          <div className={`text-lg lg:text-2xl font-bold ${themeClasses.accent}`}>24/7</div>
-                          <div className={`text-xs lg:text-sm ${themeClasses.textSecondary}`}>Forecasts</div>
+                        <div className={`${themeClasses.cardBg} p-2 sm:p-3 lg:p-4 rounded-lg border ${themeClasses.border} text-center shadow-lg`}>
+                          <div className={`text-base sm:text-lg lg:text-2xl font-bold ${themeClasses.accent}`}>24/7</div>
+                          <div className={`text-xs sm:text-sm ${themeClasses.textSecondary}`}>Forecasts</div>
                         </div>
-                        <div className={`${themeClasses.cardBg} p-2 lg:p-4 rounded-lg border ${themeClasses.border} text-center shadow-lg`}>
-                          <div className={`text-lg lg:text-2xl font-bold ${themeClasses.accent}`}>Live</div>
-                          <div className={`text-xs lg:text-sm ${themeClasses.textSecondary}`}>Tide Data</div>
+                        <div className={`${themeClasses.cardBg} p-2 sm:p-3 lg:p-4 rounded-lg border ${themeClasses.border} text-center shadow-lg`}>
+                          <div className={`text-base sm:text-lg lg:text-2xl font-bold ${themeClasses.accent}`}>Live</div>
+                          <div className={`text-xs sm:text-sm ${themeClasses.textSecondary}`}>Tide Data</div>
                         </div>
                       </div>
 
                       {/* Features Grid */}
-                      <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 lg:gap-4 mb-6 lg:mb-8">
-                        <div className={`${themeClasses.cardBg} p-3 lg:p-4 rounded-lg border ${themeClasses.border} text-center shadow-lg`}>
-                          <h3 className={`${themeClasses.accent} font-semibold mb-2 text-sm lg:text-base`}>🗺️ Interactive Maps</h3>
-                          <p className={`${themeClasses.textSecondary} text-xs lg:text-sm`}>Explore surf spots with detailed maps, wind and wave forecasts</p>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3 lg:gap-4 mb-4 sm:mb-6 lg:mb-8">
+                        <div className={`${themeClasses.cardBg} p-2 sm:p-3 lg:p-4 rounded-lg border ${themeClasses.border} text-center shadow-lg`}>
+                          <h3 className={`${themeClasses.accent} font-semibold mb-1 sm:mb-2 text-xs sm:text-sm lg:text-base`}>🗺️ Interactive Maps</h3>
+                          <p className={`${themeClasses.textSecondary} text-xs sm:text-sm`}>Explore surf spots with detailed maps, wind and wave forecasts</p>
                         </div>
-                        <div className={`${themeClasses.cardBg} p-3 lg:p-4 rounded-lg border ${themeClasses.border} text-center shadow-lg`}>
-                          <h3 className={`${themeClasses.accent} font-semibold mb-2 text-sm lg:text-base`}>🌊 Tide Information</h3>
-                          <p className={`${themeClasses.textSecondary} text-xs lg:text-sm`}>Real-time tide data and predictions for all surf locations</p>
+                        <div className={`${themeClasses.cardBg} p-2 sm:p-3 lg:p-4 rounded-lg border ${themeClasses.border} text-center shadow-lg`}>
+                          <h3 className={`${themeClasses.accent} font-semibold mb-1 sm:mb-2 text-xs sm:text-sm lg:text-base`}>🌊 Tide Information</h3>
+                          <p className={`${themeClasses.textSecondary} text-xs sm:text-sm`}>Real-time tide data and predictions for all surf locations</p>
                         </div>
-                        <div className={`${themeClasses.cardBg} p-3 lg:p-4 rounded-lg border ${themeClasses.border} text-center shadow-lg`}>
-                          <h3 className={`${themeClasses.accent} font-semibold mb-2 text-sm lg:text-base`}>📊 Surf Forecasts</h3>
-                          <p className={`${themeClasses.textSecondary} text-xs lg:text-sm`}>Detailed wave height, wind, and weather predictions</p>
+                        <div className={`${themeClasses.cardBg} p-2 sm:p-3 lg:p-4 rounded-lg border ${themeClasses.border} text-center shadow-lg`}>
+                          <h3 className={`${themeClasses.accent} font-semibold mb-1 sm:mb-2 text-xs sm:text-sm lg:text-base`}>📊 Surf Forecasts</h3>
+                          <p className={`${themeClasses.textSecondary} text-xs sm:text-sm`}>Detailed wave height, wind, and weather predictions</p>
                         </div>
-                        <div className={`${themeClasses.cardBg} p-3 lg:p-4 rounded-lg border ${themeClasses.border} text-center shadow-lg`}>
-                          <h3 className={`${themeClasses.accent} font-semibold mb-2 text-sm lg:text-base`}>📍 Local Insights</h3>
-                          <p className={`${themeClasses.textSecondary} text-xs lg:text-sm`}>Skill levels, best seasons, and local surf conditions</p>
+                        <div className={`${themeClasses.cardBg} p-2 sm:p-3 lg:p-4 rounded-lg border ${themeClasses.border} text-center shadow-lg`}>
+                          <h3 className={`${themeClasses.accent} font-semibold mb-1 sm:mb-2 text-xs sm:text-sm lg:text-base`}>📍 Local Insights</h3>
+                          <p className={`${themeClasses.textSecondary} text-xs sm:text-sm`}>Skill levels, best seasons, and local surf conditions</p>
                         </div>
                       </div>
 
                       <div className="text-center">
-                        <p className={`${themeClasses.textSecondary} text-xs lg:text-sm`}>
+                        <p className={`${themeClasses.textSecondary} text-xs sm:text-sm`}>
                           {spots.length > 0 ? 'Click on any surf spot above to start exploring' : 'Loading surf spots...'}
                         </p>
                       </div>
