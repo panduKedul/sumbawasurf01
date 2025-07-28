@@ -296,3 +296,21 @@ body {
   -ms-user-select: none;
   user-select: none;
 }
+
+/* Fix mobile touch issues */
+@media (max-width: 768px) {
+  .mobile-menu-item {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    touch-action: manipulation;
+  }
+  
+  .mobile-menu-item:active {
+    background-color: rgba(59, 130, 246, 0.1);
+  }
+}
