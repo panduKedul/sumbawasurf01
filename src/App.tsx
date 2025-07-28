@@ -233,7 +233,7 @@ function AppContent() {
                         </p>
                       </div>
                     </div>
-              <div className="h-[50vh] md:h-[60vh] rounded-xl overflow-hidden shadow-2xl border border-dark-400 mb-6 w-full max-w-6xl mx-auto">
+                  </div>
                 )}
               </div>
             </div>
