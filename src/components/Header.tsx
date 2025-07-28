@@ -42,16 +42,7 @@ export default function Header({
   const themeClasses = getThemeClasses();
 
   const getThemeIcon = () => {
-    switch (theme) {
-      case 'light':
-        return <Sun className="w-4 h-4" />;
-      case 'ocean':
-        return <Waves className="w-4 h-4" />;
-      case 'dark':
-        return <Moon className="w-4 h-4" />;
-      default:
-        return <Palette className="w-4 h-4" />;
-    }
+    return theme === 'light' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />;
   };
 
   return (
@@ -142,7 +133,7 @@ export default function Header({
             <button
               onClick={toggleTheme}
               className={`p-2 rounded-lg transition-all duration-300 ${themeClasses.buttonHover} ${themeClasses.text}`}
-              title={`Switch to ${theme === 'light' ? 'ocean' : theme === 'ocean' ? 'dark' : 'light'} theme`}
+              title={`Switch to ${theme === 'light' ? 'dark' : 'light'} theme`}
             >
               {getThemeIcon()}
             </button>
