@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Menu, X, MapPin, Waves, Settings, Lock, Sun, Moon } from 'lucide-react';
 import { SurfSpot } from '../types';
 import { useAdmin } from '../contexts/AdminContext';
