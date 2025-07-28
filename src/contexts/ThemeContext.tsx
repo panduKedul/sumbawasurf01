@@ -41,35 +41,35 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   const getThemeClasses = () => {
     if (theme === 'light') {
       return {
-        bg: 'bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50',
-        cardBg: 'bg-white/95 backdrop-blur-sm border border-blue-200/60 shadow-sm',
+        bg: 'bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50',
+        cardBg: 'bg-white/90 backdrop-blur-xl border border-blue-200/50 shadow-xl',
         text: 'text-slate-800',
         textSecondary: 'text-slate-600',
-        border: 'border-blue-200/60',
+        border: 'border-blue-200/50',
         accent: 'text-blue-600',
-        button: 'bg-gradient-to-r from-blue-500 to-indigo-500 text-white hover:from-blue-600 hover:to-indigo-600 shadow-sm',
-        buttonHover: 'hover:bg-blue-50/70',
-        navbar: 'bg-white/95 backdrop-blur-md border-b border-blue-200/60 shadow-sm',
+        button: 'bg-gradient-to-r from-blue-500 to-indigo-500 text-white hover:from-blue-600 hover:to-indigo-600 shadow-lg backdrop-blur-sm',
+        buttonHover: 'hover:bg-blue-50/80 hover:backdrop-blur-sm',
+        navbar: 'bg-white/90 backdrop-blur-xl border-b border-blue-200/50 shadow-xl',
         headerBg: 'bg-gradient-to-r from-blue-500 to-indigo-500',
-        footerBg: 'bg-white/95 backdrop-blur-sm border-t border-blue-200/60 shadow-sm',
+        footerBg: 'bg-white/90 backdrop-blur-xl border-t border-blue-200/50 shadow-xl',
         footerText: 'text-slate-800',
-        footerBorder: 'border-blue-200/60'
+        footerBorder: 'border-blue-200/50'
       };
     } else {
       return {
-        bg: 'bg-gradient-to-br from-gray-900 via-slate-900 to-black',
-        cardBg: 'bg-gray-800/95 backdrop-blur-sm border border-gray-700/60 shadow-sm',
+        bg: 'bg-gradient-to-br from-slate-900 via-gray-900 to-slate-800',
+        cardBg: 'bg-slate-800/90 backdrop-blur-xl border border-slate-700/50 shadow-2xl',
         text: 'text-white',
-        textSecondary: 'text-gray-300',
-        border: 'border-gray-700/60',
-        accent: 'text-cyan-400',
-        button: 'bg-gradient-to-r from-gray-700 to-slate-700 text-white hover:from-gray-600 hover:to-slate-600 shadow-sm',
-        buttonHover: 'hover:bg-gray-700/70',
-        navbar: 'bg-gray-900/95 backdrop-blur-md border-b border-gray-700/60 shadow-sm',
-        headerBg: 'bg-gradient-to-r from-gray-800 to-slate-800',
-        footerBg: 'bg-gray-900/95 backdrop-blur-sm border-t border-gray-700/60 shadow-sm',
+        textSecondary: 'text-slate-300',
+        border: 'border-slate-700/50',
+        accent: 'text-sky-400',
+        button: 'bg-gradient-to-r from-slate-700 to-slate-600 text-white hover:from-slate-600 hover:to-slate-500 shadow-lg backdrop-blur-sm',
+        buttonHover: 'hover:bg-slate-700/80 hover:backdrop-blur-sm',
+        navbar: 'bg-slate-900/90 backdrop-blur-xl border-b border-slate-700/50 shadow-2xl',
+        headerBg: 'bg-gradient-to-r from-slate-800 to-slate-700',
+        footerBg: 'bg-slate-900/90 backdrop-blur-xl border-t border-slate-700/50 shadow-2xl',
         footerText: 'text-white',
-        footerBorder: 'border-gray-700/60'
+        footerBorder: 'border-slate-700/50'
       };
     }
   };

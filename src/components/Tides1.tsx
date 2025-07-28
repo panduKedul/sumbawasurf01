@@ -158,144 +158,171 @@ export default function Tides1({ spots }: Tides1Props) {
 
   return (
     <div className={`min-h-screen ${themeClasses.bg} pt-16 overflow-x-hidden`}>
-      {/* Hero Header */}
-      <div className={`${themeClasses.cardBg} border-b ${themeClasses.border} p-2 sm:p-3 md:p-4 lg:p-6`}>
-        <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-4">
-            <div className="flex flex-col items-center space-y-3 mb-4">
-              <div className={`p-1.5 sm:p-2 ${themeClasses.headerBg} rounded-md sm:rounded-lg shadow-sm`}>
-                <Anchor className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
+      {/* Advanced Glass Header */}
+      <div className="relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/20 via-blue-500/10 to-teal-500/20 backdrop-blur-xl"></div>
+        <div className={`relative ${themeClasses.cardBg} border-b ${themeClasses.border} p-3 sm:p-4 md:p-6 lg:p-8`}>
+          <div className="max-w-6xl mx-auto">
+            <div className="text-center mb-6">
+              <div className="flex flex-col items-center space-y-4 mb-6">
+                <div className="relative">
+                  <div className="absolute inset-0 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-2xl blur-lg opacity-30"></div>
+                  <div className={`relative p-3 sm:p-4 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-2xl shadow-2xl`}>
+                    <Anchor className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
+                  </div>
+                </div>
+                <div>
+                  <h1 className={`text-lg sm:text-2xl md:text-3xl lg:text-4xl font-bold bg-gradient-to-r from-cyan-600 via-blue-500 to-teal-600 bg-clip-text text-transparent mb-2`}>
+                    Marine Tide Station
+                  </h1>
+                  <p className={`text-sm sm:text-base lg:text-lg ${themeClasses.textSecondary}`}>
+                    Advanced tidal analysis and predictions
+                  </p>
+                </div>
               </div>
-              <div>
-                <h1 className={`text-sm sm:text-base md:text-lg lg:text-3xl font-bold ${themeClasses.accent}`}>
-                  Marine Tide Station
-                </h1>
-                <p className={`text-xs sm:text-sm ${themeClasses.textSecondary}`}>
-                  Advanced tidal analysis and predictions
-                </p>
-              </div>
-            </div>
 
-            {/* Mobile-Optimized Spot Selector */}
-            <div className="flex flex-col space-y-1.5 sm:space-y-2 max-w-xs sm:max-w-sm mx-auto">
-              <select
-                value={selectedSpot.id}
-                onChange={(e) => {
-                  const spot = spots.find(s => s.id === e.target.value);
-                  if (spot) setSelectedSpot(spot);
-                }}
-                className={`${themeClasses.cardBg} ${themeClasses.border} ${themeClasses.text} px-2 sm:px-3 py-1.5 sm:py-2 rounded-md sm:rounded-lg w-full text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500`}
-              >
-                {spots.map((spot) => (
-                  <option key={spot.id} value={spot.id}>
-                    {spot.name}
-                  </option>
-                ))}
-              </select>
-              <button
-                onClick={loadTideData}
-                disabled={loading}
-                className={`${themeClasses.button} px-2 sm:px-3 py-1.5 sm:py-2 rounded-md sm:rounded-lg flex items-center justify-center space-x-1.5 sm:space-x-2 text-xs sm:text-sm w-full transition-all duration-300 shadow-sm`}
-              >
-                <RefreshCw className={`w-3 h-3 sm:w-4 sm:h-4 ${loading ? 'animate-spin' : ''}`} />
-                <span>Refresh</span>
-              </button>
+              {/* Enhanced Spot Selector */}
+              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 max-w-md mx-auto">
+                <select
+                  value={selectedSpot.id}
+                  onChange={(e) => {
+                    const spot = spots.find(s => s.id === e.target.value);
+                    if (spot) setSelectedSpot(spot);
+                  }}
+                  className={`${themeClasses.cardBg} ${themeClasses.border} ${themeClasses.text} px-4 py-3 rounded-xl w-full text-sm focus:outline-none focus:ring-2 focus:ring-cyan-500 backdrop-blur-sm shadow-lg`}
+                >
+                  {spots.map((spot) => (
+                    <option key={spot.id} value={spot.id}>
+                      {spot.name}
+                    </option>
+                  ))}
+                </select>
+                <button
+                  onClick={loadTideData}
+                  disabled={loading}
+                  className="bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-white px-6 py-3 rounded-xl flex items-center justify-center space-x-2 text-sm font-medium transition-all duration-300 shadow-lg backdrop-blur-sm"
+                >
+                  <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
+                  <span>Refresh</span>
+                </button>
+              </div>
             </div>
           </div>
         </div>
       </div>
 
       {/* Main Content */}
-      <div className="p-2 sm:p-3 md:p-4 lg:p-6 space-y-2 sm:space-y-3 md:space-y-4 max-w-4xl mx-auto">
+      <div className="p-3 sm:p-4 md:p-6 lg:p-8 space-y-6 max-w-6xl mx-auto">
         
         {/* Current Tide Status Hero */}
         {currentStatus && (
-          <div className={`${themeClasses.cardBg} rounded-md sm:rounded-lg md:rounded-xl shadow-sm overflow-hidden`}>
-            <div className="p-2 sm:p-3 md:p-4 lg:p-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-2 sm:gap-3 md:gap-4">
+          <div className="relative overflow-hidden rounded-2xl">
+            <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 via-blue-500/5 to-teal-500/10 backdrop-blur-xl"></div>
+            <div className={`relative ${themeClasses.cardBg} p-4 sm:p-6 lg:p-8 shadow-2xl border ${themeClasses.border}`}>
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
                 {/* Left Side - Current Status */}
-                <div className="text-center">
-                  <h2 className={`text-xs sm:text-sm md:text-base lg:text-xl font-bold ${themeClasses.text} mb-1 sm:mb-2`}>Current Tide Status</h2>
-                  <div className="flex items-center justify-center space-x-1.5 sm:space-x-2 md:space-x-3 mb-2 sm:mb-3">
-                    <div className={`p-1 sm:p-1.5 md:p-2 ${themeClasses.headerBg} rounded-md`}>
-                      {getTideIcon(currentStatus.current.type)}
+                <div className="text-center lg:text-left">
+                  <h2 className={`text-xl sm:text-2xl lg:text-3xl font-bold ${themeClasses.text} mb-4 flex items-center justify-center lg:justify-start`}>
+                    <Navigation className={`w-6 h-6 lg:w-8 lg:h-8 ${themeClasses.accent} mr-3`} />
+                    Current Tide Status
+                  </h2>
+                  <div className="flex items-center justify-center lg:justify-start space-x-4 mb-6">
+                    <div className="relative">
+                      <div className={`absolute inset-0 ${
+                        currentStatus.status === 'rising' ? 'bg-gradient-to-r from-blue-500 to-cyan-500' : 'bg-gradient-to-r from-orange-500 to-red-500'
+                      } rounded-xl blur-lg opacity-30`}></div>
+                      <div className={`relative p-3 ${
+                        currentStatus.status === 'rising' ? 'bg-gradient-to-r from-blue-500 to-cyan-500' : 'bg-gradient-to-r from-orange-500 to-red-500'
+                      } rounded-xl`}>
+                        {getTideIcon(currentStatus.current.type)}
+                      </div>
                     </div>
                     <div>
-                      <div className={`text-base sm:text-lg md:text-xl lg:text-2xl font-bold ${themeClasses.accent}`}>
+                      <div className={`text-3xl sm:text-4xl lg:text-5xl font-bold ${
+                        currentStatus.status === 'rising' ? 'bg-gradient-to-r from-blue-500 to-cyan-500' : 'bg-gradient-to-r from-orange-500 to-red-500'
+                      } bg-clip-text text-transparent`}>
                         {currentStatus.status === 'rising' ? 'Rising' : 'Falling'}
                       </div>
-                      <div className={`text-xs sm:text-sm ${themeClasses.textSecondary}`}>
+                      <div className={`text-sm lg:text-base ${themeClasses.textSecondary}`}>
                         {currentStatus.progress.toFixed(0)}% to next tide
                       </div>
                     </div>
                   </div>
                   
                   {/* Progress Bar */}
-                  <div className={`w-full bg-gray-200 rounded-full h-1.5 sm:h-2 md:h-3 mb-2 sm:mb-3`}>
+                  <div className={`w-full bg-gray-200 rounded-full h-3 lg:h-4 mb-6`}>
                     <div 
-                      className={`h-1.5 sm:h-2 md:h-3 rounded-full transition-all duration-300 ${
-                        currentStatus.status === 'rising' ? 'bg-blue-500' : 'bg-orange-500'
+                      className={`h-3 lg:h-4 rounded-full transition-all duration-300 ${
+                        currentStatus.status === 'rising' ? 'bg-gradient-to-r from-blue-500 to-cyan-500' : 'bg-gradient-to-r from-orange-500 to-red-500'
                       }`}
                       style={{ width: `${currentStatus.progress}%` }}
                     ></div>
                   </div>
                   
-                  <div className="grid grid-cols-2 gap-1 sm:gap-2 md:gap-3">
-                    <div className="text-center">
-                      <div className={`text-xs sm:text-sm font-bold ${themeClasses.text}`}>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className={`${themeClasses.cardBg} p-4 rounded-xl text-center shadow-lg border ${themeClasses.border}`}>
+                      <div className={`text-lg sm:text-xl font-bold ${themeClasses.accent}`}>
                         {getTideHeight(currentStatus.current.height)}
                       </div>
-                      <div className={`text-xs sm:text-sm ${themeClasses.textSecondary}`}>Current Level</div>
+                      <div className={`text-sm ${themeClasses.textSecondary}`}>Current Level</div>
                     </div>
-                    <div className="text-center">
-                      <div className={`text-xs sm:text-sm font-bold ${themeClasses.text}`}>
+                    <div className={`${themeClasses.cardBg} p-4 rounded-xl text-center shadow-lg border ${themeClasses.border}`}>
+                      <div className={`text-lg sm:text-xl font-bold ${themeClasses.accent}`}>
                         {getTideHeight(currentStatus.next.height)}
                       </div>
-                      <div className={`text-xs sm:text-sm ${themeClasses.textSecondary}`}>Next Level</div>
+                      <div className={`text-sm ${themeClasses.textSecondary}`}>Next Level</div>
                     </div>
                   </div>
                 </div>
 
                 {/* Right Side - Next Tide Info */}
-                <div className="space-y-1.5 sm:space-y-2 md:space-y-3">
+                <div className="space-y-4">
                   {nextTide && (
-                    <div className={`${themeClasses.cardBg} p-1.5 sm:p-2 md:p-3 rounded-md border ${themeClasses.border}`}>
-                      <div className="flex items-center space-x-1 sm:space-x-2 mb-1 sm:mb-2">
-                        <Navigation className={`w-3 h-3 sm:w-4 sm:h-4 ${themeClasses.accent}`} />
-                        <h3 className={`text-xs sm:text-sm font-bold ${themeClasses.text}`}>Next Tide</h3>
-                      </div>
-                      <div className="text-center">
-                        <div className={`text-xs sm:text-sm md:text-base font-bold mb-1 sm:mb-2 ${
-                          nextTide.type === 'high' ? 'text-blue-600' : 'text-orange-600'
-                        }`}>
-                          {formatTime(nextTide.time)}
+                    <div className="relative overflow-hidden rounded-xl">
+                      <div className={`absolute inset-0 ${
+                        nextTide.type === 'high' ? 'bg-gradient-to-br from-blue-500/10 to-cyan-500/10' : 'bg-gradient-to-br from-orange-500/10 to-red-500/10'
+                      } backdrop-blur-sm`}></div>
+                      <div className={`relative ${themeClasses.cardBg} p-4 lg:p-6 border ${themeClasses.border} shadow-lg`}>
+                        <div className="flex items-center space-x-3 mb-4">
+                          <Navigation className={`w-5 h-5 lg:w-6 lg:h-6 ${themeClasses.accent}`} />
+                          <h3 className={`text-lg lg:text-xl font-bold ${themeClasses.text}`}>Next Tide</h3>
                         </div>
-                        <div className={`text-xs sm:text-sm font-bold ${themeClasses.text} mb-1 sm:mb-2`}>
-                          {getTideHeight(nextTide.height)}
+                        <div className="text-center">
+                          <div className={`text-xl lg:text-2xl font-bold mb-3 ${
+                            nextTide.type === 'high' ? 'text-blue-600' : 'text-orange-600'
+                          }`}>
+                            {formatTime(nextTide.time)}
+                          </div>
+                          <div className={`text-lg lg:text-xl font-bold ${themeClasses.text} mb-3`}>
+                            {getTideHeight(nextTide.height)}
+                          </div>
+                          <span className={`px-4 py-2 rounded-full text-sm font-medium ${
+                            nextTide.type === 'high'
+                              ? 'bg-blue-100 text-blue-700'
+                              : 'bg-orange-100 text-orange-700'
+                          }`}>
+                            {nextTide.type === 'high' ? 'High Tide' : 'Low Tide'}
+                          </span>
                         </div>
-                        <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                          nextTide.type === 'high'
-                            ? 'bg-blue-100 text-blue-700'
-                            : 'bg-orange-100 text-orange-700'
-                        }`}>
-                          {nextTide.type === 'high' ? 'High Tide' : 'Low Tide'}
-                        </span>
                       </div>
                     </div>
                   )}
 
                   {/* Surf Conditions */}
-                  <div className={`${themeClasses.cardBg} p-1.5 sm:p-2 md:p-3 rounded-md border ${themeClasses.border}`}>
-                    <div className="flex items-center space-x-1 sm:space-x-2 mb-1 sm:mb-2">
-                      <Waves className={`w-3 h-3 sm:w-4 sm:h-4 ${themeClasses.accent}`} />
-                      <h3 className={`text-xs sm:text-sm font-bold ${themeClasses.text}`}>Surf Conditions</h3>
-                    </div>
-                    <div className="text-center">
-                      <div className={`text-xs sm:text-sm font-bold ${themeClasses.accent} mb-1 sm:mb-2`}>
-                        {selectedSpot.tideConditions}
+                  <div className="relative overflow-hidden rounded-xl">
+                    <div className="absolute inset-0 bg-gradient-to-br from-green-500/10 to-teal-500/10 backdrop-blur-sm"></div>
+                    <div className={`relative ${themeClasses.cardBg} p-4 lg:p-6 border ${themeClasses.border} shadow-lg`}>
+                      <div className="flex items-center space-x-3 mb-4">
+                        <Waves className={`w-5 h-5 lg:w-6 lg:h-6 ${themeClasses.accent}`} />
+                        <h3 className={`text-lg lg:text-xl font-bold ${themeClasses.text}`}>Surf Conditions</h3>
                       </div>
-                      <div className={`text-xs sm:text-sm ${themeClasses.textSecondary}`}>
-                        Best for {selectedSpot.skillLevel}
+                      <div className="text-center">
+                        <div className={`text-lg lg:text-xl font-bold ${themeClasses.accent} mb-3`}>
+                          {selectedSpot.tideConditions}
+                        </div>
+                        <div className={`text-sm lg:text-base ${themeClasses.textSecondary}`}>
+                          Best for {selectedSpot.skillLevel}
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -306,51 +333,57 @@ export default function Tides1({ spots }: Tides1Props) {
         )}
 
         {/* Today's Tides Timeline */}
-        <div className={`${themeClasses.cardBg} rounded-md sm:rounded-lg md:rounded-xl shadow-sm overflow-hidden`}>
-          <div className={`p-1.5 sm:p-2 md:p-3 border-b ${themeClasses.border}`}>
-            <h3 className={`text-xs sm:text-sm md:text-base font-bold ${themeClasses.text} text-center flex items-center justify-center space-x-1`}>
-              <Clock className={`w-3 h-3 sm:w-4 sm:h-4 ${themeClasses.accent}`} />
-              <span>Today's Tide Timeline</span>
-            </h3>
-          </div>
-          
-          <div className="p-1.5 sm:p-2 md:p-3">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-1 sm:gap-2">
-              {todayTides.map((tide, index) => (
-                <div
-                  key={index}
-                  className={`${themeClasses.cardBg} p-1.5 sm:p-2 rounded-md transition-all duration-300 hover:scale-105 shadow-sm border ${
-                    tide.type === 'high'
-                      ? 'border-blue-200 bg-gradient-to-br from-blue-50 to-cyan-50'
-                      : 'border-orange-200 bg-gradient-to-br from-orange-50 to-red-50'
-                  }`}
-                >
-                  <div className="text-center">
-                    <div className="flex items-center justify-center space-x-0.5 sm:space-x-1 mb-1 sm:mb-2">
-                      {getTideIcon(tide.type)}
-                      {getPhaseIcon(tide.time)}
-                    </div>
-                    
-                    <h3 className={`text-xs font-bold mb-0.5 sm:mb-1 ${
-                      tide.type === 'high' ? 'text-blue-600' : 'text-orange-600'
-                    }`}>
-                      {formatTime(tide.time)}
-                    </h3>
-                    
-                    <p className={`text-xs font-bold ${themeClasses.text} mb-1`}>
-                      {getTideHeight(tide.height)}
-                    </p>
-                    
-                    <span className={`px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-full text-xs font-medium ${
+        <div className="relative overflow-hidden rounded-2xl">
+          <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-purple-500/5 backdrop-blur-sm"></div>
+          <div className={`relative ${themeClasses.cardBg} shadow-2xl border ${themeClasses.border}`}>
+            <div className={`p-4 lg:p-6 border-b ${themeClasses.border}`}>
+              <h3 className={`text-lg lg:text-xl font-bold ${themeClasses.text} text-center flex items-center justify-center space-x-3`}>
+                <Clock className={`w-5 h-5 lg:w-6 lg:h-6 ${themeClasses.accent}`} />
+                <span>Today's Tide Timeline</span>
+              </h3>
+            </div>
+            
+            <div className="p-4 lg:p-6">
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
+                {todayTides.map((tide, index) => (
+                  <div
+                    key={index}
+                    className="relative overflow-hidden rounded-xl group"
+                  >
+                    <div className={`absolute inset-0 ${
                       tide.type === 'high'
-                        ? 'bg-blue-100 text-blue-700'
-                        : 'bg-orange-100 text-orange-700'
+                        ? 'bg-gradient-to-br from-blue-500/10 to-cyan-500/10'
+                        : 'bg-gradient-to-br from-orange-500/10 to-red-500/10'
+                    } backdrop-blur-sm group-hover:opacity-20 transition-opacity`}></div>
+                    <div className={`relative ${themeClasses.cardBg} p-4 lg:p-6 text-center shadow-lg border ${
+                      tide.type === 'high' ? 'border-blue-200' : 'border-orange-200'
                     }`}>
-                      {tide.type === 'high' ? 'High' : 'Low'}
-                    </span>
+                      <div className="flex items-center justify-center space-x-2 mb-3">
+                        {getTideIcon(tide.type)}
+                        {getPhaseIcon(tide.time)}
+                      </div>
+                      
+                      <h3 className={`text-lg lg:text-xl font-bold mb-2 ${
+                        tide.type === 'high' ? 'text-blue-600' : 'text-orange-600'
+                      }`}>
+                        {formatTime(tide.time)}
+                      </h3>
+                      
+                      <p className={`text-xl lg:text-2xl font-bold ${themeClasses.text} mb-3`}>
+                        {getTideHeight(tide.height)}
+                      </p>
+                      
+                      <span className={`px-3 py-1 rounded-full text-sm font-medium ${
+                        tide.type === 'high'
+                          ? 'bg-blue-100 text-blue-700'
+                          : 'bg-orange-100 text-orange-700'
+                      }`}>
+                        {tide.type === 'high' ? 'High' : 'Low'}
+                      </span>
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
           </div>
         </div>
@@ -485,20 +518,23 @@ export default function Tides1({ spots }: Tides1Props) {
         </div>
 
         {/* Location & Update Info */}
-        <div className={`${themeClasses.cardBg} p-2 sm:p-3 rounded-md sm:rounded-lg text-center shadow-sm`}>
-          <div className={`flex flex-col space-y-1 sm:space-y-2 ${themeClasses.textSecondary}`}>
-            <div className="flex items-center justify-center space-x-1 sm:space-x-2">
-              <MapPin className={`w-3 h-3 sm:w-4 sm:h-4 ${themeClasses.accent}`} />
-              <span className={`font-medium text-xs sm:text-sm ${themeClasses.text}`}>{selectedSpot.name}</span>
-            </div>
-            <div className="text-xs sm:text-sm">
-              {selectedSpot.coordinates[0].toFixed(4)}, {selectedSpot.coordinates[1].toFixed(4)}
-            </div>
-            {lastUpdated && (
-              <div className="text-xs">
-                Last updated: {lastUpdated.toLocaleTimeString()}
+        <div className="relative overflow-hidden rounded-xl">
+          <div className="absolute inset-0 bg-gradient-to-br from-gray-500/5 to-slate-500/5 backdrop-blur-sm"></div>
+          <div className={`relative ${themeClasses.cardBg} p-4 lg:p-6 text-center shadow-lg border ${themeClasses.border}`}>
+            <div className={`flex flex-col space-y-2 ${themeClasses.textSecondary}`}>
+              <div className="flex items-center justify-center space-x-2">
+                <MapPin className={`w-4 h-4 lg:w-5 lg:h-5 ${themeClasses.accent}`} />
+                <span className={`font-medium text-sm lg:text-base ${themeClasses.text}`}>{selectedSpot.name}</span>
               </div>
-            )}
+              <div className="text-xs lg:text-sm">
+                {selectedSpot.coordinates[0].toFixed(4)}, {selectedSpot.coordinates[1].toFixed(4)}
+              </div>
+              {lastUpdated && (
+                <div className="text-xs lg:text-sm">
+                  Last updated: {lastUpdated.toLocaleTimeString()}
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>
