@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Plus, Edit, Trash2, Save, X, MapPin, Waves, AlertCircle } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { SurfSpot } from '../types';
+import { useAdmin } from '../contexts/AdminContext';
 import toast from 'react-hot-toast';
 
 interface AdminPanelProps {
@@ -184,7 +185,6 @@ export default function AdminPanel({ spots, onSpotsUpdate }: AdminPanelProps) {
 
   const handleLogout = () => {
     if (confirm('Are you sure you want to logout from admin panel?')) {
-      const { logoutAdmin } = useAdmin();
       logoutAdmin();
     }
   };
@@ -215,27 +215,29 @@ export default function AdminPanel({ spots, onSpotsUpdate }: AdminPanelProps) {
   }
 
   return (
-    <div className="p-2 sm:p-4 md:p-6 lg:p-8 space-y-4 sm:space-y-6 max-w-7xl mx-auto overflow-hidden">
+    <div className="min-h-screen bg-dark-100 flex flex-col">
+      <div className="flex-1 overflow-y-auto">
+        <div className="max-w-6xl mx-auto p-4 lg:p-6 space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-white mb-2">Admin Panel</h1>
-          <p className="text-sm sm:text-base text-gray-400">Manage surf spots and content</p>
+          <h1 className="text-2xl lg:text-3xl font-bold text-white mb-2">Admin Panel</h1>
+          <p className="text-sm lg:text-base text-gray-400">Manage surf spots and content</p>
         </div>
-        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-4">
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
           <button
             onClick={handleCreate}
             disabled={loading}
-            className="btn-elegant px-3 sm:px-4 md:px-6 py-2 sm:py-3 rounded-lg font-medium flex items-center justify-center space-x-2 text-sm sm:text-base"
+            className="btn-elegant px-4 lg:px-6 py-2 lg:py-3 rounded-lg font-medium flex items-center justify-center space-x-2 text-sm lg:text-base"
           >
-            <Plus className="w-4 h-4 sm:w-5 sm:h-5" />
+            <Plus className="w-4 h-4 lg:w-5 lg:h-5" />
             <span>Add New Spot</span>
           </button>
           <button
             onClick={handleLogout}
-            className="btn-elegant px-3 sm:px-4 py-2 sm:py-3 rounded-lg font-medium flex items-center justify-center space-x-2 text-red-400 hover:text-red-300 border-red-400/30 hover:border-red-300/50 bg-red-500/10 hover:bg-red-500/20 text-sm sm:text-base"
+            className="btn-elegant px-4 py-2 lg:py-3 rounded-lg font-medium flex items-center justify-center space-x-2 text-red-400 hover:text-red-300 border-red-400/30 hover:border-red-300/50 bg-red-500/10 hover:bg-red-500/20 text-sm lg:text-base"
           >
-            <X className="w-4 h-4 sm:w-5 sm:h-5" />
+            <X className="w-4 h-4 lg:w-5 lg:h-5" />
             <span>Logout</span>
           </button>
         </div>
@@ -243,9 +245,9 @@ export default function AdminPanel({ spots, onSpotsUpdate }: AdminPanelProps) {
 
       {/* Create/Edit Form */}
       {(isCreating || isEditing) && (
-        <div className="card-elegant p-3 sm:p-4 md:p-6 overflow-hidden">
+        <div className="card-elegant p-4 lg:p-6">
           <div className="flex items-center justify-between mb-6">
-            <h2 className="text-lg sm:text-xl font-bold text-white">
+            <h2 className="text-lg lg:text-xl font-bold text-white">
               {isCreating ? 'Create New Surf Spot' : 'Edit Surf Spot'}
             </h2>
             <button
@@ -256,41 +258,41 @@ export default function AdminPanel({ spots, onSpotsUpdate }: AdminPanelProps) {
             </button>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <div>
-              <label className="block text-xs sm:text-sm font-medium text-gray-300 mb-2">
+              <label className="block text-sm font-medium text-gray-300 mb-2">
                 Spot Name
               </label>
               <input
                 type="text"
                 value={formData.name}
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                className="input-elegant w-full px-3 sm:px-4 py-2 sm:py-3 rounded-lg text-sm sm:text-base"
+                className="input-elegant w-full px-4 py-3 rounded-lg text-sm"
                 placeholder="Enter spot name"
               />
             </div>
 
             <div>
-              <label className="block text-xs sm:text-sm font-medium text-gray-300 mb-2">
+              <label className="block text-sm font-medium text-gray-300 mb-2">
                 Wave Type
               </label>
               <input
                 type="text"
                 value={formData.waveType}
                 onChange={(e) => setFormData({ ...formData, waveType: e.target.value })}
-                className="input-elegant w-full px-3 sm:px-4 py-2 sm:py-3 rounded-lg text-sm sm:text-base"
+                className="input-elegant w-full px-4 py-3 rounded-lg text-sm"
                 placeholder="e.g., Right-hand reef break"
               />
             </div>
 
             <div>
-              <label className="block text-xs sm:text-sm font-medium text-gray-300 mb-2">
+              <label className="block text-sm font-medium text-gray-300 mb-2">
                 Skill Level
               </label>
               <select
                 value={formData.skillLevel}
                 onChange={(e) => setFormData({ ...formData, skillLevel: e.target.value })}
-                className="input-elegant w-full px-3 sm:px-4 py-2 sm:py-3 rounded-lg text-sm sm:text-base"
+                className="input-elegant w-full px-4 py-3 rounded-lg text-sm"
               >
                 <option value="Beginner">Beginner</option>
                 <option value="Intermediate">Intermediate</option>
@@ -300,33 +302,33 @@ export default function AdminPanel({ spots, onSpotsUpdate }: AdminPanelProps) {
             </div>
 
             <div>
-              <label className="block text-xs sm:text-sm font-medium text-gray-300 mb-2">
+              <label className="block text-sm font-medium text-gray-300 mb-2">
                 Best Season
               </label>
               <input
                 type="text"
                 value={formData.bestSeason}
                 onChange={(e) => setFormData({ ...formData, bestSeason: e.target.value })}
-                className="input-elegant w-full px-3 sm:px-4 py-2 sm:py-3 rounded-lg text-sm sm:text-base"
+                className="input-elegant w-full px-4 py-3 rounded-lg text-sm"
                 placeholder="e.g., April to October"
               />
             </div>
 
             <div>
-              <label className="block text-xs sm:text-sm font-medium text-gray-300 mb-2">
+              <label className="block text-sm font-medium text-gray-300 mb-2">
                 Tide Conditions
               </label>
               <input
                 type="text"
                 value={formData.tideConditions}
                 onChange={(e) => setFormData({ ...formData, tideConditions: e.target.value })}
-                className="input-elegant w-full px-3 sm:px-4 py-2 sm:py-3 rounded-lg text-sm sm:text-base"
+                className="input-elegant w-full px-4 py-3 rounded-lg text-sm"
                 placeholder="e.g., Mid tide"
               />
             </div>
 
             <div>
-              <label className="block text-xs sm:text-sm font-medium text-gray-300 mb-2">
+              <label className="block text-sm font-medium text-gray-300 mb-2">
                 Latitude
               </label>
               <input
@@ -334,13 +336,13 @@ export default function AdminPanel({ spots, onSpotsUpdate }: AdminPanelProps) {
                 step="any"
                 value={formData.latitude}
                 onChange={(e) => setFormData({ ...formData, latitude: parseFloat(e.target.value) || 0 })}
-                className="input-elegant w-full px-3 sm:px-4 py-2 sm:py-3 rounded-lg text-sm sm:text-base"
+                className="input-elegant w-full px-4 py-3 rounded-lg text-sm"
                 placeholder="-8.675539"
               />
             </div>
 
             <div>
-              <label className="block text-xs sm:text-sm font-medium text-gray-300 mb-2">
+              <label className="block text-sm font-medium text-gray-300 mb-2">
                 Longitude
               </label>
               <input
@@ -348,64 +350,64 @@ export default function AdminPanel({ spots, onSpotsUpdate }: AdminPanelProps) {
                 step="any"
                 value={formData.longitude}
                 onChange={(e) => setFormData({ ...formData, longitude: parseFloat(e.target.value) || 0 })}
-                className="input-elegant w-full px-3 sm:px-4 py-2 sm:py-3 rounded-lg text-sm sm:text-base"
+                className="input-elegant w-full px-4 py-3 rounded-lg text-sm"
                 placeholder="116.767209"
               />
             </div>
 
             <div className="lg:col-span-2">
-              <label className="block text-xs sm:text-sm font-medium text-gray-300 mb-2">
+              <label className="block text-sm font-medium text-gray-300 mb-2">
                 Description
               </label>
               <textarea
                 value={formData.description}
                 onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                className="input-elegant w-full px-3 sm:px-4 py-2 sm:py-3 rounded-lg h-20 sm:h-24 resize-none text-sm sm:text-base"
+                className="input-elegant w-full px-4 py-3 rounded-lg h-24 resize-none text-sm"
                 placeholder="Describe the surf spot..."
               />
             </div>
 
             <div>
-              <label className="block text-xs sm:text-sm font-medium text-gray-300 mb-2">
+              <label className="block text-sm font-medium text-gray-300 mb-2">
                 Forecast URL
               </label>
               <input
                 type="url"
                 value={formData.forecastUrl}
                 onChange={(e) => setFormData({ ...formData, forecastUrl: e.target.value })}
-                className="input-elegant w-full px-3 sm:px-4 py-2 sm:py-3 rounded-lg text-sm sm:text-base"
+                className="input-elegant w-full px-4 py-3 rounded-lg text-sm"
                 placeholder="https://www.surf-forecast.com/..."
               />
             </div>
 
             <div>
-              <label className="block text-xs sm:text-sm font-medium text-gray-300 mb-2">
+              <label className="block text-sm font-medium text-gray-300 mb-2">
                 Image URL
               </label>
               <input
                 type="url"
                 value={formData.imageUrl}
                 onChange={(e) => setFormData({ ...formData, imageUrl: e.target.value })}
-                className="input-elegant w-full px-3 sm:px-4 py-2 sm:py-3 rounded-lg text-sm sm:text-base"
+                className="input-elegant w-full px-4 py-3 rounded-lg text-sm"
                 placeholder="https://images.pexels.com/..."
               />
             </div>
           </div>
 
-          <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-end gap-2 sm:gap-4 mt-4 sm:mt-6">
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-end gap-3 mt-6">
             <button
               onClick={handleCancel}
               disabled={loading}
-              className="px-4 sm:px-6 py-2 sm:py-3 text-gray-400 hover:text-white transition-colors text-sm sm:text-base"
+              className="px-6 py-3 text-gray-400 hover:text-white transition-colors text-sm"
             >
               Cancel
             </button>
             <button
               onClick={handleSave}
               disabled={loading}
-              className="btn-elegant px-4 sm:px-6 py-2 sm:py-3 rounded-lg font-medium flex items-center justify-center space-x-2 text-sm sm:text-base"
+              className="btn-elegant px-6 py-3 rounded-lg font-medium flex items-center justify-center space-x-2 text-sm"
             >
-              <Save className="w-4 h-4 sm:w-5 sm:h-5" />
+              <Save className="w-5 h-5" />
               <span>{loading ? 'Saving...' : 'Save Spot'}</span>
             </button>
           </div>
@@ -414,20 +416,20 @@ export default function AdminPanel({ spots, onSpotsUpdate }: AdminPanelProps) {
 
       {/* Spots List */}
       <div className="card-elegant overflow-hidden">
-        <div className="p-3 sm:p-4 md:p-6 border-b border-dark-400">
-          <h2 className="text-lg sm:text-xl font-bold text-white">Surf Spots ({spots.length})</h2>
+        <div className="p-4 lg:p-6 border-b border-dark-400">
+          <h2 className="text-lg lg:text-xl font-bold text-white">Surf Spots ({spots.length})</h2>
         </div>
         
         <div className="divide-y divide-dark-400">
           {spots.map((spot) => (
-            <div key={spot.id} className="p-3 sm:p-4 md:p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4 hover:bg-dark-300 transition-colors">
-              <div className="flex items-start sm:items-center space-x-3 sm:space-x-4 flex-1 min-w-0">
+            <div key={spot.id} className="p-4 lg:p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 hover:bg-dark-300 transition-colors">
+              <div className="flex items-start sm:items-center space-x-4 flex-1 min-w-0">
                 <div className="p-2 bg-neon-blue rounded-lg">
-                  <Waves className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
+                  <Waves className="w-5 h-5 text-white" />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <h3 className="font-bold text-white text-sm sm:text-base truncate">{spot.name}</h3>
-                  <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-4 text-xs sm:text-sm text-gray-400">
+                  <h3 className="font-bold text-white text-base truncate">{spot.name}</h3>
+                  <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-4 text-sm text-gray-400">
                     <span className="truncate">{spot.waveType}</span>
                     <span className="hidden sm:inline">•</span>
                     <span className="truncate">{spot.skillLevel}</span>
@@ -444,20 +446,22 @@ export default function AdminPanel({ spots, onSpotsUpdate }: AdminPanelProps) {
                 <button
                   onClick={() => handleEdit(spot)}
                   disabled={loading}
-                  className="p-1 sm:p-2 text-gray-400 hover:text-neon-blue transition-colors"
+                  className="p-2 text-gray-400 hover:text-neon-blue transition-colors"
                 >
-                  <Edit className="w-4 h-4 sm:w-5 sm:h-5" />
+                  <Edit className="w-5 h-5" />
                 </button>
                 <button
                   onClick={() => handleDelete(spot)}
                   disabled={loading}
-                  className="p-1 sm:p-2 text-gray-400 hover:text-red-400 transition-colors"
+                  className="p-2 text-gray-400 hover:text-red-400 transition-colors"
                 >
-                  <Trash2 className="w-4 h-4 sm:w-5 sm:h-5" />
+                  <Trash2 className="w-5 h-5" />
                 </button>
               </div>
             </div>
           ))}
+        </div>
+      </div>
         </div>
       </div>
     </div>

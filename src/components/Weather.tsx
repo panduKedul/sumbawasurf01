@@ -108,7 +108,7 @@ export default function Weather({ spots }: WeatherProps) {
 
   if (!selectedSpot) {
     return (
-      <div className="h-full flex items-center justify-center bg-dark-100">
+      <div className="min-h-screen flex items-center justify-center bg-dark-100 p-4">
         <div className="text-center">
           <div className="w-8 h-8 border-4 border-neon-blue border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
           <p className="text-gray-400">Loading weather data...</p>
@@ -118,50 +118,52 @@ export default function Weather({ spots }: WeatherProps) {
   }
 
   return (
-    <div className="h-full flex flex-col bg-dark-100 overflow-hidden">
-      {/* Header - Fixed responsive design */}
-      <div className="bg-dark-200 border-b border-dark-400 p-2 sm:p-3 md:p-4 lg:p-6 flex-shrink-0">
-        <div className="max-w-6xl mx-auto text-center px-2 sm:px-4">
-          <h1 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold bg-gradient-to-r from-neon-blue to-white bg-clip-text text-transparent mb-2">
-            Weather Forecast
-          </h1>
-          <p className="text-xs sm:text-sm md:text-base text-gray-300 mb-2 sm:mb-3 md:mb-4">
-            Real-time conditions for West Sumbawa surf spots
-          </p>
+    <div className="min-h-screen bg-dark-100 flex flex-col">
+      {/* Header - Fully Responsive */}
+      <div className="bg-dark-200 border-b border-dark-400 p-4 lg:p-6 flex-shrink-0">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-4 lg:mb-6">
+            <h1 className="text-2xl lg:text-3xl font-bold bg-gradient-to-r from-neon-blue to-white bg-clip-text text-transparent mb-2">
+              Weather Forecast
+            </h1>
+            <p className="text-sm lg:text-base text-gray-300 mb-4">
+              Real-time conditions for West Sumbawa surf spots
+            </p>
 
-          {/* Spot Selector */}
-          <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-2 max-w-xs sm:max-w-sm md:max-w-md mx-auto">
-            <select
-              value={selectedSpot.id}
-              onChange={(e) => {
-                const spot = spots.find(s => s.id === e.target.value);
-                if (spot) setSelectedSpot(spot);
-              }}
-              className="input-elegant px-2 sm:px-3 py-2 rounded-lg w-full text-xs sm:text-sm flex-1"
-            >
-              {spots.map((spot) => (
-                <option key={spot.id} value={spot.id}>
-                  {spot.name}
-                </option>
-              ))}
-            </select>
-            <button
-              onClick={loadWeatherData}
-              disabled={loading}
-              className="btn-elegant px-2 sm:px-3 py-2 rounded-lg flex items-center justify-center space-x-1 sm:space-x-2 text-xs sm:text-sm whitespace-nowrap flex-shrink-0"
-            >
-              <RefreshCw className={`w-3 h-3 sm:w-4 sm:h-4 ${loading ? 'animate-spin' : ''}`} />
-              <span>Refresh</span>
-            </button>
+            {/* Spot Selector - Responsive */}
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 max-w-md mx-auto">
+              <select
+                value={selectedSpot.id}
+                onChange={(e) => {
+                  const spot = spots.find(s => s.id === e.target.value);
+                  if (spot) setSelectedSpot(spot);
+                }}
+                className="input-elegant px-3 py-2 rounded-lg w-full text-sm flex-1"
+              >
+                {spots.map((spot) => (
+                  <option key={spot.id} value={spot.id}>
+                    {spot.name}
+                  </option>
+                ))}
+              </select>
+              <button
+                onClick={loadWeatherData}
+                disabled={loading}
+                className="btn-elegant px-4 py-2 rounded-lg flex items-center justify-center space-x-2 text-sm whitespace-nowrap flex-shrink-0"
+              >
+                <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
+                <span>Refresh</span>
+              </button>
+            </div>
           </div>
         </div>
       </div>
 
-      {/* Interactive Weather Map */}
-      <div className="flex-1 overflow-y-auto bg-dark-100 min-h-0">
-        <div className="max-w-7xl mx-auto p-2 sm:p-4 md:p-6 lg:p-8">
-          {/* Weather Map */}
-          <div className="h-[25vh] sm:h-[30vh] md:h-[35vh] lg:h-[40vh] card-elegant overflow-hidden mb-3 sm:mb-4 md:mb-6">
+      {/* Main Content - Responsive Container */}
+      <div className="flex-1 overflow-y-auto">
+        <div className="max-w-6xl mx-auto p-4 lg:p-6 space-y-6">
+          {/* Weather Map - Responsive */}
+          <div className="h-64 lg:h-80 card-elegant overflow-hidden">
             <iframe
               src={getWindyUrl()}
               className="w-full h-full border-0"
@@ -170,72 +172,72 @@ export default function Weather({ spots }: WeatherProps) {
             />
           </div>
 
-          {/* Current Weather Overview */}
+          {/* Current Weather Overview - Responsive Grid */}
           {currentWeather && (
-            <div className="card-elegant p-3 sm:p-4 md:p-6 mb-3 sm:mb-4 md:mb-6">
-              <h2 className="text-base sm:text-lg md:text-xl font-bold text-white mb-3 sm:mb-4 text-center">Current Conditions</h2>
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2 sm:gap-3">
-                <div className="card-elegant p-2 sm:p-3 text-center bg-gradient-to-br from-orange-500/20 to-red-500/20 border-orange-500/30">
-                  <Thermometer className="w-3 sm:w-4 md:w-5 h-3 sm:h-4 md:h-5 text-orange-400 mx-auto mb-1" />
+            <div className="card-elegant p-4 lg:p-6">
+              <h2 className="text-lg lg:text-xl font-bold text-white mb-4 text-center">Current Conditions</h2>
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+                <div className="card-elegant p-3 text-center bg-gradient-to-br from-orange-500/20 to-red-500/20 border-orange-500/30">
+                  <Thermometer className="w-5 h-5 text-orange-400 mx-auto mb-2" />
                   <p className="text-xs text-gray-300 mb-1">Air</p>
-                  <p className="text-xs sm:text-sm md:text-base font-bold text-white">{currentWeather.airTemperature.toFixed(1)}°C</p>
+                  <p className="text-sm font-bold text-white">{currentWeather.airTemperature.toFixed(1)}°C</p>
                 </div>
                 
-                <div className="card-elegant p-2 sm:p-3 text-center bg-gradient-to-br from-blue-500/20 to-cyan-500/20 border-blue-500/30">
-                  <Waves className="w-3 sm:w-4 md:w-5 h-3 sm:h-4 md:h-5 text-blue-400 mx-auto mb-1" />
+                <div className="card-elegant p-3 text-center bg-gradient-to-br from-blue-500/20 to-cyan-500/20 border-blue-500/30">
+                  <Waves className="w-5 h-5 text-blue-400 mx-auto mb-2" />
                   <p className="text-xs text-gray-300 mb-1">Water</p>
-                  <p className="text-xs sm:text-sm md:text-base font-bold text-white">{currentWeather.waterTemperature.toFixed(1)}°C</p>
+                  <p className="text-sm font-bold text-white">{currentWeather.waterTemperature.toFixed(1)}°C</p>
                 </div>
                 
-                <div className="card-elegant p-2 sm:p-3 text-center bg-gradient-to-br from-cyan-500/20 to-teal-500/20 border-cyan-500/30">
-                  <Wind className="w-3 sm:w-4 md:w-5 h-3 sm:h-4 md:h-5 text-cyan-400 mx-auto mb-1" />
+                <div className="card-elegant p-3 text-center bg-gradient-to-br from-cyan-500/20 to-teal-500/20 border-cyan-500/30">
+                  <Wind className="w-5 h-5 text-cyan-400 mx-auto mb-2" />
                   <p className="text-xs text-gray-300 mb-1">Wind</p>
-                  <p className="text-xs sm:text-sm md:text-base font-bold text-white">{currentWeather.windSpeed.toFixed(1)} m/s</p>
+                  <p className="text-sm font-bold text-white">{currentWeather.windSpeed.toFixed(1)} m/s</p>
                 </div>
                 
-                <div className="card-elegant p-2 sm:p-3 text-center bg-gradient-to-br from-teal-500/20 to-green-500/20 border-teal-500/30">
-                  <Waves className="w-3 sm:w-4 md:w-5 h-3 sm:h-4 md:h-5 text-teal-400 mx-auto mb-1" />
+                <div className="card-elegant p-3 text-center bg-gradient-to-br from-teal-500/20 to-green-500/20 border-teal-500/30">
+                  <Waves className="w-5 h-5 text-teal-400 mx-auto mb-2" />
                   <p className="text-xs text-gray-300 mb-1">Waves</p>
-                  <p className="text-xs sm:text-sm md:text-base font-bold text-white">{currentWeather.waveHeight.toFixed(1)}m</p>
+                  <p className="text-sm font-bold text-white">{currentWeather.waveHeight.toFixed(1)}m</p>
                 </div>
                 
-                <div className="card-elegant p-2 sm:p-3 text-center bg-gradient-to-br from-purple-500/20 to-pink-500/20 border-purple-500/30">
-                  <Eye className="w-3 sm:w-4 md:w-5 h-3 sm:h-4 md:h-5 text-purple-400 mx-auto mb-1" />
+                <div className="card-elegant p-3 text-center bg-gradient-to-br from-purple-500/20 to-pink-500/20 border-purple-500/30">
+                  <Eye className="w-5 h-5 text-purple-400 mx-auto mb-2" />
                   <p className="text-xs text-gray-300 mb-1">Visibility</p>
-                  <p className="text-xs sm:text-sm md:text-base font-bold text-white">{currentWeather.visibility.toFixed(1)}km</p>
+                  <p className="text-sm font-bold text-white">{currentWeather.visibility.toFixed(1)}km</p>
                 </div>
                 
-                <div className={`card-elegant p-2 sm:p-3 text-center bg-gradient-to-br ${uvLevel.bg} ${uvLevel.border}`}>
-                  <Sun className={`w-3 sm:w-4 md:w-5 h-3 sm:h-4 md:h-5 ${uvLevel.color} mx-auto mb-1`} />
+                <div className={`card-elegant p-3 text-center bg-gradient-to-br ${uvLevel.bg} ${uvLevel.border}`}>
+                  <Sun className={`w-5 h-5 ${uvLevel.color} mx-auto mb-2`} />
                   <p className="text-xs text-gray-300 mb-1">UV Index</p>
-                  <p className="text-xs sm:text-sm md:text-base font-bold text-white">{uvIndex}</p>
+                  <p className="text-sm font-bold text-white">{uvIndex}</p>
                   <p className={`text-xs ${uvLevel.color} font-medium`}>{uvLevel.level}</p>
                 </div>
               </div>
             </div>
           )}
 
-          {/* Detailed Weather Information */}
+          {/* Detailed Weather Information - Responsive Grid */}
           {currentWeather && (
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4 mb-3 sm:mb-4 md:mb-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               {/* Wind Information */}
-              <div className="card-elegant p-3 sm:p-4 md:p-6">
-                <h3 className="text-base sm:text-lg font-bold text-white mb-3 flex items-center">
-                  <Wind className="w-4 h-4 text-cyan-400 mr-2" />
+              <div className="card-elegant p-4 lg:p-6">
+                <h3 className="text-lg font-bold text-white mb-4 flex items-center">
+                  <Wind className="w-5 h-5 text-cyan-400 mr-2" />
                   Wind Details
                 </h3>
-                <div className="space-y-2 sm:space-y-3">
+                <div className="space-y-3">
                   <div className="flex justify-between items-center">
-                    <span className="text-gray-300 text-xs sm:text-sm">Speed:</span>
-                    <span className="text-white font-semibold text-xs sm:text-sm">{currentWeather.windSpeed.toFixed(1)} m/s</span>
+                    <span className="text-gray-300 text-sm">Speed:</span>
+                    <span className="text-white font-semibold text-sm">{currentWeather.windSpeed.toFixed(1)} m/s</span>
                   </div>
                   <div className="flex justify-between items-center">
-                    <span className="text-gray-300 text-xs sm:text-sm">Direction:</span>
-                    <span className="text-white font-semibold text-xs sm:text-sm">{currentWeather.windDirection.toFixed(0)}°</span>
+                    <span className="text-gray-300 text-sm">Direction:</span>
+                    <span className="text-white font-semibold text-sm">{currentWeather.windDirection.toFixed(0)}°</span>
                   </div>
-                  <div className="w-full bg-dark-400 rounded-full h-1 sm:h-2">
+                  <div className="w-full bg-dark-400 rounded-full h-2">
                     <div 
-                      className="bg-cyan-400 h-1 sm:h-2 rounded-full transition-all duration-300"
+                      className="bg-cyan-400 h-2 rounded-full transition-all duration-300"
                       style={{ width: `${Math.min((currentWeather.windSpeed / 25) * 100, 100)}%` }}
                     ></div>
                   </div>
@@ -249,27 +251,27 @@ export default function Weather({ spots }: WeatherProps) {
               </div>
 
               {/* Wave Information */}
-              <div className="card-elegant p-3 sm:p-4 md:p-6">
-                <h3 className="text-base sm:text-lg font-bold text-white mb-3 flex items-center">
-                  <Waves className="w-4 h-4 text-blue-400 mr-2" />
+              <div className="card-elegant p-4 lg:p-6">
+                <h3 className="text-lg font-bold text-white mb-4 flex items-center">
+                  <Waves className="w-5 h-5 text-blue-400 mr-2" />
                   Wave Details
                 </h3>
-                <div className="space-y-2 sm:space-y-3">
+                <div className="space-y-3">
                   <div className="flex justify-between items-center">
-                    <span className="text-gray-300 text-xs sm:text-sm">Height:</span>
-                    <span className="text-white font-semibold text-xs sm:text-sm">{currentWeather.waveHeight.toFixed(1)}m</span>
+                    <span className="text-gray-300 text-sm">Height:</span>
+                    <span className="text-white font-semibold text-sm">{currentWeather.waveHeight.toFixed(1)}m</span>
                   </div>
                   <div className="flex justify-between items-center">
-                    <span className="text-gray-300 text-xs sm:text-sm">Period:</span>
-                    <span className="text-white font-semibold text-xs sm:text-sm">{currentWeather.wavePeriod.toFixed(1)}s</span>
+                    <span className="text-gray-300 text-sm">Period:</span>
+                    <span className="text-white font-semibold text-sm">{currentWeather.wavePeriod.toFixed(1)}s</span>
                   </div>
                   <div className="flex justify-between items-center">
-                    <span className="text-gray-300 text-xs sm:text-sm">Direction:</span>
-                    <span className="text-white font-semibold text-xs sm:text-sm">{currentWeather.waveDirection.toFixed(0)}°</span>
+                    <span className="text-gray-300 text-sm">Direction:</span>
+                    <span className="text-white font-semibold text-sm">{currentWeather.waveDirection.toFixed(0)}°</span>
                   </div>
-                  <div className="w-full bg-dark-400 rounded-full h-1 sm:h-2">
+                  <div className="w-full bg-dark-400 rounded-full h-2">
                     <div 
-                      className="bg-blue-400 h-1 sm:h-2 rounded-full transition-all duration-300"
+                      className="bg-blue-400 h-2 rounded-full transition-all duration-300"
                       style={{ width: `${Math.min((currentWeather.waveHeight / 4) * 100, 100)}%` }}
                     ></div>
                   </div>
@@ -284,19 +286,19 @@ export default function Weather({ spots }: WeatherProps) {
             </div>
           )}
 
-          {/* UV Index and Additional Info */}
+          {/* UV Index and Additional Info - Responsive Grid */}
           {currentWeather && (
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4 mb-4 md:mb-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               {/* UV Index Details */}
-              <div className={`card-elegant p-3 sm:p-4 md:p-6 bg-gradient-to-br ${uvLevel.bg} ${uvLevel.border}`}>
-                <h3 className="text-base sm:text-lg font-bold text-white mb-3 flex items-center">
+              <div className={`card-elegant p-4 lg:p-6 bg-gradient-to-br ${uvLevel.bg} ${uvLevel.border}`}>
+                <h3 className="text-lg font-bold text-white mb-4 flex items-center">
                   <Sun className={`w-5 h-5 ${uvLevel.color} mr-2`} />
                   UV Index Details
                 </h3>
-                <div className="space-y-3 sm:space-y-4">
+                <div className="space-y-4">
                   <div className="flex justify-between items-center">
-                    <span className="text-gray-300 text-sm sm:text-base">Current UV:</span>
-                    <span className={`font-bold text-sm sm:text-base ${uvLevel.color}`}>{uvIndex} - {uvLevel.level}</span>
+                    <span className="text-gray-300 text-sm">Current UV:</span>
+                    <span className={`font-bold text-sm ${uvLevel.color}`}>{uvIndex} - {uvLevel.level}</span>
                   </div>
                   <div className="w-full bg-dark-400 rounded-full h-2">
                     <div 
@@ -304,7 +306,7 @@ export default function Weather({ spots }: WeatherProps) {
                       style={{ width: `${Math.min((uvIndex / 11) * 100, 100)}%` }}
                     ></div>
                   </div>
-                  <div className="text-xs sm:text-sm text-gray-300">
+                  <div className="text-xs text-gray-300">
                     {uvIndex <= 2 && 'Minimal protection needed. Safe to be outside.'}
                     {uvIndex > 2 && uvIndex <= 5 && 'Moderate risk. Seek shade during midday hours.'}
                     {uvIndex > 5 && uvIndex <= 7 && 'High risk. Protection essential. Avoid midday sun.'}
@@ -315,54 +317,54 @@ export default function Weather({ spots }: WeatherProps) {
               </div>
 
               {/* Additional Weather Info */}
-              <div className="card-elegant p-3 sm:p-4 md:p-6">
-                <h3 className="text-base sm:text-lg font-bold text-white mb-3 flex items-center">
+              <div className="card-elegant p-4 lg:p-6">
+                <h3 className="text-lg font-bold text-white mb-4 flex items-center">
                   <Cloud className="w-5 h-5 text-gray-400 mr-2" />
                   Additional Info
                 </h3>
-                <div className="space-y-3 sm:space-y-4">
+                <div className="space-y-4">
                   <div className="flex justify-between items-center">
-                    <span className="text-gray-300 text-sm sm:text-base">Cloud Cover:</span>
-                    <span className="text-white font-semibold text-sm sm:text-base">{currentWeather.cloudCover.toFixed(0)}%</span>
+                    <span className="text-gray-300 text-sm">Cloud Cover:</span>
+                    <span className="text-white font-semibold text-sm">{currentWeather.cloudCover.toFixed(0)}%</span>
                   </div>
                   <div className="flex justify-between items-center">
-                    <span className="text-gray-300 text-sm sm:text-base">Precipitation:</span>
-                    <span className="text-white font-semibold text-sm sm:text-base">{currentWeather.precipitation.toFixed(1)}mm</span>
+                    <span className="text-gray-300 text-sm">Precipitation:</span>
+                    <span className="text-white font-semibold text-sm">{currentWeather.precipitation.toFixed(1)}mm</span>
                   </div>
                   <div className="flex justify-between items-center">
-                    <span className="text-gray-300 text-sm sm:text-base">Visibility:</span>
-                    <span className="text-white font-semibold text-sm sm:text-base">{currentWeather.visibility.toFixed(1)}km</span>
+                    <span className="text-gray-300 text-sm">Visibility:</span>
+                    <span className="text-white font-semibold text-sm">{currentWeather.visibility.toFixed(1)}km</span>
                   </div>
                 </div>
               </div>
             </div>
           )}
 
-          {/* Hourly Forecast */}
-          <div className="card-elegant p-3 sm:p-4 md:p-6 mb-3 sm:mb-4 md:mb-6">
-            <h3 className="text-base sm:text-lg font-bold text-white mb-3 flex items-center">
-              <Activity className="w-4 h-4 text-neon-blue mr-2" />
+          {/* Hourly Forecast - Responsive Horizontal Scroll */}
+          <div className="card-elegant p-4 lg:p-6">
+            <h3 className="text-lg font-bold text-white mb-4 flex items-center">
+              <Activity className="w-5 h-5 text-neon-blue mr-2" />
               12-Hour Forecast
             </h3>
             <div className="overflow-x-auto">
-              <div className="flex space-x-1 sm:space-x-2 pb-2" style={{ minWidth: 'max-content' }}>
+              <div className="flex space-x-3 pb-2" style={{ minWidth: 'max-content' }}>
                 {getHourlyForecast().map((hour, index) => (
-                  <div key={index} className="flex-shrink-0 bg-dark-300 rounded-lg p-2 sm:p-3 border border-dark-400 min-w-[70px] sm:min-w-[90px] md:min-w-[110px]">
+                  <div key={index} className="flex-shrink-0 bg-dark-300 rounded-lg p-3 border border-dark-400 min-w-[100px]">
                     <div className="text-center">
-                      <p className="text-xs text-gray-400 mb-1">
+                      <p className="text-xs text-gray-400 mb-2">
                         {new Date(hour.time).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })}
                       </p>
-                      <div className="space-y-1">
+                      <div className="space-y-2">
                         <div>
-                          <Thermometer className="w-3 h-3 text-orange-400 mx-auto mb-1" />
+                          <Thermometer className="w-4 h-4 text-orange-400 mx-auto mb-1" />
                           <p className="text-xs font-semibold text-white">{hour.airTemperature.toFixed(0)}°C</p>
                         </div>
                         <div>
-                          <Wind className="w-3 h-3 text-cyan-400 mx-auto mb-1" />
+                          <Wind className="w-4 h-4 text-cyan-400 mx-auto mb-1" />
                           <p className="text-xs text-gray-300">{hour.windSpeed.toFixed(0)} m/s</p>
                         </div>
                         <div>
-                          <Waves className="w-3 h-3 text-blue-400 mx-auto mb-1" />
+                          <Waves className="w-4 h-4 text-blue-400 mx-auto mb-1" />
                           <p className="text-xs text-gray-300">{hour.waveHeight.toFixed(1)}m</p>
                         </div>
                       </div>
@@ -373,18 +375,18 @@ export default function Weather({ spots }: WeatherProps) {
             </div>
           </div>
 
-          {/* Location Info */}
-          <div className="card-elegant p-3 sm:p-4 text-center">
-            <div className="flex flex-col sm:flex-row items-center justify-center space-y-1 sm:space-y-0 sm:space-x-3 text-gray-300">
+          {/* Location Info - Responsive */}
+          <div className="card-elegant p-4 text-center">
+            <div className="flex flex-col sm:flex-row items-center justify-center space-y-2 sm:space-y-0 sm:space-x-4 text-gray-300">
               <div className="flex items-center space-x-2">
-                <MapPin className="w-3 h-3 sm:w-4 sm:h-4 text-neon-blue" />
-                <span className="font-medium text-xs sm:text-sm">{selectedSpot.name}</span>
+                <MapPin className="w-4 h-4 text-neon-blue" />
+                <span className="font-medium text-sm">{selectedSpot.name}</span>
               </div>
               <div className="flex items-center space-x-2">
                 <span className="text-xs">{selectedSpot.coordinates[0].toFixed(4)}, {selectedSpot.coordinates[1].toFixed(4)}</span>
               </div>
               {lastUpdated && (
-                <div className="text-xs text-gray-500 hidden md:block">
+                <div className="text-xs text-gray-500">
                   Updated: {lastUpdated.toLocaleTimeString()}
                 </div>
               )}
