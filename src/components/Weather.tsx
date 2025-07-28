@@ -117,26 +117,26 @@ export default function Weather({ spots }: WeatherProps) {
   }
 
   return (
-    <div className="min-h-screen bg-dark-100 w-full overflow-x-hidden">
-      {/* Header - Mobile First */}
-      <div className="bg-dark-200 border-b border-dark-400 p-3 sm:p-4 lg:p-6 w-full">
-        <div className="w-full max-w-none sm:max-w-2xl lg:max-w-4xl mx-auto text-center">
-          <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold bg-gradient-to-r from-neon-blue to-white bg-clip-text text-transparent mb-2">
+    <div className="min-h-screen bg-dark-100 overflow-x-hidden">
+      {/* Header - Fully Responsive */}
+      <div className="bg-dark-200 border-b border-dark-400 p-3 lg:p-6">
+        <div className="max-w-4xl mx-auto text-center">
+          <h1 className="text-lg lg:text-3xl font-bold bg-gradient-to-r from-neon-blue to-white bg-clip-text text-transparent mb-2">
             Weather Forecast
           </h1>
-          <p className="text-xs sm:text-sm lg:text-base text-gray-300 mb-4 px-2">
+          <p className="text-xs lg:text-base text-gray-300 mb-4">
             Real-time conditions for West Sumbawa surf spots
           </p>
 
-          {/* Spot Selector - Full Width Mobile */}
-          <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-center sm:gap-3 w-full">
+          {/* Spot Selector - Mobile First */}
+          <div className="flex flex-col lg:flex-row items-center justify-center gap-2 lg:gap-3">
             <select
               value={selectedSpot.id}
               onChange={(e) => {
                 const spot = spots.find(s => s.id === e.target.value);
                 if (spot) setSelectedSpot(spot);
               }}
-              className="input-elegant px-3 py-2 rounded-lg w-full sm:flex-1 sm:max-w-xs text-xs sm:text-sm"
+              className="input-elegant px-3 py-2 rounded-lg w-full lg:w-auto lg:max-w-xs text-xs lg:text-sm"
             >
               {spots.map((spot) => (
                 <option key={spot.id} value={spot.id}>
@@ -147,20 +147,20 @@ export default function Weather({ spots }: WeatherProps) {
             <button
               onClick={loadWeatherData}
               disabled={loading}
-              className="btn-elegant px-3 py-2 rounded-lg flex items-center justify-center space-x-2 text-xs sm:text-sm w-full sm:w-auto"
+              className="btn-elegant px-3 py-2 rounded-lg flex items-center justify-center space-x-2 text-xs lg:text-sm w-full lg:w-auto"
             >
-              <RefreshCw className={`w-3 h-3 sm:w-4 sm:h-4 ${loading ? 'animate-spin' : ''}`} />
+              <RefreshCw className={`w-3 h-3 lg:w-4 lg:h-4 ${loading ? 'animate-spin' : ''}`} />
               <span>Refresh</span>
             </button>
           </div>
         </div>
       </div>
 
-      {/* Main Content - Mobile First Container */}
-      <div className="w-full px-2 sm:px-4 lg:px-6 py-4 lg:py-6 space-y-4 lg:space-y-6 max-w-none sm:max-w-2xl lg:max-w-4xl mx-auto">
+      {/* Main Content - Responsive Container */}
+      <div className="p-3 lg:p-6 space-y-4 lg:space-y-6 max-w-4xl mx-auto">
         
         {/* Weather Map - Responsive Height */}
-        <div className="h-48 sm:h-64 lg:h-80 card-elegant overflow-hidden w-full">
+        <div className="h-48 lg:h-80 card-elegant overflow-hidden">
           <iframe
             src={getWindyUrl()}
             className="w-full h-full border-0"
@@ -171,13 +171,13 @@ export default function Weather({ spots }: WeatherProps) {
 
         {/* Current Weather - Mobile Cards */}
         {currentWeather && (
-          <div className="card-elegant p-3 sm:p-4 lg:p-6 w-full">
-            <h2 className="text-base sm:text-lg lg:text-xl font-bold text-white mb-3 sm:mb-4 text-center">
+          <div className="card-elegant p-3 lg:p-6">
+            <h2 className="text-base lg:text-xl font-bold text-white mb-3 lg:mb-4 text-center">
               Current Conditions
             </h2>
             
-            {/* Mobile: Vertical Stack */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-3">
+            {/* Mobile: 2 columns, Desktop: 3 columns */}
+            <div className="grid grid-cols-2 lg:grid-cols-3 gap-2 lg:gap-3">
               {[
                 { icon: Thermometer, label: 'Air Temp', value: `${currentWeather.airTemperature.toFixed(1)}°C`, color: 'text-orange-400' },
                 { icon: Waves, label: 'Water Temp', value: `${currentWeather.waterTemperature.toFixed(1)}°C`, color: 'text-blue-400' },
@@ -186,12 +186,10 @@ export default function Weather({ spots }: WeatherProps) {
                 { icon: Eye, label: 'Visibility', value: `${currentWeather.visibility.toFixed(1)}km`, color: 'text-purple-400' },
                 { icon: Sun, label: 'UV Index', value: `${uvIndex} - ${uvLevel.level}`, color: uvLevel.color }
               ].map((item, index) => (
-                <div key={index} className="flex items-center justify-between p-2 sm:p-3 bg-dark-300 rounded-lg">
-                  <div className="flex items-center space-x-2">
-                    <item.icon className={`w-4 h-4 sm:w-5 sm:h-5 ${item.color} flex-shrink-0`} />
-                    <span className="text-gray-300 text-xs sm:text-sm truncate">{item.label}</span>
-                  </div>
-                  <span className="text-white font-semibold text-xs sm:text-sm ml-2 flex-shrink-0">{item.value}</span>
+                <div key={index} className="flex flex-col items-center p-2 lg:p-3 bg-dark-300 rounded-lg text-center">
+                  <item.icon className={`w-4 h-4 lg:w-5 lg:h-5 ${item.color} mb-1`} />
+                  <span className="text-gray-300 text-xs lg:text-sm mb-1">{item.label}</span>
+                  <span className="text-white font-semibold text-xs lg:text-sm">{item.value}</span>
                 </div>
               ))}
             </div>
@@ -199,32 +197,32 @@ export default function Weather({ spots }: WeatherProps) {
         )}
 
         {/* Hourly Forecast - Mobile Horizontal Scroll */}
-        <div className="card-elegant p-3 sm:p-4 lg:p-6 w-full">
-          <h3 className="text-base sm:text-lg font-bold text-white mb-3 sm:mb-4 text-center flex items-center justify-center">
-            <Activity className="w-4 h-4 sm:w-5 sm:h-5 text-neon-blue mr-2" />
+        <div className="card-elegant p-3 lg:p-6">
+          <h3 className="text-base lg:text-lg font-bold text-white mb-3 lg:mb-4 text-center flex items-center justify-center">
+            <Activity className="w-4 h-4 lg:w-5 lg:h-5 text-neon-blue mr-2" />
             12-Hour Forecast
           </h3>
           
-          {/* Mobile: Horizontal Scroll */}
-          <div className="overflow-x-auto -mx-1">
-            <div className="flex space-x-2 sm:space-x-3 pb-2 px-1" style={{ minWidth: 'max-content' }}>
+          {/* Mobile: Horizontal Scroll, Desktop: Grid */}
+          <div className="lg:hidden overflow-x-auto">
+            <div className="flex space-x-2 pb-2" style={{ minWidth: 'max-content' }}>
               {getHourlyForecast().map((hour, index) => (
-                <div key={index} className="flex-shrink-0 bg-dark-300 rounded-lg p-2 sm:p-3 border border-dark-400 min-w-[100px] sm:min-w-[120px]">
+                <div key={index} className="flex-shrink-0 bg-dark-300 rounded-lg p-2 border border-dark-400 min-w-[90px]">
                   <div className="text-center">
                     <p className="text-xs text-gray-400 mb-2 font-medium">
                       {new Date(hour.time).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false })}
                     </p>
-                    <div className="space-y-1 sm:space-y-2">
+                    <div className="space-y-1">
                       <div className="flex items-center justify-center space-x-1">
-                        <Thermometer className="w-3 h-3 text-orange-400 flex-shrink-0" />
+                        <Thermometer className="w-3 h-3 text-orange-400" />
                         <span className="text-xs text-white font-medium">{hour.airTemperature.toFixed(0)}°C</span>
                       </div>
                       <div className="flex items-center justify-center space-x-1">
-                        <Wind className="w-3 h-3 text-cyan-400 flex-shrink-0" />
+                        <Wind className="w-3 h-3 text-cyan-400" />
                         <span className="text-xs text-gray-300">{hour.windSpeed.toFixed(0)} m/s</span>
                       </div>
                       <div className="flex items-center justify-center space-x-1">
-                        <Waves className="w-3 h-3 text-blue-400 flex-shrink-0" />
+                        <Waves className="w-3 h-3 text-blue-400" />
                         <span className="text-xs text-gray-300">{hour.waveHeight.toFixed(1)}m</span>
                       </div>
                     </div>
@@ -233,17 +231,44 @@ export default function Weather({ spots }: WeatherProps) {
               ))}
             </div>
           </div>
+
+          {/* Desktop: Grid Layout */}
+          <div className="hidden lg:grid lg:grid-cols-6 gap-3">
+            {getHourlyForecast().map((hour, index) => (
+              <div key={index} className="bg-dark-300 rounded-lg p-3 border border-dark-400">
+                <div className="text-center">
+                  <p className="text-sm text-gray-400 mb-2 font-medium">
+                    {new Date(hour.time).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false })}
+                  </p>
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-center space-x-1">
+                      <Thermometer className="w-4 h-4 text-orange-400" />
+                      <span className="text-sm text-white font-medium">{hour.airTemperature.toFixed(0)}°C</span>
+                    </div>
+                    <div className="flex items-center justify-center space-x-1">
+                      <Wind className="w-4 h-4 text-cyan-400" />
+                      <span className="text-sm text-gray-300">{hour.windSpeed.toFixed(0)} m/s</span>
+                    </div>
+                    <div className="flex items-center justify-center space-x-1">
+                      <Waves className="w-4 h-4 text-blue-400" />
+                      <span className="text-sm text-gray-300">{hour.waveHeight.toFixed(1)}m</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
 
         {/* Location Info - Mobile Friendly */}
-        <div className="card-elegant p-3 sm:p-4 text-center w-full">
-          <div className="flex flex-col space-y-2 sm:flex-row sm:items-center sm:justify-center sm:space-y-0 sm:space-x-4 text-gray-300">
-            <div className="flex items-center justify-center space-x-2">
-              <MapPin className="w-3 h-3 sm:w-4 sm:h-4 text-neon-blue flex-shrink-0" />
-              <span className="font-medium text-xs sm:text-sm truncate">{selectedSpot.name}</span>
+        <div className="card-elegant p-3 lg:p-4 text-center">
+          <div className="flex flex-col lg:flex-row items-center justify-center space-y-2 lg:space-y-0 lg:space-x-4 text-gray-300">
+            <div className="flex items-center space-x-2">
+              <MapPin className="w-3 h-3 lg:w-4 lg:h-4 text-neon-blue" />
+              <span className="font-medium text-xs lg:text-sm">{selectedSpot.name}</span>
             </div>
-            <div className="flex items-center justify-center space-x-2">
-              <span className="text-xs">{selectedSpot.coordinates[0].toFixed(4)}, {selectedSpot.coordinates[1].toFixed(4)}</span>
+            <div className="text-xs lg:text-sm">
+              {selectedSpot.coordinates[0].toFixed(4)}, {selectedSpot.coordinates[1].toFixed(4)}
             </div>
             {lastUpdated && (
               <div className="text-xs text-gray-500">
