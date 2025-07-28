@@ -182,6 +182,12 @@ export default function AdminPanel({ spots, onSpotsUpdate }: AdminPanelProps) {
     resetForm();
   };
 
+  const handleLogout = () => {
+    if (confirm('Are you sure you want to logout from admin panel?')) {
+      // Use the admin context logout function if available
+      window.location.reload();
+    }
+  };
   if (!tableExists) {
     return (
       <div className="p-6 space-y-6">
@@ -223,14 +229,10 @@ export default function AdminPanel({ spots, onSpotsUpdate }: AdminPanelProps) {
             <span>Add New Spot</span>
           </button>
           <button
-            onClick={() => {
-              if (confirm('Are you sure you want to logout?')) {
-                window.location.reload(); // Simple logout by reloading the page
-              }
-            }}
-            className="btn-elegant px-4 py-3 rounded-lg font-medium flex items-center space-x-2 text-red-400 hover:text-red-300 border-red-400/30 hover:border-red-300/50"
+            onClick={handleLogout}
+            className="btn-elegant px-4 py-3 rounded-lg font-medium flex items-center space-x-2 text-red-400 hover:text-red-300 border-red-400/30 hover:border-red-300/50 bg-red-500/10 hover:bg-red-500/20"
           >
-            <Lock className="w-5 h-5" />
+            <X className="w-5 h-5" />
             <span>Logout</span>
           </button>
         </div>
