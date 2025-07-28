@@ -281,6 +281,44 @@ body {
   animation: slideIn 0.2s ease-out forwards;
 }
 
+/* Mobile menu specific styles */
+@media (max-width: 768px) {
+  /* Ensure mobile menu is above everything */
+  .mobile-menu-overlay {
+    z-index: 9999 !important;
+  }
+  
+  /* Prevent body scroll when menu is open */
+  body.menu-open {
+    overflow: hidden;
+    position: fixed;
+    width: 100%;
+  }
+  
+  /* Mobile menu button active state */
+  .mobile-menu-button:active {
+    transform: scale(0.95);
+    background-color: rgba(59, 130, 246, 0.1);
+  }
+  
+  /* Mobile menu item active state */
+  .mobile-menu-item:active {
+    transform: scale(0.98);
+    background-color: rgba(59, 130, 246, 0.1);
+  }
+  
+  /* Smooth transitions for mobile */
+  .mobile-transition {
+    transition: all 0.2s ease-in-out;
+  }
+  
+  /* Fix touch targets */
+  .mobile-touch-target {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}
+
 /* Line clamp utility for text truncation */
 .line-clamp-2 {
   display: -webkit-box;
@@ -295,22 +333,4 @@ body {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-}
-
-/* Fix mobile touch issues */
-@media (max-width: 768px) {
-  .mobile-menu-item {
-    -webkit-tap-highlight-color: transparent;
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    touch-action: manipulation;
-  }
-  
-  .mobile-menu-item:active {
-    background-color: rgba(59, 130, 246, 0.1);
-  }
 }

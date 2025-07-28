@@ -26,7 +26,6 @@ function AppContent() {
   const [showWeather, setShowWeather] = useState(false);
   const [showTides, setShowTides] = useState(false);
   const [showAdmin, setShowAdmin] = useState(false);
-  const [showMobileMenu, setShowMobileMenu] = useState(false);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -76,7 +75,6 @@ function AppContent() {
     setShowTides(false);
     setShowAdmin(true);
     setSelectedSpot(null);
-    setShowMobileMenu(false);
   };
 
   const resetToHome = () => {
@@ -84,11 +82,6 @@ function AppContent() {
     setShowTides(false);
     setShowAdmin(false);
     setSelectedSpot(null);
-    setShowMobileMenu(false);
-  };
-
-  const toggleMobileMenu = () => {
-    setShowMobileMenu(!showMobileMenu);
   };
 
   const MainContent = () => (
@@ -104,8 +97,6 @@ function AppContent() {
         showAdmin={showAdmin}
         resetToHome={resetToHome}
         showHome={showHome}
-        toggleMobileMenu={toggleMobileMenu}
-        showMobileMenu={showMobileMenu}
         spots={spots}
         onSelectSpot={handleSpotSelect}
       />
