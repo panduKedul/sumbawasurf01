@@ -10,8 +10,6 @@ interface HeaderProps {
   showTides: boolean;
   toggleAdmin: () => void;
   showAdmin: boolean;
-  toggleAdmin: () => void;
-  showAdmin: boolean;
   resetToHome: () => void;
   showHome: boolean;
   toggleMobileMenu: () => void;

@@ -81,20 +81,8 @@ function AppContent() {
     setShowWeather(false);
     setShowTides(false);
     setShowAdmin(false);
-    setShowAdmin(false);
     setSelectedSpot(null);
   };
-
-  const toggleAdmin = () => {
-    setShowMaps(false);
-    setShowTide(false);
-    setShowAdmin(!showAdmin);
-    setSelectedSpot(null);
-    setShowMobileMenu(false);
-    setShowMobileSpots(false);
-  };
-
-    setShowMaps(false);
 
   const toggleMobileMenu = () => {
     setShowMobileMenu(!showMobileMenu);
@@ -128,9 +116,6 @@ function AppContent() {
         showWeather={showWeather}
         toggleTides={toggleTides}
         showTides={showTides}
-        toggleAdmin={toggleAdmin}
-        showAdmin={showAdmin}
-        resetToHome={resetToHome}
         toggleAdmin={toggleAdmin}
         showAdmin={showAdmin}
         showHome={showHome}
