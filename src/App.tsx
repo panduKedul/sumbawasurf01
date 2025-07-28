@@ -95,14 +95,14 @@ function AppContent() {
   };
 
   const toggleMobileMenu = () => {
-    setShowMobileMenu(!showMobileMenu);
+    setShowMobileMenu(prev => !prev);
     if (!showMobileMenu) {
       setShowMobileSpots(false);
     }
   };
 
   const toggleMobileSpots = () => {
-    setShowMobileSpots(!showMobileSpots);
+    setShowMobileSpots(prev => !prev);
   };
 
   const MainContent = () => (
