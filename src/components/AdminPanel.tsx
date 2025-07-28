@@ -213,14 +213,27 @@ export default function AdminPanel({ spots, onSpotsUpdate }: AdminPanelProps) {
           <h1 className="text-3xl font-bold text-white mb-2">Admin Panel</h1>
           <p className="text-gray-400">Manage surf spots and content</p>
         </div>
-        <button
-          onClick={handleCreate}
-          disabled={loading}
-          className="btn-elegant px-6 py-3 rounded-lg font-medium flex items-center space-x-2"
-        >
-          <Plus className="w-5 h-5" />
-          <span>Add New Spot</span>
-        </button>
+        <div className="flex items-center space-x-4">
+          <button
+            onClick={handleCreate}
+            disabled={loading}
+            className="btn-elegant px-6 py-3 rounded-lg font-medium flex items-center space-x-2"
+          >
+            <Plus className="w-5 h-5" />
+            <span>Add New Spot</span>
+          </button>
+          <button
+            onClick={() => {
+              if (confirm('Are you sure you want to logout?')) {
+                window.location.reload(); // Simple logout by reloading the page
+              }
+            }}
+            className="btn-elegant px-4 py-3 rounded-lg font-medium flex items-center space-x-2 text-red-400 hover:text-red-300 border-red-400/30 hover:border-red-300/50"
+          >
+            <Lock className="w-5 h-5" />
+            <span>Logout</span>
+          </button>
+        </div>
       </div>
 
       {/* Create/Edit Form */}

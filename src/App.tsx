@@ -118,6 +118,7 @@ function AppContent() {
         showTides={showTides}
         toggleAdmin={toggleAdmin}
         showAdmin={showAdmin}
+        resetToHome={resetToHome}
         showHome={showHome}
         toggleMobileMenu={toggleMobileMenu}
         showMobileMenu={showMobileMenu}
@@ -149,52 +150,47 @@ function AppContent() {
 
         <div className={`flex-1 flex flex-col transition-all duration-300 ${showMobileMenu ? 'blur-[2px] pointer-events-none' : ''}`}>
           {showWeather ? (
-            <Weather />
+            <Weather spots={spots} />
           ) : showTides ? (
-            <Tides />
+            <Tides spots={spots} />
           ) : showAdmin && isAdminLoggedIn ? (
-            <AdminPanel 
-              spots={spots} 
-              onSpotsUpdate={loadSpotsData} 
-            />
-          ) : showAdmin ? (
             <AdminPanel 
               spots={spots} 
               onSpotsUpdate={loadSpotsData} 
             />
           ) : (
             /* Default view with map and spot details */
-            <div className="flex flex-col flex-1">
-              <div className={`${selectedSpot ? 'h-[35vh]' : 'h-[50vh]'} md:h-[45vh] lg:h-[50vh] relative mt-0`}>
-                <Map spots={spots} onSelectSpot={handleSpotSelect} selectedSpot={selectedSpot} />
+            <div className="flex flex-col flex-1 bg-dark-200">
+              {/* Welcome Section with Map */}
+              <div className="p-4 md:p-6 text-center bg-gradient-radial from-dark-300 to-dark-100">
+                <div className="max-w-4xl mx-auto mb-6">
+                  <h1 className="text-2xl md:text-4xl font-bold text-neon-blue mb-2">Welcome to Sumbawa Surf Guide</h1>
+                  <h2 className="text-lg md:text-2xl font-semibold text-white mb-4">Your Ultimate West Sumbawa Surf Companion</h2>
+                  <p className="text-base text-gray-400 mb-6">
+                    Discover the best surf spots in West Sumbawa with detailed information about wave conditions, 
+                    tide times, weather forecasts, and local insights.
+                  </p>
+                </div>
+                
+                {/* Interactive Map */}
+                <div className="h-[40vh] md:h-[50vh] rounded-xl overflow-hidden shadow-2xl border border-dark-400 mb-6">
+                  <Map spots={spots} onSelectSpot={handleSpotSelect} selectedSpot={selectedSpot} />
+                </div>
               </div>
               
-              <div className="flex-1 bg-dark-200 overflow-auto px-4 md:px-0">
+              <div className="flex-1 overflow-auto px-4 md:px-6">
                 {selectedSpot ? (
                   <SpotDetails spot={selectedSpot} />
                 ) : loading ? (
-                  <div className="flex items-center justify-center min-h-full p-4 md:p-6 text-center">
+                  <div className="flex items-center justify-center p-8 text-center">
                     <div className="text-center">
                       <div className="w-8 h-8 border-4 border-neon-blue border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
                       <p className="text-gray-400">Loading surf spots...</p>
                     </div>
                   </div>
                 ) : (
-                  <div className="flex items-center justify-center min-h-full p-4 md:p-6 text-center animate-fadeIn bg-gradient-radial from-dark-300 to-dark-100">
+                  <div className="p-4 md:p-6 text-center animate-fadeIn">
                     <div className="max-w-xl w-full">
-                      <div className="mb-6">
-                        <h1 className="text-2xl md:text-4xl font-bold text-neon-blue mb-2">Welcome to Sumbawa Surf Guide</h1>
-                        <h2 className="text-lg md:text-2xl font-semibold text-white mb-4">Your Ultimate West Sumbawa Surf Companion</h2>
-                      </div>
-                      <p className="text-base text-gray-400 mb-6">
-                        Discover the best surf spots in West Sumbawa with detailed information about wave conditions, 
-                        tide times, weather forecasts, and local insights. Select a surf spot from the map or spots menu 
-                        to explore world-class breaks from Super Suck to Scar Reef.
-                      </p>
-                      <div className="flex justify-center mb-8">
-                        <div className="w-32 h-1 bg-neon-blue rounded animate-glow"></div>
-                      </div>
-                      
                       {/* Quick Stats */}
                       <div className="grid grid-cols-3 gap-4 mb-8">
                         <div className="bg-dark-400 p-4 rounded-lg border border-dark-500">
@@ -231,31 +227,10 @@ function AppContent() {
                         </div>
                       </div>
 
-                      <div className="bg-dark-300 p-6 rounded-lg border border-dark-400">
-                        <h3 className="text-lg font-semibold text-neon-blue mb-3">Explore Sumbawa Surf Spots</h3>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-left mb-6">
-                          <div className="flex items-start space-x-2">
-                            <div className="text-neon-blue mt-1">★</div>
-                            <p className="text-gray-300 text-sm">Discover 11 world-class surf spots</p>
-                          </div>
-                          <div className="flex items-start space-x-2">
-                            <div className="text-neon-blue mt-1">★</div>
-                            <p className="text-gray-300 text-sm">Real-time weather and tide information</p>
-                          </div>
-                          <div className="flex items-start space-x-2">
-                            <div className="text-neon-blue mt-1">★</div>
-                            <p className="text-gray-300 text-sm">Interactive maps and forecasts</p>
-                          </div>
-                          <div className="flex items-start space-x-2">
-                            <div className="text-neon-blue mt-1">★</div>
-                            <p className="text-gray-300 text-sm">Detailed spot information and guides</p>
-                          </div>
-                        </div>
-                        <div className="text-center">
-                          <p className="text-gray-400 text-sm">
-                            {spots.length > 0 ? 'Click on any surf spot to start exploring' : 'Loading surf spots...'}
-                          </p>
-                        </div>
+                      <div className="text-center">
+                        <p className="text-gray-400 text-sm">
+                          {spots.length > 0 ? 'Click on any surf spot above to start exploring' : 'Loading surf spots...'}
+                        </p>
                       </div>
                     </div>
                   </div>

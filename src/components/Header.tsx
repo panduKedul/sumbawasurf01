@@ -88,41 +88,23 @@ export default function Header({
             </button>
             
             {isAdminLoggedIn ? (
-              <div className="flex items-center space-x-2">
-                <button
-                  onClick={toggleAdmin}
-                  className={`btn-elegant px-4 py-2 rounded-lg font-medium transition-all duration-300 ${
-                    showAdmin ? 'bg-neon-blue/20 text-neon-blue border-neon-blue/50' : ''
-                  }`}
-                >
-                  Admin
-                </button>
-                <button
-                  onClick={logoutAdmin}
-                  className="btn-elegant px-3 py-2 rounded-lg font-medium transition-all duration-300 text-red-400 hover:text-red-300"
-                  title="Logout"
-                >
-                  <Lock className="w-4 h-4" />
-                </button>
-              </div>
+              <button
+                onClick={toggleAdmin}
+                className={`btn-elegant px-4 py-2 rounded-lg font-medium transition-all duration-300 ${
+                  showAdmin ? 'bg-neon-blue/20 text-neon-blue border-neon-blue/50' : ''
+                }`}
+              >
+                Admin Panel
+              </button>
             ) : (
               <button
                 onClick={toggleAdminLogin}
                 className="btn-elegant px-4 py-2 rounded-lg font-medium transition-all duration-300 flex items-center space-x-2"
               >
                 <Lock className="w-4 h-4" />
-                <span>Admin</span>
+                <span>Admin Login</span>
               </button>
             )}
-            
-            <button
-              onClick={toggleAdmin}
-              className={`btn-elegant px-4 py-2 rounded-lg font-medium transition-all duration-300 ${
-                showAdmin ? 'bg-neon-blue/20 text-neon-blue border-neon-blue/50' : ''
-              }`}
-            >
-              Admin
-            </button>
           </nav>
 
           {/* Mobile Menu Button */}
@@ -175,28 +157,17 @@ export default function Header({
               </button>
               
               {isAdminLoggedIn ? (
-                <div className="space-y-2">
-                  <button
-                    onClick={() => {
-                      toggleAdmin();
-                      toggleMobileMenu();
-                    }}
-                    className={`w-full text-left px-3 py-2 rounded-lg font-medium transition-all duration-300 ${
-                      showAdmin ? 'bg-neon-blue/20 text-neon-blue' : 'text-gray-300 hover:text-white hover:bg-dark-400'
-                    }`}
-                  >
-                    Admin Panel
-                  </button>
-                  <button
-                    onClick={() => {
-                      logoutAdmin();
-                      toggleMobileMenu();
-                    }}
-                    className="w-full text-left px-3 py-2 rounded-lg font-medium text-red-400 hover:text-red-300 hover:bg-dark-400 transition-all duration-300"
-                  >
-                    Logout Admin
-                  </button>
-                </div>
+                <button
+                  onClick={() => {
+                    toggleAdmin();
+                    toggleMobileMenu();
+                  }}
+                  className={`w-full text-left px-3 py-2 rounded-lg font-medium transition-all duration-300 ${
+                    showAdmin ? 'bg-neon-blue/20 text-neon-blue' : 'text-gray-300 hover:text-white hover:bg-dark-400'
+                  }`}
+                >
+                  Admin Panel
+                </button>
               ) : (
                 <button
                   onClick={() => {
@@ -209,18 +180,6 @@ export default function Header({
                   <span>Admin Login</span>
                 </button>
               )}
-              
-              <button
-                onClick={() => {
-                  toggleAdmin();
-                  toggleMobileMenu();
-                }}
-                className={`w-full text-left px-3 py-2 rounded-lg font-medium transition-all duration-300 ${
-                  showAdmin ? 'bg-neon-blue/20 text-neon-blue' : 'text-gray-300 hover:text-white hover:bg-dark-400'
-                }`}
-              >
-                Admin
-              </button>
 
               {/* Surf Spots for Mobile */}
               <div>

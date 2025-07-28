@@ -1,19 +1,33 @@
 import React, { useState, useEffect } from 'react';
-import { Waves, Clock, Calendar, TrendingUp, TrendingDown, MapPin, RefreshCw, Sun, Moon } from 'lucide-react';
+import { Waves, Clock, Calendar, TrendingUp, TrendingDown, MapPin, RefreshCw, Sun, Moon, Activity, BarChart3 } from 'lucide-react';
 import { fetchTideData, TideData, getFallbackTideData } from '../services/weatherApi';
-import { SURF_SPOTS } from '../data/spots';
+import { SurfSpot } from '../types';
 
-export default function Tides() {
-  const [selectedSpot, setSelectedSpot] = useState(SURF_SPOTS[0]);
+interface TidesProps {
+  spots: SurfSpot[];
+}
+
+export default function Tides({ spots }: TidesProps) {
+  const [selectedSpot, setSelectedSpot] = useState(spots[0]);
   const [tideData, setTideData] = useState<TideData[]>([]);
   const [loading, setLoading] = useState(false);
   const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
 
   useEffect(() => {
-    loadTideData();
+    if (spots.length > 0 && !selectedSpot) {
+      setSelectedSpot(spots[0]);
+    }
+  }, [spots, selectedSpot]);
+
+  useEffect(() => {
+    if (selectedSpot) {
+      loadTideData();
+    }
   }, [selectedSpot]);
 
   const loadTideData = async () => {
+    if (!selectedSpot) return;
+    
     setLoading(true);
     try {
       const data = await fetchTideData(selectedSpot.coordinates[0], selectedSpot.coordinates[1]);
@@ -41,6 +55,16 @@ export default function Tides() {
   const getUpcomingTides = () => {
     const now = new Date();
     return tideData.filter(tide => new Date(tide.time) > now).slice(0, 8);
+  };
+
+  const getWeeklyTides = () => {
+    const grouped: { [key: string]: TideData[] } = {};
+    tideData.slice(0, 28).forEach(tide => { // 4 tides per day for 7 days
+      const date = new Date(tide.time).toDateString();
+      if (!grouped[date]) grouped[date] = [];
+      grouped[date].push(tide);
+    });
+    return grouped;
   };
 
   const getTideIcon = (type: string) => {
@@ -79,11 +103,30 @@ export default function Tides() {
     });
   };
 
+  const formatDateShort = (timeStr: string) => {
+    return new Date(timeStr).toLocaleDateString('en-US', {
+      weekday: 'short',
+      day: 'numeric'
+    });
+  };
+
   const todayTides = getTodayTides();
   const upcomingTides = getUpcomingTides();
+  const weeklyTides = getWeeklyTides();
+
+  if (!selectedSpot) {
+    return (
+      <div className="h-full flex items-center justify-center bg-dark-100">
+        <div className="text-center">
+          <div className="w-8 h-8 border-4 border-neon-blue border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-gray-400">Loading tide data...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div className="h-full flex flex-col bg-dark-100">
+    <div className="h-full flex flex-col bg-dark-100 overflow-y-auto">
       {/* Header with Spot Image */}
       <div className="relative h-64 md:h-80">
         <img
@@ -114,12 +157,12 @@ export default function Tides() {
             <select
               value={selectedSpot.id}
               onChange={(e) => {
-                const spot = SURF_SPOTS.find(s => s.id === e.target.value);
+                const spot = spots.find(s => s.id === e.target.value);
                 if (spot) setSelectedSpot(spot);
               }}
               className="input-elegant px-4 py-2 rounded-lg max-w-md backdrop-blur-sm"
             >
-              {SURF_SPOTS.map((spot) => (
+              {spots.map((spot) => (
                 <option key={spot.id} value={spot.id}>
                   {spot.name}
                 </option>
@@ -136,7 +179,7 @@ export default function Tides() {
           </div>
 
           {/* Location Info */}
-          <div className="flex items-center space-x-6 text-gray-200 mt-4">
+          <div className="flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-6 text-gray-200 mt-4">
             <div className="flex items-center space-x-2">
               <MapPin className="w-4 h-4" />
               <span>{selectedSpot.coordinates[0].toFixed(4)}, {selectedSpot.coordinates[1].toFixed(4)}</span>
@@ -161,11 +204,14 @@ export default function Tides() {
       </div>
 
       {/* Main Content */}
-      <div className="flex-1 p-6 overflow-y-auto bg-dark-200">
-        <div className="max-w-6xl mx-auto space-y-8">
+      <div className="flex-1 p-6 bg-dark-200">
+        <div className="max-w-7xl mx-auto space-y-8">
           {/* Today's Tides */}
           <div>
-            <h3 className="text-2xl font-bold text-white mb-6 text-center">Today's Tides</h3>
+            <h3 className="text-2xl font-bold text-white mb-6 text-center flex items-center justify-center">
+              <Activity className="w-6 h-6 text-neon-blue mr-2" />
+              Today's Tides
+            </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               {todayTides.map((tide, index) => (
                 <div
@@ -205,41 +251,12 @@ export default function Tides() {
             </div>
           </div>
 
-          {/* Upcoming Tides */}
-          <div>
-            <h3 className="text-2xl font-bold text-white mb-6 text-center">Upcoming Tides</h3>
-            <div className="card-elegant p-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {upcomingTides.map((tide, index) => (
-                  <div
-                    key={index}
-                    className="flex items-center justify-between p-4 bg-dark-300 rounded-lg border border-dark-400 hover:border-neon-blue/30 transition-colors"
-                  >
-                    <div className="flex items-center space-x-4">
-                      {getTideIcon(tide.type)}
-                      <div>
-                        <p className="font-bold text-white">
-                          {formatDate(tide.time)} - {formatTime(tide.time)}
-                        </p>
-                        <p className="text-sm text-gray-400">
-                          {tide.type === 'high' ? 'High Tide' : 'Low Tide'}
-                        </p>
-                      </div>
-                    </div>
-                    <div className="text-right">
-                      <p className="text-xl font-bold text-white">
-                        {tide.height.toFixed(1)}m
-                      </p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-
           {/* Tide Chart Visualization */}
           <div className="card-elegant p-8">
-            <h3 className="text-2xl font-bold text-white mb-6 text-center">24-Hour Tide Chart</h3>
+            <h3 className="text-2xl font-bold text-white mb-6 text-center flex items-center justify-center">
+              <BarChart3 className="w-6 h-6 text-neon-blue mr-2" />
+              24-Hour Tide Chart
+            </h3>
             
             <div className="relative h-64 bg-dark-300 rounded-xl p-6 border border-dark-400">
               <div className="absolute inset-6">
@@ -291,12 +308,86 @@ export default function Tides() {
             </div>
           </div>
 
-          {/* Surf Spot Info */}
+          {/* Weekly Tide Overview */}
+          <div className="card-elegant p-6">
+            <h3 className="text-2xl font-bold text-white mb-6 text-center">7-Day Tide Overview</h3>
+            <div className="overflow-x-auto">
+              <div className="flex space-x-4 pb-4">
+                {Object.entries(weeklyTides).map(([date, tides], dayIndex) => (
+                  <div key={dayIndex} className="flex-shrink-0 bg-dark-300 rounded-lg p-4 border border-dark-400 min-w-[200px]">
+                    <h4 className="text-center font-bold text-white mb-4">{formatDateShort(date)}</h4>
+                    <div className="space-y-2">
+                      {tides.map((tide, tideIndex) => (
+                        <div key={tideIndex} className="flex items-center justify-between text-sm">
+                          <div className="flex items-center space-x-2">
+                            {getTideIcon(tide.type)}
+                            <span className="text-gray-300">{formatTime(tide.time)}</span>
+                          </div>
+                          <span className={`font-semibold ${
+                            tide.type === 'high' ? 'text-blue-400' : 'text-orange-400'
+                          }`}>
+                            {tide.height.toFixed(1)}m
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Upcoming Tides Table */}
+          <div className="card-elegant p-6">
+            <h3 className="text-2xl font-bold text-white mb-6 text-center">Upcoming Tides</h3>
+            <div className="overflow-x-auto">
+              <table className="w-full">
+                <thead>
+                  <tr className="border-b border-dark-400">
+                    <th className="text-left py-3 px-4 text-gray-300 font-semibold">Date & Time</th>
+                    <th className="text-center py-3 px-4 text-gray-300 font-semibold">Type</th>
+                    <th className="text-right py-3 px-4 text-gray-300 font-semibold">Height</th>
+                    <th className="text-center py-3 px-4 text-gray-300 font-semibold">Phase</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {upcomingTides.map((tide, index) => (
+                    <tr key={index} className="border-b border-dark-400/50 hover:bg-dark-300/50 transition-colors">
+                      <td className="py-3 px-4">
+                        <div>
+                          <div className="font-semibold text-white">{formatDate(tide.time)}</div>
+                          <div className="text-sm text-gray-400">{formatTime(tide.time)}</div>
+                        </div>
+                      </td>
+                      <td className="py-3 px-4 text-center">
+                        <div className="flex items-center justify-center space-x-2">
+                          {getTideIcon(tide.type)}
+                          <span className={`font-medium ${
+                            tide.type === 'high' ? 'text-blue-400' : 'text-orange-400'
+                          }`}>
+                            {tide.type === 'high' ? 'High' : 'Low'}
+                          </span>
+                        </div>
+                      </td>
+                      <td className="py-3 px-4 text-right">
+                        <span className="text-xl font-bold text-white">{tide.height.toFixed(1)}m</span>
+                      </td>
+                      <td className="py-3 px-4 text-center">
+                        {getPhaseIcon(tide.time)}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          {/* Surf Spot Information */}
           <div className="card-elegant p-6 bg-gradient-to-br from-dark-300 to-dark-400">
             <h3 className="text-xl font-bold text-white mb-4 text-center">
               {selectedSpot.name} - Surf Information
             </h3>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
               <div className="text-center">
                 <div className="text-neon-blue font-semibold mb-2">Wave Type</div>
                 <div className="text-gray-300">{selectedSpot.waveType}</div>
@@ -309,14 +400,16 @@ export default function Tides() {
                 <div className="text-neon-blue font-semibold mb-2">Best Season</div>
                 <div className="text-gray-300">{selectedSpot.bestSeason}</div>
               </div>
+              <div className="text-center">
+                <div className="text-neon-blue font-semibold mb-2">Tide Conditions</div>
+                <div className="text-gray-300">{selectedSpot.tideConditions}</div>
+              </div>
             </div>
-            <div className="mt-4 text-center">
-              <div className="text-neon-blue font-semibold mb-2">Tide Conditions</div>
-              <div className="text-gray-300">{selectedSpot.tideConditions}</div>
+            <div className="text-center">
+              <p className="text-gray-400 text-sm leading-relaxed">
+                {selectedSpot.description}
+              </p>
             </div>
-            <p className="text-gray-400 text-sm mt-4 text-center">
-              {selectedSpot.description}
-            </p>
           </div>
         </div>
       </div>
