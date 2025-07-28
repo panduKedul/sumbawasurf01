@@ -3,6 +3,7 @@ import { Waves, Clock, TrendingUp, TrendingDown, MapPin, RefreshCw, Sun, Moon, A
 import { fetchTideData, TideData, getFallbackTideData } from '../services/weatherApi';
 import { SurfSpot } from '../types';
 import { useTheme } from '../contexts/ThemeContext';
+import { getTideCondition, getTideChangeRecommendation } from '../utils/weatherDescriptions';
 
 interface Tides1Props {
   spots: SurfSpot[];
@@ -216,6 +217,25 @@ export default function Tides1({ spots }: Tides1Props) {
         
         {/* Current Tide Status Hero */}
         {currentStatus && (
+          <>
+            {/* Tide Change Recommendation */}
+            <div className="relative overflow-hidden rounded-2xl mb-6">
+              <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 via-cyan-500/5 to-teal-500/10 backdrop-blur-xl"></div>
+              <div className={`relative ${themeClasses.cardBg} p-4 sm:p-6 lg:p-8 shadow-2xl border ${themeClasses.border}`}>
+                <div className="text-center">
+                  <h2 className={`text-lg sm:text-xl lg:text-2xl font-bold ${themeClasses.text} mb-4 flex items-center justify-center`}>
+                    <Navigation className={`w-5 h-5 lg:w-6 lg:h-6 ${themeClasses.accent} mr-3`} />
+                    Rekomendasi Tide Hari Ini
+                  </h2>
+                  <div className={`${themeClasses.cardBg} p-4 lg:p-6 rounded-xl border ${themeClasses.border} shadow-lg`}>
+                    <p className={`text-sm sm:text-base lg:text-lg ${themeClasses.text} leading-relaxed`}>
+                      {getTideChangeRecommendation(currentStatus.current, currentStatus.next)}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
           <div className="relative overflow-hidden rounded-2xl">
             <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 via-blue-500/5 to-teal-500/10 backdrop-blur-xl"></div>
             <div className={`relative ${themeClasses.cardBg} p-4 sm:p-6 lg:p-8 shadow-2xl border ${themeClasses.border}`}>
@@ -226,6 +246,22 @@ export default function Tides1({ spots }: Tides1Props) {
                     <Navigation className={`w-6 h-6 lg:w-8 lg:h-8 ${themeClasses.accent} mr-3`} />
                     Current Tide Status
                   </h2>
+                  
+                  {/* Current Tide Description */}
+                  <div className={`${themeClasses.cardBg} p-4 rounded-xl mb-6 border ${themeClasses.border} shadow-lg`}>
+                    <div className="text-left">
+                      <h4 className={`font-bold ${themeClasses.accent} mb-2 text-sm lg:text-base`}>
+                        {getTideCondition(currentStatus.current.height, currentStatus.current.type).title}
+                      </h4>
+                      <p className={`text-xs lg:text-sm ${themeClasses.textSecondary} mb-2`}>
+                        {getTideCondition(currentStatus.current.height, currentStatus.current.type).description}
+                      </p>
+                      <p className={`text-xs lg:text-sm ${themeClasses.text} font-medium`}>
+                        🏄‍♂️ {getTideCondition(currentStatus.current.height, currentStatus.current.type).surfTip}
+                      </p>
+                    </div>
+                  </div>
+                  
                   <div className="flex items-center justify-center lg:justify-start space-x-4 mb-6">
                     <div className="relative">
                       <div className={`absolute inset-0 ${
@@ -317,6 +353,19 @@ export default function Tides1({ spots }: Tides1Props) {
                         <h3 className={`text-lg lg:text-xl font-bold ${themeClasses.text}`}>Surf Conditions</h3>
                       </div>
                       <div className="text-center">
+                        {/* Next Tide Description */}
+                        <div className={`${themeClasses.cardBg} p-3 rounded-lg mb-4 border ${themeClasses.border}`}>
+                          <h4 className={`font-bold ${themeClasses.accent} mb-1 text-xs lg:text-sm`}>
+                            {getTideCondition(nextTide.height, nextTide.type).title}
+                          </h4>
+                          <p className={`text-xs ${themeClasses.textSecondary} mb-1`}>
+                            {getTideCondition(nextTide.height, nextTide.type).description}
+                          </p>
+                          <p className={`text-xs ${themeClasses.text} font-medium`}>
+                            🏄‍♂️ {getTideCondition(nextTide.height, nextTide.type).surfTip}
+                          </p>
+                        </div>
+                        
                         <div className={`text-lg lg:text-xl font-bold ${themeClasses.accent} mb-3`}>
                           {selectedSpot.tideConditions}
                         </div>
@@ -330,6 +379,7 @@ export default function Tides1({ spots }: Tides1Props) {
               </div>
             </div>
           </div>
+          </>
         )}
 
         {/* Today's Tides Timeline */}
@@ -380,6 +430,19 @@ export default function Tides1({ spots }: Tides1Props) {
                       }`}>
                         {tide.type === 'high' ? 'High' : 'Low'}
                       </span>
+                      
+                      {/* Individual Tide Description */}
+                      <div className={`${themeClasses.cardBg} p-2 rounded-lg mt-3 border ${themeClasses.border}`}>
+                        <h5 className={`font-bold ${themeClasses.accent} mb-1 text-xs`}>
+                          {getTideCondition(tide.height, tide.type).title}
+                        </h5>
+                        <p className={`text-xs ${themeClasses.textSecondary} mb-1`}>
+                          {getTideCondition(tide.height, tide.type).description}
+                        </p>
+                        <p className={`text-xs ${themeClasses.text} font-medium`}>
+                          🏄‍♂️ {getTideCondition(tide.height, tide.type).surfTip}
+                        </p>
+                      </div>
                     </div>
                   </div>
                 ))}

@@ -3,6 +3,15 @@ import { Cloud, Wind, Waves, Thermometer, Eye, Droplets, Sun, Moon, MapPin, Refr
 import { fetchWeatherData, WeatherData, getFallbackWeatherData } from '../services/weatherApi';
 import { SurfSpot } from '../types';
 import { useTheme } from '../contexts/ThemeContext';
+import { 
+  getWindCondition, 
+  getWaveCondition, 
+  getTemperatureCondition, 
+  getUVCondition,
+  getCloudCondition,
+  getVisibilityCondition,
+  getBestSurfTimeRecommendation
+} from '../utils/weatherDescriptions';
 
 interface Weather1Props {
   spots: SurfSpot[];
@@ -186,6 +195,25 @@ export default function Weather1({ spots }: Weather1Props) {
         
         {/* Current Weather Hero Card - Enhanced */}
         {currentWeather && (
+          <>
+            {/* Best Surf Time Recommendation */}
+            <div className="relative overflow-hidden rounded-2xl mb-6">
+              <div className="absolute inset-0 bg-gradient-to-br from-green-500/10 via-emerald-500/5 to-teal-500/10 backdrop-blur-xl"></div>
+              <div className={`relative ${themeClasses.cardBg} p-4 sm:p-6 lg:p-8 shadow-2xl border ${themeClasses.border}`}>
+                <div className="text-center">
+                  <h2 className={`text-lg sm:text-xl lg:text-2xl font-bold ${themeClasses.text} mb-4 flex items-center justify-center`}>
+                    <Activity className={`w-5 h-5 lg:w-6 lg:h-6 ${themeClasses.accent} mr-3`} />
+                    Rekomendasi Surf Hari Ini
+                  </h2>
+                  <div className={`${themeClasses.cardBg} p-4 lg:p-6 rounded-xl border ${themeClasses.border} shadow-lg`}>
+                    <p className={`text-sm sm:text-base lg:text-lg ${themeClasses.text} leading-relaxed`}>
+                      {getBestSurfTimeRecommendation(currentWeather, null)}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
           <div className="relative overflow-hidden rounded-2xl">
             <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 via-cyan-500/5 to-purple-500/10 backdrop-blur-xl"></div>
             <div className={`relative ${themeClasses.cardBg} p-3 sm:p-4 md:p-6 lg:p-8 shadow-2xl border ${themeClasses.border}`}>
@@ -196,6 +224,22 @@ export default function Weather1({ spots }: Weather1Props) {
                     <Activity className={`w-5 h-5 sm:w-6 sm:h-6 lg:w-8 lg:h-8 ${themeClasses.accent} mr-2 sm:mr-3`} />
                     Current Conditions
                   </h2>
+                  
+                  {/* Temperature Description */}
+                  <div className={`${themeClasses.cardBg} p-3 sm:p-4 rounded-xl mb-4 border ${themeClasses.border} shadow-lg`}>
+                    <div className="text-left">
+                      <h4 className={`font-bold ${themeClasses.accent} mb-2 text-sm lg:text-base`}>
+                        {getTemperatureCondition(currentWeather.airTemperature).title}
+                      </h4>
+                      <p className={`text-xs lg:text-sm ${themeClasses.textSecondary} mb-2`}>
+                        {getTemperatureCondition(currentWeather.airTemperature).description}
+                      </p>
+                      <p className={`text-xs lg:text-sm ${themeClasses.text} font-medium`}>
+                        💡 {getTemperatureCondition(currentWeather.airTemperature).recommendation}
+                      </p>
+                    </div>
+                  </div>
+                  
                   <div className="flex items-center justify-center lg:justify-start space-x-3 sm:space-x-4 mb-4 sm:mb-6">
                     <div className="relative">
                       <div className="absolute inset-0 bg-gradient-to-r from-orange-500 to-red-500 rounded-xl blur-lg opacity-30"></div>
@@ -238,6 +282,20 @@ export default function Weather1({ spots }: Weather1Props) {
                         <Wind className={`w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 ${themeClasses.accent}`} />
                         <h3 className={`text-sm sm:text-base md:text-lg lg:text-xl font-bold ${themeClasses.text}`}>Wind Conditions</h3>
                       </div>
+                      
+                      {/* Wind Description */}
+                      <div className={`${themeClasses.cardBg} p-3 rounded-lg mb-4 border ${themeClasses.border}`}>
+                        <h4 className={`font-bold ${themeClasses.accent} mb-1 text-xs lg:text-sm`}>
+                          {getWindCondition(currentWeather.windSpeed).title}
+                        </h4>
+                        <p className={`text-xs ${themeClasses.textSecondary} mb-1`}>
+                          {getWindCondition(currentWeather.windSpeed).description}
+                        </p>
+                        <p className={`text-xs ${themeClasses.text} font-medium`}>
+                          💡 {getWindCondition(currentWeather.windSpeed).recommendation}
+                        </p>
+                      </div>
+                      
                       <div className="grid grid-cols-2 gap-2 sm:gap-3 md:gap-4">
                         <div>
                           <div className={`text-base sm:text-lg md:text-xl lg:text-2xl font-bold ${themeClasses.accent}`}>
@@ -264,6 +322,20 @@ export default function Weather1({ spots }: Weather1Props) {
                         <Waves className={`w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 ${themeClasses.accent}`} />
                         <h3 className={`text-sm sm:text-base md:text-lg lg:text-xl font-bold ${themeClasses.text}`}>Wave Conditions</h3>
                       </div>
+                      
+                      {/* Wave Description */}
+                      <div className={`${themeClasses.cardBg} p-3 rounded-lg mb-4 border ${themeClasses.border}`}>
+                        <h4 className={`font-bold ${themeClasses.accent} mb-1 text-xs lg:text-sm`}>
+                          {getWaveCondition(currentWeather.waveHeight).title}
+                        </h4>
+                        <p className={`text-xs ${themeClasses.textSecondary} mb-1`}>
+                          {getWaveCondition(currentWeather.waveHeight).description}
+                        </p>
+                        <p className={`text-xs ${themeClasses.text} font-medium`}>
+                          💡 {getWaveCondition(currentWeather.waveHeight).recommendation}
+                        </p>
+                      </div>
+                      
                       <div className="grid grid-cols-2 gap-2 sm:gap-3 md:gap-4">
                         <div>
                           <div className={`text-base sm:text-lg md:text-xl lg:text-2xl font-bold ${themeClasses.accent}`}>
@@ -284,6 +356,7 @@ export default function Weather1({ spots }: Weather1Props) {
               </div>
             </div>
           </div>
+          </>
         )}
 
         {/* Weather Map */}
@@ -307,10 +380,34 @@ export default function Weather1({ spots }: Weather1Props) {
         {/* Extended Weather Info */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 lg:gap-6">
           {[
-            { icon: Eye, label: 'Visibility', value: `${currentWeather?.visibility.toFixed(1) || 0}km`, color: 'from-purple-500 to-pink-500' },
-            { icon: Droplets, label: 'Precipitation', value: `${currentWeather?.precipitation.toFixed(1) || 0}mm`, color: 'from-blue-500 to-cyan-500' },
-            { icon: Sun, label: 'UV Index', value: `${uvIndex} - ${uvLevel.level}`, color: 'from-yellow-500 to-orange-500' },
-            { icon: Activity, label: 'Pressure', value: '1013 hPa', color: 'from-green-500 to-teal-500' }
+            { 
+              icon: Eye, 
+              label: 'Visibility', 
+              value: `${currentWeather?.visibility.toFixed(1) || 0}km`, 
+              color: 'from-purple-500 to-pink-500',
+              condition: currentWeather ? getVisibilityCondition(currentWeather.visibility) : null
+            },
+            { 
+              icon: Droplets, 
+              label: 'Precipitation', 
+              value: `${currentWeather?.precipitation.toFixed(1) || 0}mm`, 
+              color: 'from-blue-500 to-cyan-500',
+              condition: null
+            },
+            { 
+              icon: Sun, 
+              label: 'UV Index', 
+              value: `${uvIndex} - ${uvLevel.level}`, 
+              color: 'from-yellow-500 to-orange-500',
+              condition: getUVCondition(uvIndex)
+            },
+            { 
+              icon: Cloud, 
+              label: 'Cloud Cover', 
+              value: `${currentWeather?.cloudCover.toFixed(0) || 0}%`, 
+              color: 'from-gray-500 to-slate-500',
+              condition: currentWeather ? getCloudCondition(currentWeather.cloudCover) : null
+            }
           ].map((item, index) => (
             <div key={index} className="relative overflow-hidden rounded-xl group">
               <div className={`absolute inset-0 bg-gradient-to-br ${item.color} opacity-10 group-hover:opacity-20 transition-opacity`}></div>
@@ -323,6 +420,21 @@ export default function Weather1({ spots }: Weather1Props) {
                 </div>
                 <div className={`text-xs sm:text-sm lg:text-base font-bold ${themeClasses.text} mb-1`}>{item.value}</div>
                 <div className={`text-xs ${themeClasses.textSecondary}`}>{item.label}</div>
+                
+                {/* Condition Description */}
+                {item.condition && (
+                  <div className={`${themeClasses.cardBg} p-2 rounded-lg border ${themeClasses.border} text-left`}>
+                    <h5 className={`font-bold ${themeClasses.accent} mb-1 text-xs`}>
+                      {item.condition.title}
+                    </h5>
+                    <p className={`text-xs ${themeClasses.textSecondary} mb-1`}>
+                      {item.condition.description}
+                    </p>
+                    <p className={`text-xs ${themeClasses.text} font-medium`}>
+                      💡 {item.condition.recommendation}
+                    </p>
+                  </div>
+                )}
               </div>
             </div>
           ))}
