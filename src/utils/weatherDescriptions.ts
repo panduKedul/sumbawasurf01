@@ -17,30 +17,30 @@ export interface TideCondition {
 export const getWindCondition = (windSpeed: number): WeatherCondition => {
   if (windSpeed <= 3) {
     return {
-      title: "Angin Tenang",
-      description: "Kondisi angin sangat ideal untuk aktivitas air. Permukaan laut relatif tenang dengan gelombang kecil.",
-      recommendation: "Waktu yang sempurna untuk surfing pemula, snorkeling, atau aktivitas air lainnya. Kondisi sangat aman.",
+      title: "Calm Wind",
+      description: "Ideal wind conditions for water activities. Sea surface is relatively calm with small waves.",
+      recommendation: "Perfect time for beginner surfing, snorkeling, or other water activities. Very safe conditions.",
       icon: "🌊"
     };
   } else if (windSpeed <= 7) {
     return {
-      title: "Angin Sedang",
-      description: "Angin bertiup dengan kecepatan normal. Gelombang mulai terbentuk dengan baik untuk surfing.",
-      recommendation: "Kondisi bagus untuk surfing intermediate. Perhatikan arah angin untuk memilih spot terbaik.",
+      title: "Moderate Wind",
+      description: "Wind blowing at normal speed. Waves are forming well for surfing.",
+      recommendation: "Good conditions for intermediate surfing. Pay attention to wind direction to choose the best spot.",
       icon: "🌬️"
     };
   } else if (windSpeed <= 12) {
     return {
-      title: "Angin Kencang",
-      description: "Angin bertiup cukup kuat, menciptakan gelombang yang lebih besar dan kondisi laut yang lebih menantang.",
-      recommendation: "Cocok untuk surfer berpengalaman. Pemula sebaiknya menghindari atau berlatih di spot yang terlindung.",
+      title: "Strong Wind",
+      description: "Wind blowing quite strong, creating larger waves and more challenging sea conditions.",
+      recommendation: "Suitable for experienced surfers. Beginners should avoid or practice in sheltered spots.",
       icon: "💨"
     };
   } else {
     return {
-      title: "Angin Sangat Kencang",
-      description: "Kondisi angin ekstrem dengan gelombang besar dan arus yang kuat. Laut dalam kondisi berbahaya.",
-      recommendation: "Tidak disarankan untuk aktivitas air. Tunggu hingga kondisi membaik atau cari spot yang terlindung.",
+      title: "Very Strong Wind",
+      description: "Extreme wind conditions with large waves and strong currents. Sea is in dangerous condition.",
+      recommendation: "Not recommended for water activities. Wait until conditions improve or find sheltered spots.",
       icon: "⛈️"
     };
   }
@@ -50,30 +50,30 @@ export const getWindCondition = (windSpeed: number): WeatherCondition => {
 export const getWaveCondition = (waveHeight: number): WeatherCondition => {
   if (waveHeight <= 0.5) {
     return {
-      title: "Gelombang Kecil",
-      description: "Gelombang sangat kecil, ideal untuk pemula yang baru belajar surfing atau aktivitas air yang tenang.",
-      recommendation: "Sempurna untuk belajar dasar-dasar surfing, longboarding, atau aktivitas air yang santai.",
+      title: "Small Waves",
+      description: "Very small waves, ideal for beginners learning to surf or calm water activities.",
+      recommendation: "Perfect for learning surfing basics, longboarding, or relaxed water activities.",
       icon: "〰️"
     };
   } else if (waveHeight <= 1.5) {
     return {
-      title: "Gelombang Sedang",
-      description: "Ukuran gelombang yang ideal untuk sebagian besar surfer. Cukup besar untuk fun riding namun masih aman.",
-      recommendation: "Kondisi terbaik untuk surfing recreational. Cocok untuk semua level dengan pengawasan yang tepat.",
+      title: "Medium Waves",
+      description: "Ideal wave size for most surfers. Big enough for fun riding but still safe.",
+      recommendation: "Best conditions for recreational surfing. Suitable for all levels with proper supervision.",
       icon: "🌊"
     };
   } else if (waveHeight <= 2.5) {
     return {
-      title: "Gelombang Besar",
-      description: "Gelombang dengan ukuran menantang yang membutuhkan skill dan pengalaman surfing yang baik.",
-      recommendation: "Hanya untuk surfer intermediate hingga advanced. Pastikan kondisi fisik prima dan gunakan safety leash.",
+      title: "Large Waves",
+      description: "Challenging wave size that requires good surfing skills and experience.",
+      recommendation: "Only for intermediate to advanced surfers. Ensure prime physical condition and use safety leash.",
       icon: "🌊🌊"
     };
   } else {
     return {
-      title: "Gelombang Ekstrem",
-      description: "Gelombang sangat besar yang hanya cocok untuk surfer profesional dengan pengalaman big wave surfing.",
-      recommendation: "Hanya untuk expert surfer. Gunakan peralatan khusus big wave dan pastikan ada safety team.",
+      title: "Extreme Waves",
+      description: "Very large waves only suitable for professional surfers with big wave surfing experience.",
+      recommendation: "Only for expert surfers. Use special big wave equipment and ensure safety team presence.",
       icon: "🌊🌊🌊"
     };
   }
@@ -83,30 +83,30 @@ export const getWaveCondition = (waveHeight: number): WeatherCondition => {
 export const getTemperatureCondition = (temp: number): WeatherCondition => {
   if (temp <= 20) {
     return {
-      title: "Suhu Sejuk",
-      description: "Suhu air dan udara cukup dingin. Mungkin memerlukan wetsuit untuk kenyamanan saat beraktivitas.",
-      recommendation: "Gunakan wetsuit 3/2mm atau 4/3mm. Pemanasan sebelum masuk air sangat disarankan.",
+      title: "Cool Temperature",
+      description: "Water and air temperature quite cold. May require wetsuit for comfort during activities.",
+      recommendation: "Use 3/2mm or 4/3mm wetsuit. Warm-up before entering water is highly recommended.",
       icon: "🧊"
     };
   } else if (temp <= 26) {
     return {
-      title: "Suhu Nyaman",
-      description: "Suhu yang sangat ideal untuk aktivitas air. Tidak terlalu panas dan tidak terlalu dingin.",
-      recommendation: "Kondisi sempurna untuk surfing tanpa wetsuit. Jangan lupa sunscreen untuk perlindungan UV.",
+      title: "Comfortable Temperature",
+      description: "Very ideal temperature for water activities. Not too hot and not too cold.",
+      recommendation: "Perfect conditions for surfing without wetsuit. Don't forget sunscreen for UV protection.",
       icon: "🌡️"
     };
   } else if (temp <= 30) {
     return {
-      title: "Suhu Hangat",
-      description: "Suhu cukup hangat dan nyaman. Air terasa menyegarkan dan cocok untuk aktivitas air yang lama.",
-      recommendation: "Kondisi ideal untuk sesi surfing yang panjang. Tetap terhidrasi dan gunakan sun protection.",
+      title: "Warm Temperature",
+      description: "Quite warm and comfortable temperature. Water feels refreshing and suitable for long water activities.",
+      recommendation: "Ideal conditions for long surfing sessions. Stay hydrated and use sun protection.",
       icon: "☀️"
     };
   } else {
     return {
-      title: "Suhu Panas",
-      description: "Suhu sangat panas. Air mungkin terasa hangat dan paparan sinar matahari cukup intens.",
-      recommendation: "Batasi waktu di bawah sinar matahari langsung. Gunakan rashguard dan perbanyak minum air.",
+      title: "Hot Temperature",
+      description: "Very hot temperature. Water may feel warm and sun exposure is quite intense.",
+      recommendation: "Limit time under direct sunlight. Use rashguard and increase water intake.",
       icon: "🔥"
     };
   }
@@ -116,30 +116,30 @@ export const getTemperatureCondition = (temp: number): WeatherCondition => {
 export const getUVCondition = (uvIndex: number): WeatherCondition => {
   if (uvIndex <= 2) {
     return {
-      title: "UV Rendah",
-      description: "Tingkat radiasi UV minimal. Aman untuk aktivitas outdoor dalam waktu yang lama.",
-      recommendation: "Tetap gunakan sunscreen sebagai perlindungan dasar, terutama jika berada di air yang memantulkan sinar.",
+      title: "Low UV",
+      description: "Minimal UV radiation level. Safe for long outdoor activities.",
+      recommendation: "Still use sunscreen as basic protection, especially when in water that reflects sunlight.",
       icon: "🌤️"
     };
   } else if (uvIndex <= 5) {
     return {
-      title: "UV Sedang",
-      description: "Tingkat UV moderat. Perlindungan kulit mulai diperlukan untuk aktivitas outdoor yang lama.",
-      recommendation: "Gunakan sunscreen SPF 30+, topi, dan kacamata hitam. Cari teduh saat istirahat.",
+      title: "Moderate UV",
+      description: "Moderate UV level. Skin protection starts to be needed for long outdoor activities.",
+      recommendation: "Use SPF 30+ sunscreen, hat, and sunglasses. Seek shade during breaks.",
       icon: "☀️"
     };
   } else if (uvIndex <= 7) {
     return {
-      title: "UV Tinggi",
-      description: "Radiasi UV cukup kuat. Kulit dapat terbakar dalam waktu relatif singkat tanpa perlindungan.",
-      recommendation: "Wajib gunakan sunscreen SPF 50+, rashguard, dan batasi paparan langsung saat midday.",
+      title: "High UV",
+      description: "Quite strong UV radiation. Skin can burn in relatively short time without protection.",
+      recommendation: "Must use SPF 50+ sunscreen, rashguard, and limit direct exposure during midday.",
       icon: "🌞"
     };
   } else {
     return {
-      title: "UV Sangat Tinggi",
-      description: "Tingkat UV ekstrem yang dapat menyebabkan sunburn dalam hitungan menit.",
-      recommendation: "Hindari paparan langsung 10:00-16:00. Gunakan perlindungan maksimal dan cari teduh sesering mungkin.",
+      title: "Very High UV",
+      description: "Extreme UV level that can cause sunburn within minutes.",
+      recommendation: "Avoid direct exposure 10:00-16:00. Use maximum protection and seek shade as often as possible.",
       icon: "🔆"
     };
   }
@@ -186,30 +186,30 @@ export const getTideCondition = (height: number, type: 'high' | 'low'): TideCond
 export const getCloudCondition = (cloudCover: number): WeatherCondition => {
   if (cloudCover <= 25) {
     return {
-      title: "Cerah Berawan",
-      description: "Langit sebagian besar cerah dengan sedikit awan. Sinar matahari dominan sepanjang hari.",
-      recommendation: "Kondisi ideal untuk fotografi surf dan aktivitas outdoor. Jangan lupa sun protection yang maksimal.",
+      title: "Mostly Clear",
+      description: "Sky is mostly clear with few clouds. Sunlight dominates throughout the day.",
+      recommendation: "Ideal conditions for surf photography and outdoor activities. Don't forget maximum sun protection.",
       icon: "☀️"
     };
   } else if (cloudCover <= 50) {
     return {
-      title: "Berawan Sebagian",
-      description: "Langit tertutup awan sekitar setengahnya. Sinar matahari masih cukup kuat namun sesekali terhalang.",
-      recommendation: "Kondisi nyaman untuk aktivitas outdoor. UV masih kuat jadi tetap gunakan sunscreen.",
+      title: "Partly Cloudy",
+      description: "Sky is about half covered with clouds. Sunlight is still strong but occasionally blocked.",
+      recommendation: "Comfortable conditions for outdoor activities. UV is still strong so keep using sunscreen.",
       icon: "⛅"
     };
   } else if (cloudCover <= 75) {
     return {
-      title: "Berawan Tebal",
-      description: "Langit didominasi awan tebal. Sinar matahari sering terhalang, suhu cenderung lebih sejuk.",
-      recommendation: "Kondisi yang nyaman untuk sesi surfing yang lama. Risiko sunburn berkurang namun tetap waspada.",
+      title: "Mostly Cloudy",
+      description: "Sky is dominated by thick clouds. Sunlight is often blocked, temperature tends to be cooler.",
+      recommendation: "Comfortable conditions for long surfing sessions. Sunburn risk reduced but stay alert.",
       icon: "☁️"
     };
   } else {
     return {
-      title: "Mendung Total",
-      description: "Langit tertutup awan sepenuhnya. Kemungkinan hujan cukup tinggi, visibility mungkin terbatas.",
-      recommendation: "Siapkan rain gear dan perhatikan kondisi cuaca. Bisa jadi sesi surfing yang epic jika tidak hujan!",
+      title: "Overcast",
+      description: "Sky is completely covered with clouds. Rain possibility is quite high, visibility may be limited.",
+      recommendation: "Prepare rain gear and watch weather conditions. Could be an epic surf session if it doesn't rain!",
       icon: "☁️☁️"
     };
   }
@@ -219,30 +219,30 @@ export const getCloudCondition = (cloudCover: number): WeatherCondition => {
 export const getVisibilityCondition = (visibility: number): WeatherCondition => {
   if (visibility >= 15) {
     return {
-      title: "Visibility Excellent",
-      description: "Jarak pandang sangat jernih dan jauh. Kondisi ideal untuk melihat set waves dari kejauhan.",
-      recommendation: "Perfect untuk spot hunting dan menikmati pemandangan. Kondisi fotografi yang excellent.",
+      title: "Excellent Visibility",
+      description: "Very clear and far visibility. Ideal conditions for seeing wave sets from distance.",
+      recommendation: "Perfect for spot hunting and enjoying scenery. Excellent photography conditions.",
       icon: "👁️✨"
     };
   } else if (visibility >= 10) {
     return {
-      title: "Visibility Baik",
-      description: "Jarak pandang cukup baik untuk sebagian besar aktivitas. Dapat melihat kondisi laut dengan jelas.",
-      recommendation: "Kondisi normal untuk surfing. Tetap waspada terhadap perubahan cuaca mendadak.",
+      title: "Good Visibility",
+      description: "Quite good visibility for most activities. Can see sea conditions clearly.",
+      recommendation: "Normal conditions for surfing. Stay alert for sudden weather changes.",
       icon: "👁️"
     };
   } else if (visibility >= 5) {
     return {
-      title: "Visibility Terbatas",
-      description: "Jarak pandang mulai terbatas karena kabut, hujan, atau kondisi cuaca lainnya.",
-      recommendation: "Extra caution saat surfing. Pastikan selalu dalam jangkauan visual dari pantai.",
+      title: "Limited Visibility",
+      description: "Visibility starts to be limited due to fog, rain, or other weather conditions.",
+      recommendation: "Extra caution when surfing. Always stay within visual range of the beach.",
       icon: "🌫️"
     };
   } else {
     return {
-      title: "Visibility Buruk",
-      description: "Jarak pandang sangat terbatas. Kondisi berbahaya untuk aktivitas air yang jauh dari pantai.",
-      recommendation: "Tidak disarankan untuk surfing jauh dari pantai. Stick to spots yang dekat dengan shore.",
+      title: "Poor Visibility",
+      description: "Very limited visibility. Dangerous conditions for water activities far from beach.",
+      recommendation: "Not recommended for surfing far from beach. Stick to spots close to shore.",
       icon: "🌫️🌫️"
     };
   }
@@ -274,12 +274,12 @@ export const getBestSurfTimeRecommendation = (weather: any, tide: any): string =
   const tideCondition = getTideCondition(tide.height, tide.type);
   
   if (weather.windSpeed <= 7 && weather.waveHeight >= 1.0 && weather.waveHeight <= 2.0) {
-    return `🏄‍♂️ Kondisi surf EXCELLENT! ${windCondition.title.toLowerCase()}, ${waveCondition.title.toLowerCase()}, dan ${tideCondition.title.toLowerCase()} - perfect combo!`;
+    return `🏄‍♂️ EXCELLENT surf conditions! ${windCondition.title.toLowerCase()}, ${waveCondition.title.toLowerCase()} - perfect combo for surfing!`;
   } else if (weather.windSpeed <= 10 && weather.waveHeight >= 0.8) {
-    return `🌊 Kondisi surf GOOD! ${waveCondition.recommendation}`;
+    return `🌊 GOOD surf conditions! ${waveCondition.recommendation}`;
   } else if (weather.waveHeight < 0.8) {
-    return `😴 Kondisi surf FLAT. Waktu yang tepat untuk belajar atau istirahat. Cek forecast untuk swell berikutnya.`;
+    return `😴 FLAT surf conditions. Perfect time for learning or resting. Check forecast for next swell.`;
   } else {
-    return `⚠️ Kondisi surf CHALLENGING. ${windCondition.recommendation}`;
+    return `⚠️ CHALLENGING surf conditions. ${windCondition.recommendation}`;
   }
 };

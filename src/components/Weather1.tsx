@@ -203,7 +203,7 @@ export default function Weather1({ spots }: Weather1Props) {
                 <div className="text-center">
                   <h2 className={`text-lg sm:text-xl lg:text-2xl font-bold ${themeClasses.text} mb-4 flex items-center justify-center`}>
                     <Activity className={`w-5 h-5 lg:w-6 lg:h-6 ${themeClasses.accent} mr-3`} />
-                    Rekomendasi Surf Hari Ini
+                    Today's Surf Recommendations
                   </h2>
                   <div className={`${themeClasses.cardBg} p-4 lg:p-6 rounded-xl border ${themeClasses.border} shadow-lg`}>
                     <p className={`text-sm sm:text-base lg:text-lg ${themeClasses.text} leading-relaxed`}>
@@ -449,34 +449,36 @@ export default function Weather1({ spots }: Weather1Props) {
                 <Activity className={`w-5 h-5 lg:w-6 lg:h-6 ${themeClasses.accent}`} />
                 <span>24-Hour Detailed Forecast</span>
               </h3>
+            </div>
+            <div className="p-4 lg:p-6">
               {/* Mobile: Horizontal Scroll - Ultra Responsive */}
-              <div className="sm:hidden">
+              <div className="sm:hidden overflow-hidden">
                 <div className="overflow-x-auto pb-3 -mx-2">
                   <div className="flex gap-2 px-2" style={{ minWidth: 'max-content' }}>
                     {getHourlyForecast().map((hour, index) => (
-                      <div key={index} className="relative overflow-hidden rounded-lg flex-shrink-0 min-w-[85px]">
+                      <div key={index} className="relative overflow-hidden rounded-lg flex-shrink-0 min-w-[90px] max-w-[90px]">
                         <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-purple-500/10 backdrop-blur-sm"></div>
-                        <div className={`relative ${themeClasses.cardBg} p-2.5 border ${themeClasses.border} shadow-md`}>
+                        <div className={`relative ${themeClasses.cardBg} p-3 border ${themeClasses.border} shadow-lg`}>
                           <div className="text-center">
-                            <p className={`text-xs ${themeClasses.textSecondary} mb-2 font-semibold`}>
+                            <p className={`text-xs ${themeClasses.textSecondary} mb-2 font-semibold truncate`}>
                               {new Date(hour.time).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false })}
                             </p>
-                            <div className="space-y-1.5">
+                            <div className="space-y-2">
                               <div className="flex flex-col items-center space-y-0.5">
                                 <Thermometer className="w-3 h-3 text-orange-500" />
-                                <span className={`text-xs ${themeClasses.text} font-bold`}>{hour.airTemperature.toFixed(0)}°C</span>
+                                <span className={`text-xs ${themeClasses.text} font-bold truncate`}>{hour.airTemperature.toFixed(0)}°C</span>
                               </div>
                               <div className="flex flex-col items-center space-y-0.5">
                                 <Wind className="w-3 h-3 text-cyan-500" />
-                                <span className={`text-xs ${themeClasses.textSecondary} font-medium`}>{hour.windSpeed.toFixed(0)}m/s</span>
+                                <span className={`text-xs ${themeClasses.textSecondary} font-medium truncate`}>{hour.windSpeed.toFixed(0)}m/s</span>
                               </div>
                               <div className="flex flex-col items-center space-y-0.5">
                                 <Waves className="w-3 h-3 text-blue-500" />
-                                <span className={`text-xs ${themeClasses.textSecondary} font-medium`}>{hour.waveHeight.toFixed(1)}m</span>
+                                <span className={`text-xs ${themeClasses.textSecondary} font-medium truncate`}>{hour.waveHeight.toFixed(1)}m</span>
                               </div>
                               <div className="flex flex-col items-center space-y-0.5">
                                 <Cloud className="w-3 h-3 text-gray-500" />
-                                <span className={`text-xs ${themeClasses.textSecondary} font-medium`}>{hour.cloudCover.toFixed(0)}%</span>
+                                <span className={`text-xs ${themeClasses.textSecondary} font-medium truncate`}>{hour.cloudCover.toFixed(0)}%</span>
                               </div>
                             </div>
                           </div>
@@ -558,25 +560,48 @@ export default function Weather1({ spots }: Weather1Props) {
           </div>
         </div>
 
-        {/* Desktop: Grid Layout */}
-        <div className="hidden lg:grid lg:grid-cols-6 gap-4">
-          {/* Location & Update Info */}
-          <div className="relative overflow-hidden rounded-xl">
-            <div className="absolute inset-0 bg-gradient-to-br from-gray-500/5 to-slate-500/5 backdrop-blur-sm"></div>
-            <div className={`relative ${themeClasses.cardBg} p-4 lg:p-6 text-center shadow-lg border ${themeClasses.border}`}>
-              <div className={`flex flex-col space-y-2 ${themeClasses.textSecondary}`}>
-                <div className="flex items-center justify-center space-x-2">
-                  <MapPin className={`w-4 h-4 lg:w-5 lg:h-5 ${themeClasses.accent}`} />
-                  <span className={`font-medium text-sm lg:text-base ${themeClasses.text}`}>{selectedSpot.name}</span>
+        {/* Location & Update Info - Enhanced to match Tides style */}
+        <div className="relative overflow-hidden rounded-2xl">
+          <div className="absolute inset-0 bg-gradient-to-br from-gray-500/5 to-slate-500/5 backdrop-blur-sm"></div>
+          <div className={`relative ${themeClasses.cardBg} shadow-2xl border ${themeClasses.border}`}>
+            <div className={`p-4 lg:p-6 border-b ${themeClasses.border}`}>
+              <h3 className={`text-lg lg:text-xl font-bold ${themeClasses.text} text-center flex items-center justify-center space-x-3`}>
+                <MapPin className={`w-5 h-5 lg:w-6 lg:h-6 ${themeClasses.accent}`} />
+                <span>Location & Update Information</span>
+              </h3>
+            </div>
+            <div className="p-4 lg:p-6">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 lg:gap-6">
+                {/* Location Name */}
+                <div className="text-center">
+                  <div className={`${themeClasses.accent} font-semibold mb-2 text-sm lg:text-base`}>Surf Spot</div>
+                  <div className={`${themeClasses.text} text-sm lg:text-base font-medium`}>{selectedSpot.name}</div>
                 </div>
-                <div className="text-xs lg:text-sm">
-                  {selectedSpot.coordinates[0].toFixed(4)}, {selectedSpot.coordinates[1].toFixed(4)}
-                </div>
-                {lastUpdated && (
-                  <div className="text-xs lg:text-sm">
-                    Last updated: {lastUpdated.toLocaleTimeString()}
+                
+                {/* Coordinates */}
+                <div className="text-center">
+                  <div className={`${themeClasses.accent} font-semibold mb-2 text-sm lg:text-base`}>Coordinates</div>
+                  <div className={`${themeClasses.textSecondary} text-sm lg:text-base font-mono`}>
+                    {selectedSpot.coordinates[0].toFixed(4)}, {selectedSpot.coordinates[1].toFixed(4)}
                   </div>
-                )}
+                </div>
+                
+                {/* Last Updated */}
+                <div className="text-center">
+                  <div className={`${themeClasses.accent} font-semibold mb-2 text-sm lg:text-base`}>Last Updated</div>
+                  <div className={`${themeClasses.textSecondary} text-sm lg:text-base`}>
+                    {lastUpdated ? lastUpdated.toLocaleTimeString() : 'Loading...'}
+                  </div>
+                </div>
+              </div>
+              
+              {/* Additional Info */}
+              <div className="mt-6 pt-4 border-t border-gray-200 dark:border-gray-700">
+                <div className="text-center">
+                  <p className={`${themeClasses.textSecondary} text-sm lg:text-base leading-relaxed`}>
+                    Weather data is updated every 6 hours with the latest meteorological information from reliable sources.
+                  </p>
+                </div>
               </div>
             </div>
           </div>
