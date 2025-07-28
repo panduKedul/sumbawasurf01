@@ -149,8 +149,11 @@ export default function Header({
         </div>
 
         {/* Mobile Menu */}
+        </div>
+
+        {/* Mobile Menu - Fixed positioning and z-index */}
         {showMobileMenu && (
-          <div className={`md:hidden mt-2 p-3 ${themeClasses.cardBg} rounded-lg mb-3 mx-2`}>
+          <div className={`md:hidden absolute top-full left-0 right-0 mt-2 mx-2 p-3 ${themeClasses.cardBg} rounded-lg mb-3 shadow-2xl border ${themeClasses.border} z-50`}>
             <div className="space-y-2">
               <button
                 onClick={() => {
@@ -254,7 +257,6 @@ export default function Header({
             </div>
           </div>
         )}
-      </div>
     </header>
   );
 }

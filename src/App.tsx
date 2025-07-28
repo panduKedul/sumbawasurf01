@@ -107,7 +107,7 @@ function AppContent() {
 
   const MainContent = () => (
     <div 
-      className={`min-h-screen flex flex-col ${themeClasses.bg} ${themeClasses.text} pt-16`}
+      className={`min-h-screen flex flex-col ${themeClasses.bg} ${themeClasses.text} pt-16 relative`}
       onClick={() => {
         if (showMobileMenu) {
           setShowMobileMenu(false);
@@ -147,18 +147,13 @@ function AppContent() {
       {/* Admin Login Modal */}
       {showAdminLogin && <AdminLogin />}
       
-      {/* Toast Notifications */}
-      <Toaster
-        position="top-right"
-        toastOptions={{ duration: 4000 }}
-      />
-      <main className={`flex flex-1 overflow-hidden mt-0 transition-all duration-300 ${showMobileMenu ? 'blur-sm' : ''}`}>
+      <main className={`flex flex-1 overflow-hidden mt-0 transition-all duration-300 ${showMobileMenu ? 'blur-sm pointer-events-none' : ''}`}>
         {/* Desktop Sidebar */}
-        <div className={`hidden lg:flex w-80 xl:w-96 ${themeClasses.cardBg} border-r ${themeClasses.border} shadow-xl flex-shrink-0 flex-col mt-0 transition-all duration-300 ${showMobileMenu ? 'blur-[2px] pointer-events-none' : ''}`}>
+        <div className={`hidden lg:flex w-80 xl:w-96 ${themeClasses.cardBg} border-r ${themeClasses.border} shadow-xl flex-shrink-0 flex-col mt-0`}>
           <SpotList spots={spots} onSelectSpot={handleSpotSelect} selectedSpot={selectedSpot} />
         </div>
 
-        <div className={`flex-1 flex flex-col transition-all duration-300 ${showMobileMenu ? 'blur-[2px] pointer-events-none' : ''}`}>
+        <div className={`flex-1 flex flex-col`}>
           {showWeather ? (
             <Weather1 spots={spots} />
           ) : showTides ? (
