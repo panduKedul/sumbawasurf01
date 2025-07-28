@@ -12,6 +12,15 @@ export interface WeatherData {
   pressure: number;
 }
 
+export interface TideData {
+  time: string;
+  height: number;
+  type: 'high' | 'low';
+  moonPhase: string;
+  sunriseTime: string;
+  sunsetTime: string;
+}
+
 export const fetchWeatherData = async (lat: number, lon: number): Promise<WeatherData[]> => {
   try {
     // Simulate API call with realistic data patterns
@@ -79,6 +88,79 @@ export const getFallbackWeatherData = (): WeatherData[] => {
       visibility: 12 + Math.sin(i * 0.07) * 3,
       precipitation: Math.max(0, Math.sin(i * 0.15) * 1),
       pressure: 1015 + Math.sin(i * 0.04) * 6
+    });
+  }
+  
+  return fallbackData;
+};
+
+export const fetchTideData = async (lat: number, lon: number): Promise<TideData[]> => {
+  try {
+    // Simulate API call with realistic tide data patterns
+    const now = new Date();
+    const tideData: TideData[] = [];
+    
+    for (let i = 0; i < 336; i++) { // 14 days * 24 hours
+      const time = new Date(now.getTime() + i * 60 * 60 * 1000);
+      const hour = time.getHours();
+      const day = Math.floor(i / 24);
+      
+      // Realistic tide patterns (2 high, 2 low per day with 6.2 hour intervals)
+      const tidePhase = (i * 6.2) % 24;
+      const baseHeight = 1.5 + Math.sin((tidePhase * Math.PI) / 12) * 1.2;
+      const variation = Math.sin(day * 0.1) * 0.3;
+      
+      // Determine tide type
+      const tideType = (tidePhase % 12) < 6 ? 'high' : 'low';
+      
+      // Moon phase calculation
+      const moonPhases = ['New Moon', 'Waxing Crescent', 'First Quarter', 'Waxing Gibbous', 'Full Moon', 'Waning Gibbous', 'Last Quarter', 'Waning Crescent'];
+      const moonPhase = moonPhases[day % 8];
+      
+      // Sunrise/sunset times
+      const sunriseHour = 6 + Math.sin(day * 0.1) * 1;
+      const sunsetHour = 18 + Math.sin(day * 0.1) * 1;
+      
+      tideData.push({
+        time: time.toISOString(),
+        height: Math.max(0.2, baseHeight + variation + (Math.random() - 0.5) * 0.2),
+        type: tideType,
+        moonPhase,
+        sunriseTime: `${Math.floor(sunriseHour)}:${String(Math.floor((sunriseHour % 1) * 60)).padStart(2, '0')}`,
+        sunsetTime: `${Math.floor(sunsetHour)}:${String(Math.floor((sunsetHour % 1) * 60)).padStart(2, '0')}`
+      });
+    }
+    
+    return tideData;
+  } catch (error) {
+    console.error('Error fetching tide data:', error);
+    return getFallbackTideData();
+  }
+};
+
+export const getFallbackTideData = (): TideData[] => {
+  const now = new Date();
+  const fallbackData: TideData[] = [];
+  
+  for (let i = 0; i < 336; i++) { // 14 days * 24 hours
+    const time = new Date(now.getTime() + i * 60 * 60 * 1000);
+    const day = Math.floor(i / 24);
+    
+    // Simple fallback tide patterns
+    const tidePhase = (i * 6.2) % 24;
+    const baseHeight = 1.4 + Math.sin((tidePhase * Math.PI) / 12) * 1.1;
+    const tideType = (tidePhase % 12) < 6 ? 'high' : 'low';
+    
+    const moonPhases = ['New Moon', 'Waxing Crescent', 'First Quarter', 'Waxing Gibbous', 'Full Moon', 'Waning Gibbous', 'Last Quarter', 'Waning Crescent'];
+    const moonPhase = moonPhases[day % 8];
+    
+    fallbackData.push({
+      time: time.toISOString(),
+      height: Math.max(0.3, baseHeight + Math.sin(i * 0.08) * 0.2),
+      type: tideType,
+      moonPhase,
+      sunriseTime: '6:30',
+      sunsetTime: '18:30'
     });
   }
   
