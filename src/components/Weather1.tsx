@@ -188,69 +188,69 @@ export default function Weather1({ spots }: Weather1Props) {
         {currentWeather && (
           <div className="relative overflow-hidden rounded-2xl">
             <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 via-cyan-500/5 to-purple-500/10 backdrop-blur-xl"></div>
-            <div className={`relative ${themeClasses.cardBg} p-4 sm:p-6 lg:p-8 shadow-2xl border ${themeClasses.border}`}>
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
+            <div className={`relative ${themeClasses.cardBg} p-3 sm:p-4 md:p-6 lg:p-8 shadow-2xl border ${themeClasses.border}`}>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 lg:gap-8">
                 {/* Left Side - Main Weather - Enhanced */}
                 <div className="text-center lg:text-left">
-                  <h2 className={`text-xl sm:text-2xl lg:text-3xl font-bold ${themeClasses.text} mb-4 flex items-center justify-center lg:justify-start`}>
-                    <Activity className={`w-6 h-6 lg:w-8 lg:h-8 ${themeClasses.accent} mr-3`} />
+                  <h2 className={`text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold ${themeClasses.text} mb-3 sm:mb-4 flex items-center justify-center lg:justify-start`}>
+                    <Activity className={`w-5 h-5 sm:w-6 sm:h-6 lg:w-8 lg:h-8 ${themeClasses.accent} mr-2 sm:mr-3`} />
                     Current Conditions
                   </h2>
-                  <div className="flex items-center justify-center lg:justify-start space-x-4 mb-6">
+                  <div className="flex items-center justify-center lg:justify-start space-x-3 sm:space-x-4 mb-4 sm:mb-6">
                     <div className="relative">
                       <div className="absolute inset-0 bg-gradient-to-r from-orange-500 to-red-500 rounded-xl blur-lg opacity-30"></div>
-                      <div className={`relative p-3 bg-gradient-to-r from-orange-500 to-red-500 rounded-xl`}>
-                        <Thermometer className="w-6 h-6 lg:w-8 lg:h-8 text-white" />
+                      <div className={`relative p-2 sm:p-3 bg-gradient-to-r from-orange-500 to-red-500 rounded-xl`}>
+                        <Thermometer className="w-5 h-5 sm:w-6 sm:h-6 lg:w-8 lg:h-8 text-white" />
                       </div>
                     </div>
                     <div>
-                      <div className={`text-3xl sm:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-orange-500 to-red-500 bg-clip-text text-transparent`}>
+                      <div className={`text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-orange-500 to-red-500 bg-clip-text text-transparent`}>
                         {currentWeather.airTemperature.toFixed(1)}°C
                       </div>
-                      <div className={`text-sm lg:text-base ${themeClasses.textSecondary}`}>Air Temperature</div>
+                      <div className={`text-xs sm:text-sm lg:text-base ${themeClasses.textSecondary}`}>Air Temperature</div>
                     </div>
                   </div>
                   
                   {/* Additional Info */}
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className={`${themeClasses.cardBg} p-4 rounded-xl text-center shadow-lg border ${themeClasses.border}`}>
-                      <div className={`text-lg sm:text-xl font-bold ${themeClasses.accent}`}>
+                  <div className="grid grid-cols-2 gap-2 sm:gap-3 md:gap-4">
+                    <div className={`${themeClasses.cardBg} p-2 sm:p-3 md:p-4 rounded-lg sm:rounded-xl text-center shadow-lg border ${themeClasses.border}`}>
+                      <div className={`text-sm sm:text-base md:text-lg lg:text-xl font-bold ${themeClasses.accent}`}>
                         {currentWeather.waterTemperature.toFixed(1)}°C
                       </div>
-                      <div className={`text-sm ${themeClasses.textSecondary}`}>Water Temp</div>
+                      <div className={`text-xs sm:text-sm ${themeClasses.textSecondary}`}>Water Temp</div>
                     </div>
-                    <div className={`${themeClasses.cardBg} p-4 rounded-xl text-center shadow-lg border ${themeClasses.border}`}>
-                      <div className={`text-lg sm:text-xl font-bold ${themeClasses.accent}`}>
+                    <div className={`${themeClasses.cardBg} p-2 sm:p-3 md:p-4 rounded-lg sm:rounded-xl text-center shadow-lg border ${themeClasses.border}`}>
+                      <div className={`text-sm sm:text-base md:text-lg lg:text-xl font-bold ${themeClasses.accent}`}>
                         {currentWeather.cloudCover.toFixed(0)}%
                       </div>
-                      <div className={`text-sm ${themeClasses.textSecondary}`}>Cloud Cover</div>
+                      <div className={`text-xs sm:text-sm ${themeClasses.textSecondary}`}>Cloud Cover</div>
                     </div>
                   </div>
                 </div>
 
                 {/* Right Side - Wind & Waves - Enhanced */}
-                <div className="space-y-4">
+                <div className="space-y-3 sm:space-y-4">
                   {/* Wind Info - Enhanced */}
                   <div className="relative overflow-hidden rounded-xl">
                     <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 to-blue-500/10 backdrop-blur-sm"></div>
-                    <div className={`relative ${themeClasses.cardBg} p-4 lg:p-6 border ${themeClasses.border} shadow-lg`}>
-                      <div className="flex items-center space-x-3 mb-4">
-                        <Wind className={`w-5 h-5 lg:w-6 lg:h-6 ${themeClasses.accent}`} />
-                        <h3 className={`text-lg lg:text-xl font-bold ${themeClasses.text}`}>Wind Conditions</h3>
+                    <div className={`relative ${themeClasses.cardBg} p-3 sm:p-4 lg:p-6 border ${themeClasses.border} shadow-lg`}>
+                      <div className="flex items-center space-x-2 sm:space-x-3 mb-3 sm:mb-4">
+                        <Wind className={`w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 ${themeClasses.accent}`} />
+                        <h3 className={`text-sm sm:text-base md:text-lg lg:text-xl font-bold ${themeClasses.text}`}>Wind Conditions</h3>
                       </div>
-                      <div className="grid grid-cols-2 gap-4">
+                      <div className="grid grid-cols-2 gap-2 sm:gap-3 md:gap-4">
                         <div>
-                          <div className={`text-xl lg:text-2xl font-bold ${themeClasses.accent}`}>
+                          <div className={`text-base sm:text-lg md:text-xl lg:text-2xl font-bold ${themeClasses.accent}`}>
                             {currentWeather.windSpeed.toFixed(1)} m/s
                           </div>
-                          <div className={`text-sm ${themeClasses.textSecondary}`}>Speed</div>
+                          <div className={`text-xs sm:text-sm ${themeClasses.textSecondary}`}>Speed</div>
                         </div>
                         <div>
-                          <div className={`text-xl lg:text-2xl font-bold ${themeClasses.accent} flex items-center space-x-2`}>
-                            <Compass className="w-4 h-4 lg:w-5 lg:h-5" />
+                          <div className={`text-base sm:text-lg md:text-xl lg:text-2xl font-bold ${themeClasses.accent} flex items-center space-x-1 sm:space-x-2`}>
+                            <Compass className="w-3 h-3 sm:w-4 sm:h-4 lg:w-5 lg:h-5" />
                             <span>{getWindDirection(currentWeather.windDirection)}</span>
                           </div>
-                          <div className={`text-sm ${themeClasses.textSecondary}`}>Direction</div>
+                          <div className={`text-xs sm:text-sm ${themeClasses.textSecondary}`}>Direction</div>
                         </div>
                       </div>
                     </div>
@@ -259,23 +259,23 @@ export default function Weather1({ spots }: Weather1Props) {
                   {/* Wave Info - Enhanced */}
                   <div className="relative overflow-hidden rounded-xl">
                     <div className="absolute inset-0 bg-gradient-to-br from-teal-500/10 to-cyan-500/10 backdrop-blur-sm"></div>
-                    <div className={`relative ${themeClasses.cardBg} p-4 lg:p-6 border ${themeClasses.border} shadow-lg`}>
-                      <div className="flex items-center space-x-3 mb-4">
-                        <Waves className={`w-5 h-5 lg:w-6 lg:h-6 ${themeClasses.accent}`} />
-                        <h3 className={`text-lg lg:text-xl font-bold ${themeClasses.text}`}>Wave Conditions</h3>
+                    <div className={`relative ${themeClasses.cardBg} p-3 sm:p-4 lg:p-6 border ${themeClasses.border} shadow-lg`}>
+                      <div className="flex items-center space-x-2 sm:space-x-3 mb-3 sm:mb-4">
+                        <Waves className={`w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 ${themeClasses.accent}`} />
+                        <h3 className={`text-sm sm:text-base md:text-lg lg:text-xl font-bold ${themeClasses.text}`}>Wave Conditions</h3>
                       </div>
-                      <div className="grid grid-cols-2 gap-4">
+                      <div className="grid grid-cols-2 gap-2 sm:gap-3 md:gap-4">
                         <div>
-                          <div className={`text-xl lg:text-2xl font-bold ${themeClasses.accent}`}>
+                          <div className={`text-base sm:text-lg md:text-xl lg:text-2xl font-bold ${themeClasses.accent}`}>
                             {currentWeather.waveHeight.toFixed(1)}m
                           </div>
-                          <div className={`text-sm ${themeClasses.textSecondary}`}>Height</div>
+                          <div className={`text-xs sm:text-sm ${themeClasses.textSecondary}`}>Height</div>
                         </div>
                         <div>
-                          <div className={`text-xl lg:text-2xl font-bold ${themeClasses.accent}`}>
+                          <div className={`text-base sm:text-lg md:text-xl lg:text-2xl font-bold ${themeClasses.accent}`}>
                             {currentWeather.wavePeriod.toFixed(0)}s
                           </div>
-                          <div className={`text-sm ${themeClasses.textSecondary}`}>Period</div>
+                          <div className={`text-xs sm:text-sm ${themeClasses.textSecondary}`}>Period</div>
                         </div>
                       </div>
                     </div>
@@ -291,9 +291,9 @@ export default function Weather1({ spots }: Weather1Props) {
           <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-purple-500/5 backdrop-blur-sm"></div>
           <div className={`relative ${themeClasses.cardBg} shadow-2xl border ${themeClasses.border} overflow-hidden`}>
             <div className={`p-4 lg:p-6 border-b ${themeClasses.border}`}>
-              <h3 className={`text-lg lg:text-xl font-bold ${themeClasses.text} text-center`}>Live Weather Map</h3>
+              <h3 className={`text-base sm:text-lg lg:text-xl font-bold ${themeClasses.text} text-center`}>Live Weather Map</h3>
             </div>
-            <div className="h-64 sm:h-80 lg:h-96">
+            <div className="h-48 sm:h-64 md:h-80 lg:h-96">
               <iframe
                 src={getWindyUrl()}
                 className="w-full h-full border-0"
@@ -305,7 +305,7 @@ export default function Weather1({ spots }: Weather1Props) {
         </div>
 
         {/* Extended Weather Info */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 lg:gap-6">
           {[
             { icon: Eye, label: 'Visibility', value: `${currentWeather?.visibility.toFixed(1) || 0}km`, color: 'from-purple-500 to-pink-500' },
             { icon: Droplets, label: 'Precipitation', value: `${currentWeather?.precipitation.toFixed(1) || 0}mm`, color: 'from-blue-500 to-cyan-500' },
@@ -314,15 +314,15 @@ export default function Weather1({ spots }: Weather1Props) {
           ].map((item, index) => (
             <div key={index} className="relative overflow-hidden rounded-xl group">
               <div className={`absolute inset-0 bg-gradient-to-br ${item.color} opacity-10 group-hover:opacity-20 transition-opacity`}></div>
-              <div className={`relative ${themeClasses.cardBg} p-4 lg:p-6 text-center shadow-lg border ${themeClasses.border} backdrop-blur-sm`}>
+              <div className={`relative ${themeClasses.cardBg} p-3 sm:p-4 lg:p-6 text-center shadow-lg border ${themeClasses.border} backdrop-blur-sm`}>
                 <div className="relative mb-3">
                   <div className={`absolute inset-0 bg-gradient-to-r ${item.color} rounded-lg blur-lg opacity-30`}></div>
                   <div className={`relative p-2 bg-gradient-to-r ${item.color} rounded-lg`}>
-                    <item.icon className="w-5 h-5 lg:w-6 lg:h-6 text-white mx-auto" />
+                    <item.icon className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 text-white mx-auto" />
                   </div>
                 </div>
-                <div className={`text-sm lg:text-base font-bold ${themeClasses.text} mb-1`}>{item.value}</div>
-                <div className={`text-xs lg:text-sm ${themeClasses.textSecondary}`}>{item.label}</div>
+                <div className={`text-xs sm:text-sm lg:text-base font-bold ${themeClasses.text} mb-1`}>{item.value}</div>
+                <div className={`text-xs ${themeClasses.textSecondary}`}>{item.label}</div>
               </div>
             </div>
           ))}
@@ -337,37 +337,34 @@ export default function Weather1({ spots }: Weather1Props) {
                 <Activity className={`w-5 h-5 lg:w-6 lg:h-6 ${themeClasses.accent}`} />
                 <span>24-Hour Detailed Forecast</span>
               </h3>
-            </div>
-            
-            <div className="p-4 lg:p-6">
-              {/* Mobile: Horizontal Scroll */}
-              <div className="lg:hidden">
-                <div className="overflow-x-auto pb-4">
-                  <div className="flex gap-3" style={{ minWidth: 'max-content' }}>
+              {/* Mobile: Horizontal Scroll - Ultra Responsive */}
+              <div className="sm:hidden">
+                <div className="overflow-x-auto pb-3 -mx-2">
+                  <div className="flex gap-2 px-2" style={{ minWidth: 'max-content' }}>
                     {getHourlyForecast().map((hour, index) => (
-                      <div key={index} className="relative overflow-hidden rounded-xl flex-shrink-0 min-w-[90px]">
+                      <div key={index} className="relative overflow-hidden rounded-lg flex-shrink-0 min-w-[85px]">
                         <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-purple-500/10 backdrop-blur-sm"></div>
-                        <div className={`relative ${themeClasses.cardBg} p-3 border ${themeClasses.border} shadow-lg`}>
+                        <div className={`relative ${themeClasses.cardBg} p-2.5 border ${themeClasses.border} shadow-md`}>
                           <div className="text-center">
-                            <p className={`text-xs ${themeClasses.textSecondary} mb-2 font-medium`}>
+                            <p className={`text-xs ${themeClasses.textSecondary} mb-2 font-semibold`}>
                               {new Date(hour.time).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false })}
                             </p>
-                            <div className="space-y-2">
-                              <div className="flex items-center justify-center space-x-1">
+                            <div className="space-y-1.5">
+                              <div className="flex flex-col items-center space-y-0.5">
                                 <Thermometer className="w-3 h-3 text-orange-500" />
-                                <span className={`text-xs ${themeClasses.text} font-medium`}>{hour.airTemperature.toFixed(0)}°C</span>
+                                <span className={`text-xs ${themeClasses.text} font-bold`}>{hour.airTemperature.toFixed(0)}°C</span>
                               </div>
-                              <div className="flex items-center justify-center space-x-1">
+                              <div className="flex flex-col items-center space-y-0.5">
                                 <Wind className="w-3 h-3 text-cyan-500" />
-                                <span className={`text-xs ${themeClasses.textSecondary}`}>{hour.windSpeed.toFixed(0)} m/s</span>
+                                <span className={`text-xs ${themeClasses.textSecondary} font-medium`}>{hour.windSpeed.toFixed(0)}m/s</span>
                               </div>
-                              <div className="flex items-center justify-center space-x-1">
+                              <div className="flex flex-col items-center space-y-0.5">
                                 <Waves className="w-3 h-3 text-blue-500" />
-                                <span className={`text-xs ${themeClasses.textSecondary}`}>{hour.waveHeight.toFixed(1)}m</span>
+                                <span className={`text-xs ${themeClasses.textSecondary} font-medium`}>{hour.waveHeight.toFixed(1)}m</span>
                               </div>
-                              <div className="flex items-center justify-center space-x-1">
+                              <div className="flex flex-col items-center space-y-0.5">
                                 <Cloud className="w-3 h-3 text-gray-500" />
-                                <span className={`text-xs ${themeClasses.textSecondary}`}>{hour.cloudCover.toFixed(0)}%</span>
+                                <span className={`text-xs ${themeClasses.textSecondary} font-medium`}>{hour.cloudCover.toFixed(0)}%</span>
                               </div>
                             </div>
                           </div>
@@ -377,6 +374,43 @@ export default function Weather1({ spots }: Weather1Props) {
                   </div>
                 </div>
               </div>
+
+              {/* Tablet: Grid 3 columns */}
+              <div className="hidden sm:grid md:hidden grid-cols-3 gap-3">
+                {getHourlyForecast().map((hour, index) => (
+                  <div key={index} className="relative overflow-hidden rounded-xl group">
+                    <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-purple-500/10 backdrop-blur-sm group-hover:from-blue-500/20 group-hover:to-purple-500/20 transition-all"></div>
+                    <div className={`relative ${themeClasses.cardBg} p-3 border ${themeClasses.border} shadow-lg`}>
+                      <div className="text-center">
+                        <p className={`text-sm ${themeClasses.textSecondary} mb-2 font-medium`}>
+                          {new Date(hour.time).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false })}
+                        </p>
+                        <div className="space-y-2">
+                          <div className="flex items-center justify-center space-x-1.5">
+                            <Thermometer className="w-3.5 h-3.5 text-orange-500" />
+                            <span className={`text-sm ${themeClasses.text} font-medium`}>{hour.airTemperature.toFixed(0)}°C</span>
+                          </div>
+                          <div className="flex items-center justify-center space-x-1.5">
+                            <Wind className="w-3.5 h-3.5 text-cyan-500" />
+                            <span className={`text-sm ${themeClasses.textSecondary}`}>{hour.windSpeed.toFixed(0)} m/s</span>
+                          </div>
+                          <div className="flex items-center justify-center space-x-1.5">
+                            <Waves className="w-3.5 h-3.5 text-blue-500" />
+                            <span className={`text-sm ${themeClasses.textSecondary}`}>{hour.waveHeight.toFixed(1)}m</span>
+                          </div>
+                          <div className="flex items-center justify-center space-x-1.5">
+                            <Cloud className="w-3.5 h-3.5 text-gray-500" />
+                            <span className={`text-sm ${themeClasses.textSecondary}`}>{hour.cloudCover.toFixed(0)}%</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Desktop: Grid 6 columns */}
+              <div className="hidden md:grid lg:grid-cols-6 gap-4">
                 {getHourlyForecast().map((hour, index) => (
                   <div key={index} className="relative overflow-hidden rounded-xl group">
                     <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-purple-500/10 backdrop-blur-sm group-hover:from-blue-500/20 group-hover:to-purple-500/20 transition-all"></div>
