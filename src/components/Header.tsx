@@ -169,7 +169,7 @@ export default function Header({
                 <button
                   onClick={() => {
                     resetToHome();
-                    setShowMobileMenu(false);
+                    toggleMobileMenu();
                   }}
                   className={`w-full text-left px-4 py-3 rounded-lg font-medium transition-all duration-300 text-sm ${
                     showHome 
@@ -183,7 +183,7 @@ export default function Header({
                 <button
                   onClick={() => {
                     toggleWeather();
-                    setShowMobileMenu(false);
+                    toggleMobileMenu();
                   }}
                   className={`w-full text-left px-4 py-3 rounded-lg font-medium transition-all duration-300 text-sm ${
                     showWeather 
@@ -197,7 +197,7 @@ export default function Header({
                 <button
                   onClick={() => {
                     toggleTides();
-                    setShowMobileMenu(false);
+                    toggleMobileMenu();
                   }}
                   className={`w-full text-left px-4 py-3 rounded-lg font-medium transition-all duration-300 text-sm ${
                     showTides 
@@ -212,7 +212,7 @@ export default function Header({
                   <button
                     onClick={() => {
                       toggleAdmin();
-                      setShowMobileMenu(false);
+                      toggleMobileMenu();
                     }}
                     className={`w-full text-left px-4 py-3 rounded-lg font-medium transition-all duration-300 text-sm ${
                       showAdmin 
@@ -226,7 +226,7 @@ export default function Header({
                   <button
                     onClick={() => {
                       toggleAdminLogin();
-                      setShowMobileMenu(false);
+                      toggleMobileMenu();
                     }}
                     className={`w-full text-left px-4 py-3 rounded-lg font-medium transition-all duration-300 flex items-center space-x-2 text-sm ${themeClasses.text} ${themeClasses.buttonHover}`}
                   >
@@ -256,7 +256,7 @@ export default function Header({
                           key={spot.id}
                           onClick={() => {
                             onSelectSpot(spot);
-                            setShowMobileMenu(false);
+                            toggleMobileMenu();
                           }}
                           className={`w-full text-left px-4 py-3 rounded-lg transition-all duration-300 flex items-center space-x-2 text-sm ${themeClasses.textSecondary} ${themeClasses.buttonHover} select-none`}
                         >
