@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Menu, X, MapPin, Waves, Settings, Lock, Sun, Moon } from 'lucide-react';
+import { Menu, X, MapPin, Waves, Lock, Sun, Moon } from 'lucide-react';
 import { SurfSpot } from '../types';
 import { useAdmin } from '../contexts/AdminContext';
 import { useTheme } from '../contexts/ThemeContext';
@@ -192,7 +192,6 @@ export default function Header({
                   type="button"
                   className={`px-3 lg:px-4 py-2 rounded-lg font-medium transition-all duration-300 flex items-center space-x-2 text-sm lg:text-base focus:outline-none ${themeClasses.text} ${themeClasses.buttonHover}`}
                 >
-                  <Lock className="w-3 h-3 lg:w-4 lg:h-4" />
                   <span>Admin</span>
                 </button>
               )}
@@ -309,8 +308,7 @@ export default function Header({
                       : `${themeClasses.text} ${themeClasses.buttonHover}`
                   }`}
                 >
-                  <Lock className="w-4 h-4" />
-                  <span>{isAdminLoggedIn ? '⚙️ Admin Panel' : '🔐 Admin Login'}</span>
+                  <span>{isAdminLoggedIn ? '⚙️ Admin Panel' : '🔐 Admin'}</span>
                 </button>
 
                 {/* Surf Spots Dropdown */}
