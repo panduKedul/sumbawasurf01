@@ -225,7 +225,7 @@ export default function Tides1({ spots }: Tides1Props) {
                 <div className="text-center">
                   <h2 className={`text-lg sm:text-xl lg:text-2xl font-bold ${themeClasses.text} mb-4 flex items-center justify-center`}>
                     <Navigation className={`w-5 h-5 lg:w-6 lg:h-6 ${themeClasses.accent} mr-3`} />
-                    Rekomendasi Tide Hari Ini
+                    Today's Tide Recommendations
                   </h2>
                   <div className={`${themeClasses.cardBg} p-4 lg:p-6 rounded-xl border ${themeClasses.border} shadow-lg`}>
                     <p className={`text-sm sm:text-base lg:text-lg ${themeClasses.text} leading-relaxed`}>
@@ -244,7 +244,7 @@ export default function Tides1({ spots }: Tides1Props) {
                 <div className="text-center lg:text-left">
                   <h2 className={`text-xl sm:text-2xl lg:text-3xl font-bold ${themeClasses.text} mb-4 flex items-center justify-center lg:justify-start`}>
                     <Navigation className={`w-6 h-6 lg:w-8 lg:h-8 ${themeClasses.accent} mr-3`} />
-                    Current Tide Status
+                    Live Tide Status
                   </h2>
                   
                   {/* Current Tide Description */}

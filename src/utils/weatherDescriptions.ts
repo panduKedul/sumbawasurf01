@@ -150,32 +150,32 @@ export const getTideCondition = (height: number, type: 'high' | 'low'): TideCond
   if (type === 'high') {
     if (height >= 2.0) {
       return {
-        title: "Air Pasang Tinggi",
-        description: "Ketinggian air laut mencapai level maksimal. Banyak spot surf yang biasanya shallow menjadi lebih aman.",
-        surfTip: "Waktu terbaik untuk spot-spot reef break yang dangkal. Waves lebih clean dan powerful.",
+        title: "High Tide Peak",
+        description: "Sea level reaches maximum height. Many shallow surf spots become safer to surf.",
+        surfTip: "Best time for shallow reef breaks. Waves are cleaner and more powerful.",
         icon: "🌊⬆️"
       };
     } else {
       return {
-        title: "Air Pasang Sedang",
-        description: "Level air laut naik namun belum mencapai puncak. Kondisi transisi yang sering memberikan waves terbaik.",
-        surfTip: "Golden time untuk surfing! Kombinasi depth dan wave power yang ideal untuk most breaks.",
+        title: "Rising Tide",
+        description: "Sea level is rising but hasn't reached peak. Transition conditions often provide the best waves.",
+        surfTip: "Golden time for surfing! Ideal combination of depth and wave power for most breaks.",
         icon: "🌊↗️"
       };
     }
   } else {
     if (height <= 0.5) {
       return {
-        title: "Air Surut Rendah",
-        description: "Level air laut sangat rendah. Reef dan rocks lebih terekspos, membutuhkan extra caution.",
-        surfTip: "Hati-hati dengan shallow reefs. Pilih spot yang deeper atau tunggu tide naik sedikit.",
+        title: "Low Tide",
+        description: "Sea level is very low. Reefs and rocks are more exposed, requiring extra caution.",
+        surfTip: "Be careful with shallow reefs. Choose deeper spots or wait for tide to rise slightly.",
         icon: "🌊⬇️"
       };
     } else {
       return {
-        title: "Air Surut Sedang",
-        description: "Air laut dalam kondisi surut namun masih aman untuk most surf spots. Waves cenderung lebih hollow.",
-        surfTip: "Bagus untuk experienced surfer yang suka hollow waves. Perhatikan depth di takeoff zone.",
+        title: "Falling Tide",
+        description: "Sea is in falling tide but still safe for most surf spots. Waves tend to be more hollow.",
+        surfTip: "Good for experienced surfers who like hollow waves. Watch the depth in takeoff zone.",
         icon: "🌊↘️"
       };
     }
@@ -257,11 +257,11 @@ export const getTideChangeRecommendation = (currentTide: any, nextTide: any): st
   const hoursUntilNext = (nextTideTime.getTime() - currentTime.getTime()) / (1000 * 60 * 60);
   
   if (hoursUntilNext <= 1) {
-    return `⏰ Tide akan berubah dalam ${Math.round(hoursUntilNext * 60)} menit. Ini adalah window terbaik untuk surfing!`;
+    return `⏰ Tide will change in ${Math.round(hoursUntilNext * 60)} minutes. This is the best window for surfing!`;
   } else if (hoursUntilNext <= 2) {
-    return `🌊 Masih ada ${Math.round(hoursUntilNext)} jam sebelum tide berubah. Waktu yang tepat untuk sesi yang panjang.`;
+    return `🌊 Still ${Math.round(hoursUntilNext)} hours before tide changes. Perfect time for a long session.`;
   } else {
-    return `📅 Tide berikutnya dalam ${Math.round(hoursUntilNext)} jam. Plan your session accordingly.`;
+    return `📅 Next tide in ${Math.round(hoursUntilNext)} hours. Plan your session accordingly.`;
   }
 };
 
@@ -274,11 +274,11 @@ export const getBestSurfTimeRecommendation = (weather: any, tide: any): string =
   const tideCondition = getTideCondition(tide.height, tide.type);
   
   if (weather.windSpeed <= 7 && weather.waveHeight >= 1.0 && weather.waveHeight <= 2.0) {
-    return `🏄‍♂️ EXCELLENT surf conditions! ${windCondition.title.toLowerCase()}, ${waveCondition.title.toLowerCase()} - perfect combo for surfing!`;
+    return `🏄‍♂️ EXCELLENT surf conditions! ${windCondition.title.toLowerCase()}, ${waveCondition.title.toLowerCase()} - perfect combination for surfing!`;
   } else if (weather.windSpeed <= 10 && weather.waveHeight >= 0.8) {
     return `🌊 GOOD surf conditions! ${waveCondition.recommendation}`;
   } else if (weather.waveHeight < 0.8) {
-    return `😴 FLAT surf conditions. Perfect time for learning or resting. Check forecast for next swell.`;
+    return `😴 FLAT surf conditions. Perfect time for learning or resting. Check the forecast for the next swell.`;
   } else {
     return `⚠️ CHALLENGING surf conditions. ${windCondition.recommendation}`;
   }

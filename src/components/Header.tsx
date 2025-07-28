@@ -152,7 +152,7 @@ export default function Header({
 
       {/* Mobile Menu - Portal style with fixed positioning */}
       {showMobileMenu && (
-        <div className="md:hidden fixed inset-0 z-[9999]" onClick={(e) => e.stopPropagation()}>
+        <div className="md:hidden fixed inset-0 z-[9999]">
           {/* Backdrop */}
           <div 
             className="absolute inset-0 bg-black/60 backdrop-blur-md"
@@ -163,13 +163,14 @@ export default function Header({
           <div className="absolute top-14 lg:top-16 left-0 right-0 animate-slideIn">
             <div 
               className={`mx-3 mt-2 p-4 ${themeClasses.cardBg} rounded-xl shadow-2xl border ${themeClasses.border} backdrop-blur-xl`}
-              onClick={(e) => e.stopPropagation()}
             >
               <div className="space-y-3">
                 <button
-                  onClick={() => {
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
                     resetToHome();
-                    if (showMobileMenu) toggleMobileMenu();
+                    toggleMobileMenu();
                   }}
                   className={`w-full text-left px-4 py-3 rounded-lg font-medium transition-all duration-300 text-sm ${
                     showHome 
@@ -181,9 +182,11 @@ export default function Header({
                 </button>
                 
                 <button
-                  onClick={() => {
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
                     toggleWeather();
-                    if (showMobileMenu) toggleMobileMenu();
+                    toggleMobileMenu();
                   }}
                   className={`w-full text-left px-4 py-3 rounded-lg font-medium transition-all duration-300 text-sm ${
                     showWeather 
@@ -195,9 +198,11 @@ export default function Header({
                 </button>
                 
                 <button
-                  onClick={() => {
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
                     toggleTides();
-                    if (showMobileMenu) toggleMobileMenu();
+                    toggleMobileMenu();
                   }}
                   className={`w-full text-left px-4 py-3 rounded-lg font-medium transition-all duration-300 text-sm ${
                     showTides 
@@ -210,9 +215,11 @@ export default function Header({
                 
                 {isAdminLoggedIn ? (
                   <button
-                    onClick={() => {
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
                       toggleAdmin();
-                      if (showMobileMenu) toggleMobileMenu();
+                      toggleMobileMenu();
                     }}
                     className={`w-full text-left px-4 py-3 rounded-lg font-medium transition-all duration-300 text-sm ${
                       showAdmin 
@@ -224,9 +231,11 @@ export default function Header({
                   </button>
                 ) : (
                   <button
-                    onClick={() => {
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
                       toggleAdminLogin();
-                      if (showMobileMenu) toggleMobileMenu();
+                      toggleMobileMenu();
                     }}
                     className={`w-full text-left px-4 py-3 rounded-lg font-medium transition-all duration-300 flex items-center space-x-2 text-sm ${themeClasses.text} ${themeClasses.buttonHover}`}
                   >
@@ -238,7 +247,9 @@ export default function Header({
                 {/* Surf Spots for Mobile */}
                 <div>
                   <button
-                    onClick={() => {
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
                       toggleMobileSpots();
                     }}
                     className={`w-full text-left px-4 py-3 rounded-lg transition-all duration-300 flex items-center justify-between font-medium text-sm ${themeClasses.text} ${themeClasses.buttonHover} select-none`}
@@ -254,9 +265,11 @@ export default function Header({
                       {spots.map((spot) => (
                         <button
                           key={spot.id}
-                          onClick={() => {
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
                             onSelectSpot(spot);
-                            if (showMobileMenu) toggleMobileMenu();
+                            toggleMobileMenu();
                           }}
                           className={`w-full text-left px-4 py-3 rounded-lg transition-all duration-300 flex items-center space-x-2 text-sm ${themeClasses.textSecondary} ${themeClasses.buttonHover} select-none`}
                         >
