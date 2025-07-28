@@ -107,7 +107,7 @@ function AppContent() {
 
   const MainContent = () => (
     <div 
-      className={`min-h-screen flex flex-col ${themeClasses.bg} ${themeClasses.text} pt-16 relative`}
+      className={`min-h-screen flex flex-col ${themeClasses.bg} ${themeClasses.text} pt-16 relative ${showMobileMenu ? 'overflow-hidden' : ''}`}
     >
       <Header 
         toggleWeather={toggleWeather}
@@ -135,13 +135,13 @@ function AppContent() {
       {/* Admin Login Modal */}
       {showAdminLogin && <AdminLogin />}
       
-      <main className={`flex flex-1 overflow-hidden mt-0 transition-all duration-300`}>
+      <main className={`flex flex-1 overflow-hidden mt-0 transition-all duration-300 ${showMobileMenu ? 'pointer-events-none blur-sm' : ''}`}>
         {/* Desktop Sidebar */}
-        <div className={`hidden lg:flex w-80 xl:w-96 ${themeClasses.cardBg} border-r ${themeClasses.border} shadow-xl flex-shrink-0 flex-col mt-0`}>
+        <div className={`hidden lg:flex w-80 xl:w-96 ${themeClasses.cardBg} border-r ${themeClasses.border} shadow-xl flex-shrink-0 flex-col mt-0 ${showMobileMenu ? 'pointer-events-none' : ''}`}>
           <SpotList spots={spots} onSelectSpot={handleSpotSelect} selectedSpot={selectedSpot} />
         </div>
 
-        <div className={`flex-1 flex flex-col`}>
+        <div className={`flex-1 flex flex-col ${showMobileMenu ? 'pointer-events-none' : ''}`}>
           {showWeather ? (
             <Weather1 spots={spots} />
           ) : showTides ? (
@@ -153,7 +153,7 @@ function AppContent() {
             />
           ) : (
             /* Default view with map and spot details */
-            <div className={`flex flex-col flex-1 ${themeClasses.cardBg}`}>
+            <div className={`flex flex-col flex-1 ${themeClasses.cardBg} ${showMobileMenu ? 'pointer-events-none' : ''}`}>
               {/* Welcome Section with Map */}
               <div className={`p-3 lg:p-8 text-center ${themeClasses.bg}`}>
                 <div className="max-w-4xl mx-auto mb-4 lg:mb-6 flex flex-col items-center">

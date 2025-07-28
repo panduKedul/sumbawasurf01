@@ -152,16 +152,16 @@ export default function Header({
 
       {/* Mobile Menu - Portal style with fixed positioning */}
       {showMobileMenu && (
-        <div className="md:hidden fixed inset-0 z-[9999] pointer-events-none">
+        <div className="md:hidden fixed inset-0 z-[9999]">
           {/* Backdrop */}
           <div 
-            className="absolute inset-0 bg-black/20 backdrop-blur-sm pointer-events-auto"
+            className="absolute inset-0 bg-black/50 backdrop-blur-md pointer-events-auto"
             onClick={toggleMobileMenu}
           />
           
           {/* Menu Content */}
-          <div className="absolute top-14 lg:top-16 left-0 right-0 pointer-events-auto">
-            <div className={`mx-3 mt-2 p-4 ${themeClasses.cardBg} rounded-xl shadow-2xl border ${themeClasses.border}`}>
+          <div className="absolute top-14 lg:top-16 left-0 right-0 pointer-events-auto animate-slideIn">
+            <div className={`mx-3 mt-2 p-4 ${themeClasses.cardBg} rounded-xl shadow-2xl border ${themeClasses.border} backdrop-blur-xl`}>
               <div className="space-y-3">
                 <button
                   onClick={(e) => {
@@ -250,7 +250,7 @@ export default function Header({
                       e.stopPropagation();
                       toggleMobileSpots();
                     }}
-                    className={`w-full text-left px-4 py-3 rounded-lg transition-all duration-300 flex items-center justify-between font-medium text-sm touch-manipulation ${themeClasses.text} ${themeClasses.buttonHover}`}
+                    className={`w-full text-left px-4 py-3 rounded-lg transition-all duration-300 flex items-center justify-between font-medium text-sm touch-manipulation ${themeClasses.text} ${themeClasses.buttonHover} select-none`}
                   >
                     <span>Surf Spots</span>
                     <span className={`transform transition-transform duration-200 ${showMobileSpots ? 'rotate-180' : ''}`}>
@@ -259,7 +259,7 @@ export default function Header({
                   </button>
                   
                   {showMobileSpots && (
-                    <div className="ml-4 mt-2 space-y-2 max-h-48 overflow-y-auto">
+                    <div className="ml-4 mt-2 space-y-2 max-h-48 overflow-y-auto animate-fadeIn">
                       {spots.map((spot) => (
                         <button
                           key={spot.id}
@@ -269,7 +269,7 @@ export default function Header({
                             onSelectSpot(spot);
                             toggleMobileMenu();
                           }}
-                          className={`w-full text-left px-4 py-3 rounded-lg transition-all duration-300 flex items-center space-x-2 text-sm touch-manipulation ${themeClasses.textSecondary} ${themeClasses.buttonHover}`}
+                          className={`w-full text-left px-4 py-3 rounded-lg transition-all duration-300 flex items-center space-x-2 text-sm touch-manipulation ${themeClasses.textSecondary} ${themeClasses.buttonHover} select-none`}
                         >
                           <MapPin className="w-3 h-3 flex-shrink-0" />
                           <span className="truncate">{spot.name}</span>
