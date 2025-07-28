@@ -1,22 +1,29 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
+import { AdminProvider } from './contexts/AdminContext';
+import { Toaster } from 'react-hot-toast';
 import Header from './components/Header';
 import Map from './components/Map';
-import Maps from './components/Maps';
-import TideDemo from './components/TideDemo';
+import Weather from './components/Weather';
+import Tides from './components/Tides';
 import SpotList from './components/SpotList';
 import SpotDetails from './components/SpotDetails';
+import AdminPanel from './components/AdminPanel';
+import AdminLogin from './components/AdminLogin';
 import AdminPanel from './components/AdminPanel';
 import Footer from './components/Footer';
 import { loadSpots } from './data/spots';
 import { SurfSpot } from './types';
+import { useAdmin } from './contexts/AdminContext';
 
 function AppContent() {
+  const { isAdminLoggedIn, showAdminLogin } = useAdmin();
   const [spots, setSpots] = useState<SurfSpot[]>([]);
   const [selectedSpot, setSelectedSpot] = useState<SurfSpot | null>(null);
-  const [showMaps, setShowMaps] = useState(false);
-  const [showTide, setShowTide] = useState(false);
+  const [showWeather, setShowWeather] = useState(false);
+  const [showTides, setShowTides] = useState(false);
+  const [showAdmin, setShowAdmin] = useState(false);
   const [showAdmin, setShowAdmin] = useState(false);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const [showMobileSpots, setShowMobileSpots] = useState(false);
@@ -31,6 +38,7 @@ function AppContent() {
       setLoading(true);
       const spotsData = await loadSpots();
       setSpots(spotsData);
+      setSpots(spotsData);
     } catch (error) {
       console.error('Error loading spots:', error);
     } finally {
@@ -38,25 +46,44 @@ function AppContent() {
     }
   };
 
-  const showHome = !showMaps && !showTide && !showAdmin;
+  const showHome = !showWeather && !showTides && !showAdmin;
 
   const handleSpotSelect = (spot: SurfSpot) => {
     setSelectedSpot(spot);
-    setShowMaps(false);
-    setShowTide(false);
+    setShowWeather(false);
+    setShowTides(false);
+    setShowAdmin(false);
     setShowAdmin(false);
   };
 
-  const toggleMaps = () => {
-    setShowMaps(!showMaps);
-    setShowTide(false);
+  const toggleWeather = () => {
+    setShowWeather(!showWeather);
+    setShowTides(false);
+    setShowAdmin(false);
     setShowAdmin(false);
     setSelectedSpot(null);
   };
 
-  const toggleTide = () => {
-    setShowMaps(false);
-    setShowTide(!showTide);
+  const toggleTides = () => {
+    setShowWeather(false);
+    setShowTides(!showTides);
+    setShowAdmin(false);
+    setSelectedSpot(null);
+  };
+
+  const toggleAdmin = () => {
+    if (isAdminLoggedIn) {
+      setShowWeather(false);
+      setShowTides(false);
+      setShowAdmin(!showAdmin);
+      setSelectedSpot(null);
+    }
+  };
+
+  const resetToHome = () => {
+    setShowWeather(false);
+    setShowTides(false);
+    setShowAdmin(false);
     setShowAdmin(false);
     setSelectedSpot(null);
   };
@@ -66,16 +93,11 @@ function AppContent() {
     setShowTide(false);
     setShowAdmin(!showAdmin);
     setSelectedSpot(null);
-  };
-
-  const resetToHome = () => {
-    setShowMaps(false);
-    setShowTide(false);
-    setShowAdmin(false);
-    setSelectedSpot(null);
     setShowMobileMenu(false);
     setShowMobileSpots(false);
   };
+
+    setShowMaps(false);
 
   const toggleMobileMenu = () => {
     setShowMobileMenu(!showMobileMenu);
@@ -105,10 +127,12 @@ function AppContent() {
       }}
     >
       <Header 
-        toggleMaps={toggleMaps}
-        showMaps={showMaps}
-        toggleTide={toggleTide}
-        showTide={showTide}
+        toggleWeather={toggleWeather}
+        showWeather={showWeather}
+        toggleTides={toggleTides}
+        showTides={showTides}
+        toggleAdmin={toggleAdmin}
+        showAdmin={showAdmin}
         resetToHome={resetToHome}
         toggleAdmin={toggleAdmin}
         showAdmin={showAdmin}
@@ -126,6 +150,15 @@ function AppContent() {
         position="top-right"
         toastOptions={{ duration: 4000 }}
       />
+
+      {/* Admin Login Modal */}
+      {showAdminLogin && <AdminLogin />}
+      
+      {/* Toast Notifications */}
+      <Toaster
+        position="top-right"
+        toastOptions={{ duration: 4000 }}
+      />
       <main className={`flex flex-1 overflow-hidden mt-0 transition-all duration-300 ${showMobileMenu ? 'blur-sm' : ''}`}>
         {/* Desktop Sidebar */}
         <div className={`hidden md:flex w-80 lg:w-96 bg-dark-200 border-r border-dark-400 shadow-xl flex-shrink-0 flex-col mt-0 transition-all duration-300 ${showMobileMenu ? 'blur-[2px] pointer-events-none' : ''}`}>
@@ -133,10 +166,15 @@ function AppContent() {
         </div>
 
         <div className={`flex-1 flex flex-col transition-all duration-300 ${showMobileMenu ? 'blur-[2px] pointer-events-none' : ''}`}>
-          {showMaps ? (
-            <Maps />
-          ) : showTide ? (
-            <TideDemo />
+          {showWeather ? (
+            <Weather />
+          ) : showTides ? (
+            <Tides />
+          ) : showAdmin && isAdminLoggedIn ? (
+            <AdminPanel 
+              spots={spots} 
+              onSpotsUpdate={loadSpotsData} 
+            />
           ) : showAdmin ? (
             <AdminPanel 
               spots={spots} 
@@ -255,11 +293,13 @@ function AppContent() {
 
 function App() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<AppContent />} />
-      </Routes>
-    </Router>
+    <AdminProvider>
+      <Router>
+        <Routes>
+          <Route path="/" element={<AppContent />} />
+        </Routes>
+      </Router>
+    </AdminProvider>
   );
 }
 

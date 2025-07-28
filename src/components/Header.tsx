@@ -1,12 +1,15 @@
 import React from 'react';
-import { Menu, X, MapPin, Waves, Settings } from 'lucide-react';
+import { Menu, X, MapPin, Waves, Settings, Lock } from 'lucide-react';
 import { SurfSpot } from '../types';
+import { useAdmin } from '../contexts/AdminContext';
 
 interface HeaderProps {
-  toggleMaps: () => void;
-  showMaps: boolean;
-  toggleTide: () => void;
-  showTide: boolean;
+  toggleWeather: () => void;
+  showWeather: boolean;
+  toggleTides: () => void;
+  showTides: boolean;
+  toggleAdmin: () => void;
+  showAdmin: boolean;
   toggleAdmin: () => void;
   showAdmin: boolean;
   resetToHome: () => void;
@@ -20,10 +23,12 @@ interface HeaderProps {
 }
 
 export default function Header({
-  toggleMaps,
-  showMaps,
-  toggleTide,
-  showTide,
+  toggleWeather,
+  showWeather,
+  toggleTides,
+  showTides,
+  toggleAdmin,
+  showAdmin,
   toggleAdmin,
   showAdmin,
   resetToHome,
@@ -35,6 +40,8 @@ export default function Header({
   spots,
   onSelectSpot
 }: HeaderProps) {
+  const { isAdminLoggedIn, toggleAdminLogin, logoutAdmin } = useAdmin();
+
   return (
     <header className="header-elegant fixed top-0 left-0 right-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -67,22 +74,50 @@ export default function Header({
             </button>
             
             <button
-              onClick={toggleMaps}
+              onClick={toggleWeather}
               className={`btn-elegant px-4 py-2 rounded-lg font-medium transition-all duration-300 ${
-                showMaps ? 'bg-neon-blue/20 text-neon-blue border-neon-blue/50' : ''
+                showWeather ? 'bg-neon-blue/20 text-neon-blue border-neon-blue/50' : ''
               }`}
             >
-              Maps
+              Weather
             </button>
             
             <button
-              onClick={toggleTide}
+              onClick={toggleTides}
               className={`btn-elegant px-4 py-2 rounded-lg font-medium transition-all duration-300 ${
-                showTide ? 'bg-neon-blue/20 text-neon-blue border-neon-blue/50' : ''
+                showTides ? 'bg-neon-blue/20 text-neon-blue border-neon-blue/50' : ''
               }`}
             >
               Tides
             </button>
+            
+            {isAdminLoggedIn ? (
+              <div className="flex items-center space-x-2">
+                <button
+                  onClick={toggleAdmin}
+                  className={`btn-elegant px-4 py-2 rounded-lg font-medium transition-all duration-300 ${
+                    showAdmin ? 'bg-neon-blue/20 text-neon-blue border-neon-blue/50' : ''
+                  }`}
+                >
+                  Admin
+                </button>
+                <button
+                  onClick={logoutAdmin}
+                  className="btn-elegant px-3 py-2 rounded-lg font-medium transition-all duration-300 text-red-400 hover:text-red-300"
+                  title="Logout"
+                >
+                  <Lock className="w-4 h-4" />
+                </button>
+              </div>
+            ) : (
+              <button
+                onClick={toggleAdminLogin}
+                className="btn-elegant px-4 py-2 rounded-lg font-medium transition-all duration-300 flex items-center space-x-2"
+              >
+                <Lock className="w-4 h-4" />
+                <span>Admin</span>
+              </button>
+            )}
             
             <button
               onClick={toggleAdmin}
@@ -121,27 +156,63 @@ export default function Header({
               
               <button
                 onClick={() => {
-                  toggleMaps();
+                  toggleWeather();
                   toggleMobileMenu();
                 }}
                 className={`w-full text-left px-3 py-2 rounded-lg font-medium transition-all duration-300 ${
-                  showMaps ? 'bg-neon-blue/20 text-neon-blue' : 'text-gray-300 hover:text-white hover:bg-dark-400'
+                  showWeather ? 'bg-neon-blue/20 text-neon-blue' : 'text-gray-300 hover:text-white hover:bg-dark-400'
                 }`}
               >
-                Maps
+                Weather
               </button>
               
               <button
                 onClick={() => {
-                  toggleTide();
+                  toggleTides();
                   toggleMobileMenu();
                 }}
                 className={`w-full text-left px-3 py-2 rounded-lg font-medium transition-all duration-300 ${
-                  showTide ? 'bg-neon-blue/20 text-neon-blue' : 'text-gray-300 hover:text-white hover:bg-dark-400'
+                  showTides ? 'bg-neon-blue/20 text-neon-blue' : 'text-gray-300 hover:text-white hover:bg-dark-400'
                 }`}
               >
                 Tides
               </button>
+              
+              {isAdminLoggedIn ? (
+                <div className="space-y-2">
+                  <button
+                    onClick={() => {
+                      toggleAdmin();
+                      toggleMobileMenu();
+                    }}
+                    className={`w-full text-left px-3 py-2 rounded-lg font-medium transition-all duration-300 ${
+                      showAdmin ? 'bg-neon-blue/20 text-neon-blue' : 'text-gray-300 hover:text-white hover:bg-dark-400'
+                    }`}
+                  >
+                    Admin Panel
+                  </button>
+                  <button
+                    onClick={() => {
+                      logoutAdmin();
+                      toggleMobileMenu();
+                    }}
+                    className="w-full text-left px-3 py-2 rounded-lg font-medium text-red-400 hover:text-red-300 hover:bg-dark-400 transition-all duration-300"
+                  >
+                    Logout Admin
+                  </button>
+                </div>
+              ) : (
+                <button
+                  onClick={() => {
+                    toggleAdminLogin();
+                    toggleMobileMenu();
+                  }}
+                  className="w-full text-left px-3 py-2 rounded-lg font-medium text-gray-300 hover:text-white hover:bg-dark-400 transition-all duration-300 flex items-center space-x-2"
+                >
+                  <Lock className="w-4 h-4" />
+                  <span>Admin Login</span>
+                </button>
+              )}
               
               <button
                 onClick={() => {
