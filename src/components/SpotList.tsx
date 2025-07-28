@@ -2,7 +2,6 @@ import React from 'react';
 import { Waves, Star } from 'lucide-react';
 import { SurfSpot } from '../types';
 import { useTheme } from '../contexts/ThemeContext';
-import { useTheme } from '../contexts/ThemeContext';
 
 interface SpotListProps {
   spots: SurfSpot[];
@@ -11,8 +10,6 @@ interface SpotListProps {
 }
 
 export default function SpotList({ spots, onSelectSpot, selectedSpot }: SpotListProps) {
-  const { getThemeClasses } = useTheme();
-  const themeClasses = getThemeClasses();
   const { getThemeClasses } = useTheme();
   const themeClasses = getThemeClasses();
 
