@@ -144,7 +144,7 @@ function AppContent() {
       />
       <main className={`flex flex-1 overflow-hidden mt-0 transition-all duration-300 ${showMobileMenu ? 'blur-sm' : ''}`}>
         {/* Desktop Sidebar */}
-        <div className={`hidden md:flex w-80 lg:w-96 bg-dark-200 border-r border-dark-400 shadow-xl flex-shrink-0 flex-col mt-0 transition-all duration-300 ${showMobileMenu ? 'blur-[2px] pointer-events-none' : ''}`}>
+        <div className={`hidden lg:flex w-80 xl:w-96 bg-dark-200 border-r border-dark-400 shadow-xl flex-shrink-0 flex-col mt-0 transition-all duration-300 ${showMobileMenu ? 'blur-[2px] pointer-events-none' : ''}`}>
           <SpotList spots={spots} onSelectSpot={handleSpotSelect} selectedSpot={selectedSpot} />
         </div>
 
@@ -162,73 +162,73 @@ function AppContent() {
             /* Default view with map and spot details */
             <div className="flex flex-col flex-1 bg-dark-200">
               {/* Welcome Section with Map */}
-              <div className="p-4 md:p-6 text-center bg-gradient-radial from-dark-300 to-dark-100">
-                <div className="max-w-4xl mx-auto mb-6">
-                  <h1 className="text-2xl md:text-4xl font-bold text-neon-blue mb-2">Welcome to Sumbawa Surf Guide</h1>
-                  <h2 className="text-lg md:text-2xl font-semibold text-white mb-4">Your Ultimate West Sumbawa Surf Companion</h2>
-                  <p className="text-base text-gray-400 mb-6">
+              <div className="p-2 sm:p-4 md:p-6 lg:p-8 text-center bg-gradient-radial from-dark-300 to-dark-100">
+                <div className="max-w-7xl mx-auto mb-4 sm:mb-6">
+                  <h1 className="text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-bold text-neon-blue mb-2">Welcome to Sumbawa Surf Guide</h1>
+                  <h2 className="text-base sm:text-lg md:text-xl lg:text-2xl font-semibold text-white mb-2 sm:mb-4">Your Ultimate West Sumbawa Surf Companion</h2>
+                  <p className="text-sm sm:text-base text-gray-400 mb-4 sm:mb-6 px-2">
                     Discover the best surf spots in West Sumbawa with detailed information about wave conditions, 
                     tide times, weather forecasts, and local insights.
                   </p>
                 </div>
                 
                 {/* Interactive Map */}
-                <div className="h-[35vh] sm:h-[40vh] md:h-[50vh] rounded-xl overflow-hidden shadow-2xl border border-dark-400 mb-6 w-full max-w-6xl mx-auto">
+                <div className="h-[30vh] sm:h-[35vh] md:h-[40vh] lg:h-[45vh] xl:h-[50vh] rounded-lg sm:rounded-xl overflow-hidden shadow-2xl border border-dark-400 mb-4 sm:mb-6 w-full max-w-7xl mx-auto">
                   <Map spots={spots} onSelectSpot={handleSpotSelect} selectedSpot={selectedSpot} />
                 </div>
               </div>
               
-              <div className="flex-1 overflow-auto px-4 md:px-6">
+              <div className="flex-1 overflow-auto px-2 sm:px-4 md:px-6 lg:px-8">
                 {selectedSpot ? (
                   <SpotDetails spot={selectedSpot} />
                 ) : loading ? (
-                  <div className="flex items-center justify-center p-8 text-center">
+                  <div className="flex items-center justify-center p-4 sm:p-8 text-center">
                     <div className="text-center">
                       <div className="w-8 h-8 border-4 border-neon-blue border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
                       <p className="text-gray-400">Loading surf spots...</p>
                     </div>
                   </div>
                 ) : (
-                  <div className="p-4 md:p-6 text-center animate-fadeIn">
+                  <div className="p-2 sm:p-4 md:p-6 text-center animate-fadeIn max-w-6xl mx-auto">
                     <div className="max-w-xl w-full">
                       {/* Quick Stats */}
-                      <div className="grid grid-cols-3 gap-4 mb-8">
-                        <div className="bg-dark-400 p-4 rounded-lg border border-dark-500">
-                          <div className="text-2xl font-bold text-neon-blue">{spots.length}</div>
-                          <div className="text-sm text-gray-400">Surf Spots</div>
+                      <div className="grid grid-cols-3 gap-2 sm:gap-4 mb-4 sm:mb-8">
+                        <div className="bg-dark-400 p-2 sm:p-4 rounded-lg border border-dark-500">
+                          <div className="text-lg sm:text-xl md:text-2xl font-bold text-neon-blue">{spots.length}</div>
+                          <div className="text-xs sm:text-sm text-gray-400">Surf Spots</div>
                         </div>
-                        <div className="bg-dark-400 p-4 rounded-lg border border-dark-500">
-                          <div className="text-2xl font-bold text-neon-blue">24/7</div>
-                          <div className="text-sm text-gray-400">Forecasts</div>
+                        <div className="bg-dark-400 p-2 sm:p-4 rounded-lg border border-dark-500">
+                          <div className="text-lg sm:text-xl md:text-2xl font-bold text-neon-blue">24/7</div>
+                          <div className="text-xs sm:text-sm text-gray-400">Forecasts</div>
                         </div>
-                        <div className="bg-dark-400 p-4 rounded-lg border border-dark-500">
-                          <div className="text-2xl font-bold text-neon-blue">Live</div>
-                          <div className="text-sm text-gray-400">Tide Data</div>
+                        <div className="bg-dark-400 p-2 sm:p-4 rounded-lg border border-dark-500">
+                          <div className="text-lg sm:text-xl md:text-2xl font-bold text-neon-blue">Live</div>
+                          <div className="text-xs sm:text-sm text-gray-400">Tide Data</div>
                         </div>
                       </div>
 
                       {/* Features Grid */}
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
-                        <div className="bg-dark-400 p-4 rounded-lg border border-dark-500 text-left">
-                          <h3 className="text-neon-blue font-semibold mb-2">🗺️ Interactive Maps</h3>
-                          <p className="text-gray-300 text-sm">Explore surf spots with detailed maps, wind and wave forecasts</p>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-4 mb-4 sm:mb-8">
+                        <div className="bg-dark-400 p-3 sm:p-4 rounded-lg border border-dark-500 text-left">
+                          <h3 className="text-neon-blue font-semibold mb-2 text-sm sm:text-base">🗺️ Interactive Maps</h3>
+                          <p className="text-gray-300 text-xs sm:text-sm">Explore surf spots with detailed maps, wind and wave forecasts</p>
                         </div>
-                        <div className="bg-dark-400 p-4 rounded-lg border border-dark-500 text-left">
-                          <h3 className="text-neon-blue font-semibold mb-2">🌊 Tide Information</h3>
-                          <p className="text-gray-300 text-sm">Real-time tide data and predictions for all surf locations</p>
+                        <div className="bg-dark-400 p-3 sm:p-4 rounded-lg border border-dark-500 text-left">
+                          <h3 className="text-neon-blue font-semibold mb-2 text-sm sm:text-base">🌊 Tide Information</h3>
+                          <p className="text-gray-300 text-xs sm:text-sm">Real-time tide data and predictions for all surf locations</p>
                         </div>
-                        <div className="bg-dark-400 p-4 rounded-lg border border-dark-500 text-left">
-                          <h3 className="text-neon-blue font-semibold mb-2">📊 Surf Forecasts</h3>
-                          <p className="text-gray-300 text-sm">Detailed wave height, wind, and weather predictions</p>
+                        <div className="bg-dark-400 p-3 sm:p-4 rounded-lg border border-dark-500 text-left">
+                          <h3 className="text-neon-blue font-semibold mb-2 text-sm sm:text-base">📊 Surf Forecasts</h3>
+                          <p className="text-gray-300 text-xs sm:text-sm">Detailed wave height, wind, and weather predictions</p>
                         </div>
-                        <div className="bg-dark-400 p-4 rounded-lg border border-dark-500 text-left">
-                          <h3 className="text-neon-blue font-semibold mb-2">📍 Local Insights</h3>
-                          <p className="text-gray-300 text-sm">Skill levels, best seasons, and local surf conditions</p>
+                        <div className="bg-dark-400 p-3 sm:p-4 rounded-lg border border-dark-500 text-left">
+                          <h3 className="text-neon-blue font-semibold mb-2 text-sm sm:text-base">📍 Local Insights</h3>
+                          <p className="text-gray-300 text-xs sm:text-sm">Skill levels, best seasons, and local surf conditions</p>
                         </div>
                       </div>
 
                       <div className="text-center">
-                        <p className="text-gray-400 text-sm">
+                        <p className="text-gray-400 text-xs sm:text-sm">
                           {spots.length > 0 ? 'Click on any surf spot above to start exploring' : 'Loading surf spots...'}
                         </p>
                       </div>

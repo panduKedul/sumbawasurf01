@@ -120,24 +120,24 @@ export default function Weather({ spots }: WeatherProps) {
   return (
     <div className="h-full flex flex-col bg-dark-100 overflow-hidden">
       {/* Header - Fixed responsive design */}
-      <div className="bg-dark-200 border-b border-dark-400 p-2 sm:p-4 md:p-6 flex-shrink-0">
-        <div className="max-w-4xl mx-auto text-center px-2">
-          <h1 className="text-xl sm:text-2xl md:text-3xl font-bold bg-gradient-to-r from-neon-blue to-white bg-clip-text text-transparent mb-2">
+      <div className="bg-dark-200 border-b border-dark-400 p-2 sm:p-3 md:p-4 lg:p-6 flex-shrink-0">
+        <div className="max-w-6xl mx-auto text-center px-2 sm:px-4">
+          <h1 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold bg-gradient-to-r from-neon-blue to-white bg-clip-text text-transparent mb-2">
             Weather Forecast
           </h1>
-          <p className="text-xs sm:text-sm md:text-base text-gray-300 mb-3 md:mb-4">
+          <p className="text-xs sm:text-sm md:text-base text-gray-300 mb-2 sm:mb-3 md:mb-4">
             Real-time conditions for West Sumbawa surf spots
           </p>
 
           {/* Spot Selector */}
-          <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-2 max-w-sm sm:max-w-md mx-auto">
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-2 max-w-xs sm:max-w-sm md:max-w-md mx-auto">
             <select
               value={selectedSpot.id}
               onChange={(e) => {
                 const spot = spots.find(s => s.id === e.target.value);
                 if (spot) setSelectedSpot(spot);
               }}
-              className="input-elegant px-2 sm:px-3 py-2 rounded-lg w-full text-xs sm:text-sm"
+              className="input-elegant px-2 sm:px-3 py-2 rounded-lg w-full text-xs sm:text-sm flex-1"
             >
               {spots.map((spot) => (
                 <option key={spot.id} value={spot.id}>
@@ -148,7 +148,7 @@ export default function Weather({ spots }: WeatherProps) {
             <button
               onClick={loadWeatherData}
               disabled={loading}
-              className="btn-elegant px-2 sm:px-3 py-2 rounded-lg flex items-center justify-center space-x-1 sm:space-x-2 text-xs sm:text-sm whitespace-nowrap"
+              className="btn-elegant px-2 sm:px-3 py-2 rounded-lg flex items-center justify-center space-x-1 sm:space-x-2 text-xs sm:text-sm whitespace-nowrap flex-shrink-0"
             >
               <RefreshCw className={`w-3 h-3 sm:w-4 sm:h-4 ${loading ? 'animate-spin' : ''}`} />
               <span>Refresh</span>
@@ -159,12 +159,12 @@ export default function Weather({ spots }: WeatherProps) {
 
       {/* Interactive Weather Map */}
       <div className="flex-1 overflow-y-auto bg-dark-100 min-h-0">
-        <div className="max-w-4xl mx-auto p-2 sm:p-4 md:p-6">
+        <div className="max-w-7xl mx-auto p-2 sm:p-4 md:p-6 lg:p-8">
           {/* Weather Map */}
-          <div className="h-[30vh] sm:h-[35vh] md:h-[40vh] card-elegant overflow-hidden mb-3 sm:mb-4 md:mb-6">
+          <div className="h-[25vh] sm:h-[30vh] md:h-[35vh] lg:h-[40vh] card-elegant overflow-hidden mb-3 sm:mb-4 md:mb-6">
             <iframe
               src={getWindyUrl()}
-              className="w-full h-full"
+              className="w-full h-full border-0"
               frameBorder="0"
               title="Weather Forecast Map"
             />
@@ -172,9 +172,9 @@ export default function Weather({ spots }: WeatherProps) {
 
           {/* Current Weather Overview */}
           {currentWeather && (
-            <div className="card-elegant p-2 sm:p-4 md:p-6 mb-3 sm:mb-4 md:mb-6">
-              <h2 className="text-sm sm:text-lg md:text-xl font-bold text-white mb-2 sm:mb-4 text-center">Current Conditions</h2>
-              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-1 sm:gap-2 md:gap-3">
+            <div className="card-elegant p-3 sm:p-4 md:p-6 mb-3 sm:mb-4 md:mb-6">
+              <h2 className="text-base sm:text-lg md:text-xl font-bold text-white mb-3 sm:mb-4 text-center">Current Conditions</h2>
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2 sm:gap-3">
                 <div className="card-elegant p-2 sm:p-3 text-center bg-gradient-to-br from-orange-500/20 to-red-500/20 border-orange-500/30">
                   <Thermometer className="w-3 sm:w-4 md:w-5 h-3 sm:h-4 md:h-5 text-orange-400 mx-auto mb-1" />
                   <p className="text-xs text-gray-300 mb-1">Air</p>
@@ -217,10 +217,10 @@ export default function Weather({ spots }: WeatherProps) {
 
           {/* Detailed Weather Information */}
           {currentWeather && (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-2 sm:gap-3 md:gap-4 mb-3 sm:mb-4 md:mb-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4 mb-3 sm:mb-4 md:mb-6">
               {/* Wind Information */}
-              <div className="card-elegant p-2 sm:p-4 md:p-6">
-                <h3 className="text-sm sm:text-base md:text-lg font-bold text-white mb-2 sm:mb-3 flex items-center">
+              <div className="card-elegant p-3 sm:p-4 md:p-6">
+                <h3 className="text-base sm:text-lg font-bold text-white mb-3 flex items-center">
                   <Wind className="w-4 h-4 text-cyan-400 mr-2" />
                   Wind Details
                 </h3>
@@ -249,8 +249,8 @@ export default function Weather({ spots }: WeatherProps) {
               </div>
 
               {/* Wave Information */}
-              <div className="card-elegant p-2 sm:p-4 md:p-6">
-                <h3 className="text-sm sm:text-base md:text-lg font-bold text-white mb-2 sm:mb-3 flex items-center">
+              <div className="card-elegant p-3 sm:p-4 md:p-6">
+                <h3 className="text-base sm:text-lg font-bold text-white mb-3 flex items-center">
                   <Waves className="w-4 h-4 text-blue-400 mr-2" />
                   Wave Details
                 </h3>
@@ -286,10 +286,10 @@ export default function Weather({ spots }: WeatherProps) {
 
           {/* UV Index and Additional Info */}
           {currentWeather && (
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4 md:gap-6 mb-4 md:mb-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4 mb-4 md:mb-6">
               {/* UV Index Details */}
               <div className={`card-elegant p-3 sm:p-4 md:p-6 bg-gradient-to-br ${uvLevel.bg} ${uvLevel.border}`}>
-                <h3 className="text-base sm:text-lg md:text-xl font-bold text-white mb-3 sm:mb-4 flex items-center">
+                <h3 className="text-base sm:text-lg font-bold text-white mb-3 flex items-center">
                   <Sun className={`w-5 h-5 ${uvLevel.color} mr-2`} />
                   UV Index Details
                 </h3>
@@ -316,7 +316,7 @@ export default function Weather({ spots }: WeatherProps) {
 
               {/* Additional Weather Info */}
               <div className="card-elegant p-3 sm:p-4 md:p-6">
-                <h3 className="text-base sm:text-lg md:text-xl font-bold text-white mb-3 sm:mb-4 flex items-center">
+                <h3 className="text-base sm:text-lg font-bold text-white mb-3 flex items-center">
                   <Cloud className="w-5 h-5 text-gray-400 mr-2" />
                   Additional Info
                 </h3>
@@ -339,15 +339,15 @@ export default function Weather({ spots }: WeatherProps) {
           )}
 
           {/* Hourly Forecast */}
-          <div className="card-elegant p-2 sm:p-4 md:p-6 mb-3 sm:mb-4 md:mb-6">
-            <h3 className="text-sm sm:text-base md:text-lg font-bold text-white mb-2 sm:mb-3 flex items-center">
+          <div className="card-elegant p-3 sm:p-4 md:p-6 mb-3 sm:mb-4 md:mb-6">
+            <h3 className="text-base sm:text-lg font-bold text-white mb-3 flex items-center">
               <Activity className="w-4 h-4 text-neon-blue mr-2" />
               12-Hour Forecast
             </h3>
             <div className="overflow-x-auto">
               <div className="flex space-x-1 sm:space-x-2 pb-2" style={{ minWidth: 'max-content' }}>
                 {getHourlyForecast().map((hour, index) => (
-                  <div key={index} className="flex-shrink-0 bg-dark-300 rounded-lg p-2 sm:p-3 border border-dark-400 min-w-[60px] sm:min-w-[80px] md:min-w-[100px]">
+                  <div key={index} className="flex-shrink-0 bg-dark-300 rounded-lg p-2 sm:p-3 border border-dark-400 min-w-[70px] sm:min-w-[90px] md:min-w-[110px]">
                     <div className="text-center">
                       <p className="text-xs text-gray-400 mb-1">
                         {new Date(hour.time).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })}
@@ -374,7 +374,7 @@ export default function Weather({ spots }: WeatherProps) {
           </div>
 
           {/* Location Info */}
-          <div className="card-elegant p-2 sm:p-3 text-center">
+          <div className="card-elegant p-3 sm:p-4 text-center">
             <div className="flex flex-col sm:flex-row items-center justify-center space-y-1 sm:space-y-0 sm:space-x-3 text-gray-300">
               <div className="flex items-center space-x-2">
                 <MapPin className="w-3 h-3 sm:w-4 sm:h-4 text-neon-blue" />
