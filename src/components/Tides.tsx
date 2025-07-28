@@ -204,8 +204,8 @@ export default function Tides({ spots }: TidesProps) {
       </div>
 
       {/* Main Content */}
-      <div className="flex-1 p-6 bg-dark-200">
-        <div className="max-w-7xl mx-auto space-y-8">
+      <div className="flex-1 p-6 bg-dark-200 max-w-7xl mx-auto">
+        <div className="space-y-8 w-full">
           {/* Today's Tides */}
           <div>
             <h3 className="text-2xl font-bold text-white mb-6 text-center flex items-center justify-center">

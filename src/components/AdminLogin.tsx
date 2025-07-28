@@ -15,11 +15,12 @@ export default function AdminLogin() {
     setLoading(true);
 
     try {
-      const success = loginAdmin(email, password);
+      const success = await loginAdmin(email, password);
       if (success) {
         toast.success('Admin login successful!');
         setEmail('');
         setPassword('');
+        toggleAdminLogin(); // Close the login modal
       } else {
         toast.error('Invalid credentials');
       }

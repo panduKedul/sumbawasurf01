@@ -19,7 +19,7 @@ export function AdminProvider({ children }: { children: ReactNode }) {
   const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(false);
   const [showAdminLogin, setShowAdminLogin] = useState(false);
 
-  const loginAdmin = (email: string, password: string): boolean => {
+  const loginAdmin = async (email: string, password: string): Promise<boolean> => {
     if (email === ADMIN_CREDENTIALS.email && password === ADMIN_CREDENTIALS.password) {
       setIsAdminLoggedIn(true);
       setShowAdminLogin(false);

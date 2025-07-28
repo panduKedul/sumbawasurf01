@@ -158,8 +158,8 @@ export default function Weather({ spots }: WeatherProps) {
       </div>
 
       {/* Interactive Weather Map */}
-      <div className="flex-1 p-6">
-        <div className="h-[50vh] card-elegant overflow-hidden mb-6">
+      <div className="flex-1 p-6 max-w-7xl mx-auto">
+        <div className="h-[50vh] card-elegant overflow-hidden mb-6 w-full">
           <iframe
             src={getWindyUrl()}
             className="w-full h-full"
@@ -168,7 +168,7 @@ export default function Weather({ spots }: WeatherProps) {
           />
         </div>
 
-        <div className="max-w-7xl mx-auto space-y-6">
+        <div className="space-y-6 w-full">
           {/* Current Weather Overview */}
           {currentWeather && (
             <div className="card-elegant p-6">
