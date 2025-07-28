@@ -10,7 +10,6 @@ import SpotList from './components/SpotList';
 import SpotDetails from './components/SpotDetails';
 import AdminPanel from './components/AdminPanel';
 import AdminLogin from './components/AdminLogin';
-import AdminPanel from './components/AdminPanel';
 import Footer from './components/Footer';
 import { loadSpots } from './data/spots';
 import { SurfSpot } from './types';
