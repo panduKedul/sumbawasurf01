@@ -5,8 +5,6 @@ import { AdminProvider } from './contexts/AdminContext';
 import { ThemeProvider } from './contexts/ThemeContext';
 import Header from './components/Header';
 import Map from './components/Map';
-import Weather from './components/Weather';
-import Tides from './components/Tides';
 import SpotList from './components/SpotList';
 import SpotDetails from './components/SpotDetails';
 import AdminPanel from './components/AdminPanel';
@@ -29,7 +27,6 @@ function AppContent() {
   const [showTides, setShowTides] = useState(false);
   const [showAdmin, setShowAdmin] = useState(false);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
-  const [showMobileSpots, setShowMobileSpots] = useState(false);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -40,7 +37,6 @@ function AppContent() {
     try {
       setLoading(true);
       const spotsData = await loadSpots();
-      setSpots(spotsData);
       setSpots(spotsData);
     } catch (error) {
       console.error('Error loading spots:', error);
@@ -56,58 +52,48 @@ function AppContent() {
     setShowWeather(false);
     setShowTides(false);
     setShowAdmin(false);
+    setShowMobileMenu(false);
   };
 
   const toggleWeather = () => {
-    if (!showWeather) {
-      setShowWeather(true);
-      setShowTides(false);
-      setShowAdmin(false);
-      setSelectedSpot(null);
-    }
+    setShowWeather(true);
+    setShowTides(false);
+    setShowAdmin(false);
+    setSelectedSpot(null);
+    setShowMobileMenu(false);
   };
 
   const toggleTides = () => {
-    if (!showTides) {
-      setShowWeather(false);
-      setShowTides(true);
-      setShowAdmin(false);
-      setSelectedSpot(null);
-    }
+    setShowWeather(false);
+    setShowTides(true);
+    setShowAdmin(false);
+    setSelectedSpot(null);
+    setShowMobileMenu(false);
   };
 
   const toggleAdmin = () => {
-    if (isAdminLoggedIn && !showAdmin) {
-      setShowWeather(false);
-      setShowTides(false);
-      setShowAdmin(true);
-      setSelectedSpot(null);
-    }
+    setShowWeather(false);
+    setShowTides(false);
+    setShowAdmin(true);
+    setSelectedSpot(null);
+    setShowMobileMenu(false);
   };
 
   const resetToHome = () => {
-    if (!showHome) {
-      setShowWeather(false);
-      setShowTides(false);
-      setShowAdmin(false);
-      setSelectedSpot(null);
-    }
+    setShowWeather(false);
+    setShowTides(false);
+    setShowAdmin(false);
+    setSelectedSpot(null);
+    setShowMobileMenu(false);
   };
 
   const toggleMobileMenu = () => {
-    setShowMobileMenu(prev => !prev);
-    if (!showMobileMenu) {
-      setShowMobileSpots(false);
-    }
-  };
-
-  const toggleMobileSpots = () => {
-    setShowMobileSpots(prev => !prev);
+    setShowMobileMenu(!showMobileMenu);
   };
 
   const MainContent = () => (
     <div 
-      className={`min-h-screen flex flex-col ${themeClasses.bg} ${themeClasses.text} pt-16 relative ${showMobileMenu ? 'overflow-hidden' : ''}`}
+      className={`min-h-screen flex flex-col ${themeClasses.bg} ${themeClasses.text} pt-16 relative`}
     >
       <Header 
         toggleWeather={toggleWeather}
@@ -120,8 +106,6 @@ function AppContent() {
         showHome={showHome}
         toggleMobileMenu={toggleMobileMenu}
         showMobileMenu={showMobileMenu}
-        toggleMobileSpots={toggleMobileSpots}
-        showMobileSpots={showMobileSpots}
         spots={spots}
         onSelectSpot={handleSpotSelect}
       />
@@ -135,13 +119,13 @@ function AppContent() {
       {/* Admin Login Modal */}
       {showAdminLogin && <AdminLogin />}
       
-      <main className={`flex flex-1 overflow-hidden mt-0 transition-all duration-300 ${showMobileMenu ? 'pointer-events-none blur-sm' : ''}`}>
+      <main className={`flex flex-1 overflow-hidden mt-0`}>
         {/* Desktop Sidebar */}
-        <div className={`hidden lg:flex w-80 xl:w-96 ${themeClasses.cardBg} border-r ${themeClasses.border} shadow-xl flex-shrink-0 flex-col mt-0 ${showMobileMenu ? 'pointer-events-none' : ''}`}>
+        <div className={`hidden lg:flex w-80 xl:w-96 ${themeClasses.cardBg} border-r ${themeClasses.border} shadow-xl flex-shrink-0 flex-col mt-0`}>
           <SpotList spots={spots} onSelectSpot={handleSpotSelect} selectedSpot={selectedSpot} />
         </div>
 
-        <div className={`flex-1 flex flex-col ${showMobileMenu ? 'pointer-events-none' : ''}`}>
+        <div className={`flex-1 flex flex-col`}>
           {showWeather ? (
             <Weather1 spots={spots} />
           ) : showTides ? (
@@ -153,7 +137,7 @@ function AppContent() {
             />
           ) : (
             /* Default view with map and spot details */
-            <div className={`flex flex-col flex-1 ${themeClasses.cardBg} ${showMobileMenu ? 'pointer-events-none' : ''}`}>
+            <div className={`flex flex-col flex-1 ${themeClasses.cardBg}`}>
               {/* Welcome Section with Map */}
               <div className={`p-3 lg:p-8 text-center ${themeClasses.bg}`}>
                 <div className="max-w-4xl mx-auto mb-4 lg:mb-6 flex flex-col items-center">

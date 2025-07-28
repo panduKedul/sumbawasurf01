@@ -15,8 +15,6 @@ interface HeaderProps {
   showHome: boolean;
   toggleMobileMenu: () => void;
   showMobileMenu: boolean;
-  toggleMobileSpots: () => void;
-  showMobileSpots: boolean;
   spots: SurfSpot[];
   onSelectSpot: (spot: SurfSpot) => void;
 }
@@ -32,14 +30,13 @@ export default function Header({
   showHome,
   toggleMobileMenu,
   showMobileMenu,
-  toggleMobileSpots,
-  showMobileSpots,
   spots,
   onSelectSpot
 }: HeaderProps) {
   const { isAdminLoggedIn, toggleAdminLogin } = useAdmin();
   const { theme, toggleTheme, getThemeClasses } = useTheme();
   const themeClasses = getThemeClasses();
+  const [showMobileSpots, setShowMobileSpots] = useState(false);
 
   const getThemeIcon = () => {
     return theme === 'light' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />;
@@ -48,17 +45,14 @@ export default function Header({
   // Handle menu item clicks
   const handleHomeClick = () => {
     resetToHome();
-    toggleMobileMenu();
   };
 
   const handleWeatherClick = () => {
     toggleWeather();
-    toggleMobileMenu();
   };
 
   const handleTidesClick = () => {
     toggleTides();
-    toggleMobileMenu();
   };
 
   const handleAdminClick = () => {
@@ -67,12 +61,14 @@ export default function Header({
     } else {
       toggleAdminLogin();
     }
-    toggleMobileMenu();
   };
 
   const handleSpotClick = (spot: SurfSpot) => {
     onSelectSpot(spot);
-    toggleMobileMenu();
+  };
+
+  const toggleMobileSpots = () => {
+    setShowMobileSpots(!showMobileSpots);
   };
 
   return (
@@ -181,10 +177,16 @@ export default function Header({
 
       {/* Mobile Menu Overlay */}
       {showMobileMenu && (
-        <div className="md:hidden fixed inset-0 z-[60] bg-black/60 backdrop-blur-md">
+        <div 
+          className="md:hidden fixed inset-0 z-[60] bg-black/50 backdrop-blur-md"
+          onClick={toggleMobileMenu}
+        >
           {/* Menu Content */}
           <div className="absolute top-14 left-0 right-0">
-            <div className={`mx-3 mt-2 p-4 ${themeClasses.cardBg} rounded-xl shadow-2xl border ${themeClasses.border} backdrop-blur-xl`}>
+            <div 
+              className={`mx-3 mt-2 p-4 ${themeClasses.cardBg} rounded-xl shadow-2xl border ${themeClasses.border} backdrop-blur-xl`}
+              onClick={(e) => e.stopPropagation()}
+            >
               <div className="space-y-3">
                 {/* Close Button */}
                 <div className="flex justify-end mb-2">
