@@ -14,15 +14,35 @@ export const supabase = createClient(
 
 // Test connection
 if (supabaseUrl && supabaseAnonKey) {
-  supabase
-    .from('surf_spots')
-    .select('count')
-    .then(() => {
+  // Test connection with timeout
+  const testConnection = async () => {
+    try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 5000); // 5 second timeout
+      
+      await supabase
+        .from('surf_spots')
+        .select('count')
+        .abortSignal(controller.signal);
+      
+      clearTimeout(timeoutId);
       console.log('✅ Supabase connection established successfully');
-    })
-    .catch((error) => {
-      console.log('⚠️ Supabase connection failed, using static data:', error.message);
-    });
+    } catch (error) {
+      if (error instanceof Error) {
+        if (error.name === 'AbortError') {
+          console.log('⚠️ Supabase connection timeout, using static data');
+        } else if (error.message.includes('Failed to fetch') || error.message.includes('NetworkError')) {
+          console.log('⚠️ Network error connecting to Supabase, using static data');
+        } else {
+          console.log('⚠️ Supabase connection failed, using static data:', error.message);
+        }
+      } else {
+        console.log('⚠️ Unknown Supabase connection error, using static data');
+      }
+    }
+  };
+  
+  testConnection();
 } else {
   console.log('⚠️ Supabase environment variables not configured, using static data');
 }

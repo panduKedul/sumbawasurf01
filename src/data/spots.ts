@@ -140,15 +140,28 @@ export const SURF_SPOTS: SurfSpot[] = [
 // Function to fetch spots from database with fallback to static data
 export async function fetchSpotsFromDatabase(): Promise<SurfSpot[]> {
   try {
+    // Check if Supabase is properly configured
+    if (!import.meta.env.VITE_SUPABASE_URL || !import.meta.env.VITE_SUPABASE_ANON_KEY) {
+      console.log('📊 Supabase not configured, using static data');
+      return SURF_SPOTS;
+    }
+
+    // Add timeout to prevent hanging requests
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+
     const { data, error } = await supabase
       .from('surf_spots')
       .select('*')
       .eq('is_active', true)
-      .order('created_at', { ascending: true });
+      .order('created_at', { ascending: true })
+      .abortSignal(controller.signal);
+
+    clearTimeout(timeoutId);
 
     if (error) {
       // If table doesn't exist or other error, silently fall back to static data
-      if (error.code === '42P01' || error.message.includes('relation') || error.message.includes('does not exist')) {
+      if (error.code === '42P01' || error.message.includes('relation') || error.message.includes('does not exist') || error.message.includes('Failed to fetch')) {
         console.log('📊 Using static surf spots data (database table not found)');
         return SURF_SPOTS;
       }
@@ -178,7 +191,18 @@ export async function fetchSpotsFromDatabase(): Promise<SurfSpot[]> {
     return transformedSpots;
 
   } catch (error) {
-    console.log('📊 Database error, using static data:', error);
+    // Handle network errors, timeouts, and other issues
+    if (error instanceof Error) {
+      if (error.name === 'AbortError') {
+        console.log('📊 Database request timeout, using static data');
+      } else if (error.message.includes('Failed to fetch') || error.message.includes('NetworkError')) {
+        console.log('📊 Network error connecting to database, using static data');
+      } else {
+        console.log('📊 Database error, using static data:', error.message);
+      }
+    } else {
+      console.log('📊 Unknown database error, using static data');
+    }
     return SURF_SPOTS;
   }
 }
