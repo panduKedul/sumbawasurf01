@@ -18,17 +18,19 @@ interface ThemeContextType {
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
-  const [theme, setTheme] = useState<'light-gray' | 'ocean-blue'>('light-gray');
+  const [theme, setTheme] = useState<'light-gray' | 'ocean-blue' | 'dark'>('light-gray');
 
   useEffect(() => {
-    const savedTheme = localStorage.getItem('theme') as 'light-gray' | 'ocean-blue';
+    const savedTheme = localStorage.getItem('theme') as 'light-gray' | 'ocean-blue' | 'dark';
     if (savedTheme) {
       setTheme(savedTheme);
     }
   }, []);
 
   const toggleTheme = () => {
-    const newTheme = theme === 'light-gray' ? 'ocean-blue' : 'light-gray';
+    const themes: ('light-gray' | 'ocean-blue' | 'dark')[] = ['light-gray', 'ocean-blue', 'dark'];
+    const currentIndex = themes.indexOf(theme);
+    const newTheme = themes[(currentIndex + 1) % themes.length];
     setTheme(newTheme);
     localStorage.setItem('theme', newTheme);
   };
@@ -45,7 +47,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
         button: 'bg-blue-600 text-white hover:bg-blue-700',
         buttonHover: 'hover:bg-gray-50'
       };
-    } else {
+    } else if (theme === 'ocean-blue') {
       return {
         bg: 'bg-gradient-to-br from-blue-50 via-cyan-50 to-teal-50',
         cardBg: 'bg-white/80 backdrop-blur-sm border border-blue-200/50 shadow-xl',
@@ -55,6 +57,17 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
         accent: 'text-cyan-600',
         button: 'bg-gradient-to-r from-cyan-500 to-blue-500 text-white hover:from-cyan-600 hover:to-blue-600',
         buttonHover: 'hover:bg-blue-50/50'
+      };
+    } else {
+      return {
+        bg: 'bg-gradient-to-br from-gray-900 via-slate-900 to-black',
+        cardBg: 'bg-gray-800/90 backdrop-blur-sm border border-gray-700/50 shadow-2xl',
+        text: 'text-white',
+        textSecondary: 'text-gray-300',
+        border: 'border-gray-700',
+        accent: 'text-cyan-400',
+        button: 'bg-gradient-to-r from-cyan-600 to-blue-600 text-white hover:from-cyan-500 hover:to-blue-500',
+        buttonHover: 'hover:bg-gray-700/50'
       };
     }
   };

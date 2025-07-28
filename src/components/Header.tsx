@@ -124,10 +124,12 @@ export default function Header({
             <button
               onClick={toggleTheme}
               className={`p-2 rounded-lg transition-all duration-300 ${themeClasses.buttonHover} ${themeClasses.text}`}
-              title={`Switch to ${theme === 'light-gray' ? 'Ocean Blue' : 'Light Gray'} theme`}
+              title="Switch theme"
             >
               {theme === 'light-gray' ? (
                 <Moon className="w-4 h-4 lg:w-5 lg:h-5" />
+              ) : theme === 'ocean-blue' ? (
+                <Sun className="w-4 h-4 lg:w-5 lg:h-5" />
               ) : (
                 <Sun className="w-4 h-4 lg:w-5 lg:h-5" />
               )}
