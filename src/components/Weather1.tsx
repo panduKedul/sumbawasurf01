@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Cloud, Wind, Waves, Thermometer, Eye, Droplets, Sun, Moon, MapPin, RefreshCw, Activity, TrendingUp, TrendingDown, Compass } from 'lucide-react';
+import { Cloud, Wind, Waves, Thermometer, Eye, Droplets, Sun, Moon, MapPin, RefreshCw, Activity, Compass } from 'lucide-react';
 import { fetchWeatherData, WeatherData, getFallbackWeatherData } from '../services/weatherApi';
 import { SurfSpot } from '../types';
 import { useTheme } from '../contexts/ThemeContext';

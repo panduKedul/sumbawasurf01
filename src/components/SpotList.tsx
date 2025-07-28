@@ -2,6 +2,7 @@ import React from 'react';
 import { Waves, Star } from 'lucide-react';
 import { SurfSpot } from '../types';
 import { useTheme } from '../contexts/ThemeContext';
+import { useTheme } from '../contexts/ThemeContext';
 
 interface SpotListProps {
   spots: SurfSpot[];
@@ -12,37 +13,39 @@ interface SpotListProps {
 export default function SpotList({ spots, onSelectSpot, selectedSpot }: SpotListProps) {
   const { getThemeClasses } = useTheme();
   const themeClasses = getThemeClasses();
+  const { getThemeClasses } = useTheme();
+  const themeClasses = getThemeClasses();
 
   return (
-    <div className={`h-full flex flex-col ${themeClasses.cardBg}`}>
+    <div className={`h-full flex flex-col ${themeClasses.cardBg} ${themeClasses.border}`}>
       {/* Header */}
-      <div className={`p-6 border-b ${themeClasses.border}`}>
+      <div className={`p-4 lg:p-6 border-b ${themeClasses.border}`}>
         <div className="flex items-center space-x-3 mb-3">
-          <div className={`p-2 ${themeClasses.button} rounded-lg shadow-lg`}>
+          <div className={`p-2 ${themeClasses.headerBg} rounded-lg shadow-sm`}>
             <Waves className="w-5 h-5 text-white" />
           </div>
           <div>
-            <h2 className={`text-lg font-bold ${themeClasses.text}`}>Surf Spots</h2>
-            <p className={`text-sm ${themeClasses.textSecondary}`}>{spots.length} spots available</p>
+            <h2 className={`text-sm lg:text-lg font-bold ${themeClasses.text}`}>Surf Spots</h2>
+            <p className={`text-xs lg:text-sm ${themeClasses.textSecondary}`}>{spots.length} spots available</p>
           </div>
         </div>
       </div>
 
       {/* Spots List */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-3 spots-list-container">
+      <div className="flex-1 overflow-y-auto p-3 lg:p-4 space-y-2 lg:space-y-3 spots-list-container">
         {spots.map((spot) => (
           <div
             key={spot.id}
             onClick={() => onSelectSpot(spot)}
-            className={`group cursor-pointer ${themeClasses.cardBg} border ${themeClasses.border} rounded-lg p-4 transition-all duration-300 hover:scale-[1.02] shadow-md ${
+            className={`group cursor-pointer ${themeClasses.cardBg} border ${themeClasses.border} rounded-lg p-3 lg:p-4 transition-all duration-300 hover:scale-[1.02] shadow-sm ${
               selectedSpot?.id === spot.id
-                ? `ring-2 ring-blue-500 shadow-lg`
+                ? `ring-2 ring-blue-500 shadow-sm`
                 : `${themeClasses.buttonHover}`
             }`}
           >
             {/* Spot Name Only */}
             <div className="flex items-center justify-between">
-              <h3 className={`font-bold ${themeClasses.text} text-base leading-tight group-hover:${themeClasses.accent} transition-colors duration-300`}>
+              <h3 className={`font-bold ${themeClasses.text} text-sm lg:text-base leading-tight group-hover:${themeClasses.accent} transition-colors duration-300`}>
                 {spot.name}
               </h3>
               {selectedSpot?.id === spot.id && (
@@ -68,7 +71,7 @@ export default function SpotList({ spots, onSelectSpot, selectedSpot }: SpotList
       {/* Footer */}
       <div className={`p-4 border-t ${themeClasses.border}`}>
         <div className="text-center">
-          <p className={`text-sm ${themeClasses.textSecondary}`}>
+          <p className={`text-xs lg:text-sm ${themeClasses.textSecondary}`}>
             Click any spot to view details
           </p>
         </div>

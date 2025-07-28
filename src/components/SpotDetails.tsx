@@ -1,12 +1,16 @@
 import React from 'react';
 import { MapPin, Waves, Trophy, Calendar, Clock, ExternalLink, Star } from 'lucide-react';
 import { SurfSpot } from '../types';
+import { useTheme } from '../contexts/ThemeContext';
 
 interface SpotDetailsProps {
   spot: SurfSpot;
 }
 
 export default function SpotDetails({ spot }: SpotDetailsProps) {
+  const { getThemeClasses } = useTheme();
+  const themeClasses = getThemeClasses();
+
   const getSkillLevelColor = (skillLevel: string) => {
     switch (skillLevel.toLowerCase()) {
       case 'beginner':
@@ -24,7 +28,7 @@ export default function SpotDetails({ spot }: SpotDetailsProps) {
   };
 
   return (
-    <div className="p-6 space-y-6 animate-fadeIn">
+    <div className="p-4 lg:p-6 space-y-4 lg:space-y-6 animate-fadeIn">
       {/* Hero Image */}
       <div className="relative rounded-xl overflow-hidden">
         <img
@@ -34,7 +38,7 @@ export default function SpotDetails({ spot }: SpotDetailsProps) {
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
         <div className="absolute bottom-6 left-6 right-6">
-          <h1 className="text-3xl md:text-4xl font-bold text-white mb-2">
+          <h1 className="text-xl lg:text-3xl font-bold text-white mb-2">
             {spot.name}
           </h1>
           <div className="flex items-center space-x-2 text-white/90">
@@ -47,55 +51,55 @@ export default function SpotDetails({ spot }: SpotDetailsProps) {
       </div>
 
       {/* Quick Info Cards */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <div className="card-elegant p-4 text-center">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-4">
+        <div className={`${themeClasses.cardBg} p-3 lg:p-4 text-center rounded-lg shadow-sm`}>
           <Waves className="w-6 h-6 text-blue-400 mx-auto mb-2" />
-          <p className="text-xs text-gray-400 mb-1">Wave Type</p>
-          <p className="text-sm font-medium text-white">{spot.waveType}</p>
+          <p className={`text-xs ${themeClasses.textSecondary} mb-1`}>Wave Type</p>
+          <p className={`text-xs lg:text-sm font-medium ${themeClasses.text}`}>{spot.waveType}</p>
         </div>
         
-        <div className="card-elegant p-4 text-center">
+        <div className={`${themeClasses.cardBg} p-3 lg:p-4 text-center rounded-lg shadow-sm`}>
           <Trophy className="w-6 h-6 text-yellow-400 mx-auto mb-2" />
-          <p className="text-xs text-gray-400 mb-1">Skill Level</p>
+          <p className={`text-xs ${themeClasses.textSecondary} mb-1`}>Skill Level</p>
           <span className={`text-xs px-2 py-1 rounded-full font-medium border ${getSkillLevelColor(spot.skillLevel)}`}>
             {spot.skillLevel}
           </span>
         </div>
         
-        <div className="card-elegant p-4 text-center">
+        <div className={`${themeClasses.cardBg} p-3 lg:p-4 text-center rounded-lg shadow-sm`}>
           <Calendar className="w-6 h-6 text-green-400 mx-auto mb-2" />
-          <p className="text-xs text-gray-400 mb-1">Best Season</p>
-          <p className="text-sm font-medium text-white">{spot.bestSeason}</p>
+          <p className={`text-xs ${themeClasses.textSecondary} mb-1`}>Best Season</p>
+          <p className={`text-xs lg:text-sm font-medium ${themeClasses.text}`}>{spot.bestSeason}</p>
         </div>
         
-        <div className="card-elegant p-4 text-center">
+        <div className={`${themeClasses.cardBg} p-3 lg:p-4 text-center rounded-lg shadow-sm`}>
           <Clock className="w-6 h-6 text-purple-400 mx-auto mb-2" />
-          <p className="text-xs text-gray-400 mb-1">Tide</p>
-          <p className="text-sm font-medium text-white">{spot.tideConditions}</p>
+          <p className={`text-xs ${themeClasses.textSecondary} mb-1`}>Tide</p>
+          <p className={`text-xs lg:text-sm font-medium ${themeClasses.text}`}>{spot.tideConditions}</p>
         </div>
       </div>
 
       {/* Description */}
-      <div className="card-elegant p-6">
-        <h2 className="text-xl font-semibold text-white mb-4 flex items-center">
-          <Star className="w-5 h-5 text-neon-blue mr-2" />
+      <div className={`${themeClasses.cardBg} p-4 lg:p-6 rounded-lg shadow-sm`}>
+        <h2 className={`text-lg lg:text-xl font-semibold ${themeClasses.text} mb-4 flex items-center`}>
+          <Star className={`w-5 h-5 ${themeClasses.accent} mr-2`} />
           About This Spot
         </h2>
-        <p className="text-gray-300 leading-relaxed">
+        <p className={`${themeClasses.textSecondary} text-sm lg:text-base leading-relaxed`}>
           {spot.description}
         </p>
       </div>
 
       {/* Forecast Link */}
-      <div className="card-elegant p-6">
-        <h2 className="text-xl font-semibold text-white mb-4">
+      <div className={`${themeClasses.cardBg} p-4 lg:p-6 rounded-lg shadow-sm`}>
+        <h2 className={`text-lg lg:text-xl font-semibold ${themeClasses.text} mb-4`}>
           Current Forecast
         </h2>
         <a
           href={spot.forecastUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center space-x-2 bg-neon-blue text-dark-100 px-6 py-3 rounded-lg font-medium hover:bg-opacity-90 transition-colors"
+          className={`inline-flex items-center space-x-2 ${themeClasses.button} px-4 lg:px-6 py-2 lg:py-3 rounded-lg font-medium transition-colors text-sm lg:text-base`}
         >
           <ExternalLink className="w-5 h-5" />
           <span>View Live Forecast</span>

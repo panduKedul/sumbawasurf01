@@ -52,12 +52,13 @@ function AppContent() {
   };
 
   const showHome = !showWeather && !showTides && !showAdmin;
-  const showHome = !showWeather && !showTides && !showWeather1 && !showTides1 && !showAdmin;
 
   const handleSpotSelect = (spot: SurfSpot) => {
     setSelectedSpot(spot);
     setShowWeather(false);
     setShowTides(false);
+    setShowWeather1(false);
+    setShowTides1(false);
     setShowWeather1(false);
     setShowTides1(false);
     setShowAdmin(false);
