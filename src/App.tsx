@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import { AdminProvider } from './contexts/AdminContext';
-import { Toaster } from 'react-hot-toast';
 import Header from './components/Header';
 import Map from './components/Map';
 import Weather from './components/Weather';
