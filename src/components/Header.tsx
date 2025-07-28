@@ -1,5 +1,5 @@
 import React from 'react';
-import { Menu, X, MapPin, Waves } from 'lucide-react';
+import { Menu, X, MapPin, Waves, Settings } from 'lucide-react';
 import { SurfSpot } from '../types';
 
 interface HeaderProps {
@@ -7,6 +7,8 @@ interface HeaderProps {
   showMaps: boolean;
   toggleTide: () => void;
   showTide: boolean;
+  toggleAdmin: () => void;
+  showAdmin: boolean;
   resetToHome: () => void;
   showHome: boolean;
   toggleMobileMenu: () => void;
@@ -22,6 +24,8 @@ export default function Header({
   showMaps,
   toggleTide,
   showTide,
+  toggleAdmin,
+  showAdmin,
   resetToHome,
   showHome,
   toggleMobileMenu,
@@ -79,6 +83,15 @@ export default function Header({
             >
               Tides
             </button>
+            
+            <button
+              onClick={toggleAdmin}
+              className={`btn-elegant px-4 py-2 rounded-lg font-medium transition-all duration-300 ${
+                showAdmin ? 'bg-neon-blue/20 text-neon-blue border-neon-blue/50' : ''
+              }`}
+            >
+              Admin
+            </button>
           </nav>
 
           {/* Mobile Menu Button */}
@@ -128,6 +141,18 @@ export default function Header({
                 }`}
               >
                 Tides
+              </button>
+              
+              <button
+                onClick={() => {
+                  toggleAdmin();
+                  toggleMobileMenu();
+                }}
+                className={`w-full text-left px-3 py-2 rounded-lg font-medium transition-all duration-300 ${
+                  showAdmin ? 'bg-neon-blue/20 text-neon-blue' : 'text-gray-300 hover:text-white hover:bg-dark-400'
+                }`}
+              >
+                Admin
               </button>
 
               {/* Surf Spots for Mobile */}

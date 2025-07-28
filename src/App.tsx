@@ -1,46 +1,77 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import { Toaster } from 'react-hot-toast';
 import Header from './components/Header';
 import Map from './components/Map';
 import Maps from './components/Maps';
 import TideDemo from './components/TideDemo';
 import SpotList from './components/SpotList';
 import SpotDetails from './components/SpotDetails';
+import AdminPanel from './components/AdminPanel';
 import Footer from './components/Footer';
-import { SURF_SPOTS } from './data/spots';
+import { loadSpots } from './data/spots';
 import { SurfSpot } from './types';
 
 function AppContent() {
-  const [spots] = useState<SurfSpot[]>(SURF_SPOTS);
+  const [spots, setSpots] = useState<SurfSpot[]>([]);
   const [selectedSpot, setSelectedSpot] = useState<SurfSpot | null>(null);
   const [showMaps, setShowMaps] = useState(false);
   const [showTide, setShowTide] = useState(false);
+  const [showAdmin, setShowAdmin] = useState(false);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const [showMobileSpots, setShowMobileSpots] = useState(false);
+  const [loading, setLoading] = useState(true);
 
-  const showHome = !showMaps && !showTide;
+  useEffect(() => {
+    loadSpotsData();
+  }, []);
+
+  const loadSpotsData = async () => {
+    try {
+      setLoading(true);
+      const spotsData = await loadSpots();
+      setSpots(spotsData);
+    } catch (error) {
+      console.error('Error loading spots:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const showHome = !showMaps && !showTide && !showAdmin;
 
   const handleSpotSelect = (spot: SurfSpot) => {
     setSelectedSpot(spot);
     setShowMaps(false);
     setShowTide(false);
+    setShowAdmin(false);
   };
 
   const toggleMaps = () => {
     setShowMaps(!showMaps);
     setShowTide(false);
+    setShowAdmin(false);
     setSelectedSpot(null);
   };
 
   const toggleTide = () => {
     setShowMaps(false);
     setShowTide(!showTide);
+    setShowAdmin(false);
+    setSelectedSpot(null);
+  };
+
+  const toggleAdmin = () => {
+    setShowMaps(false);
+    setShowTide(false);
+    setShowAdmin(!showAdmin);
     setSelectedSpot(null);
   };
 
   const resetToHome = () => {
     setShowMaps(false);
     setShowTide(false);
+    setShowAdmin(false);
     setSelectedSpot(null);
     setShowMobileMenu(false);
     setShowMobileSpots(false);
@@ -79,6 +110,8 @@ function AppContent() {
         toggleTide={toggleTide}
         showTide={showTide}
         resetToHome={resetToHome}
+        toggleAdmin={toggleAdmin}
+        showAdmin={showAdmin}
         showHome={showHome}
         toggleMobileMenu={toggleMobileMenu}
         showMobileMenu={showMobileMenu}
@@ -88,6 +121,11 @@ function AppContent() {
         onSelectSpot={handleSpotSelect}
       />
       
+      {/* Toast Notifications */}
+      <Toaster
+        position="top-right"
+        toastOptions={{ duration: 4000 }}
+      />
       <main className={`flex flex-1 overflow-hidden mt-0 transition-all duration-300 ${showMobileMenu ? 'blur-sm' : ''}`}>
         {/* Desktop Sidebar */}
         <div className={`hidden md:flex w-80 lg:w-96 bg-dark-200 border-r border-dark-400 shadow-xl flex-shrink-0 flex-col mt-0 transition-all duration-300 ${showMobileMenu ? 'blur-[2px] pointer-events-none' : ''}`}>
@@ -99,6 +137,11 @@ function AppContent() {
             <Maps />
           ) : showTide ? (
             <TideDemo />
+          ) : showAdmin ? (
+            <AdminPanel 
+              spots={spots} 
+              onSpotsUpdate={loadSpotsData} 
+            />
           ) : (
             /* Default view with map and spot details */
             <div className="flex flex-col flex-1">
@@ -109,6 +152,13 @@ function AppContent() {
               <div className="flex-1 bg-dark-200 overflow-auto px-4 md:px-0">
                 {selectedSpot ? (
                   <SpotDetails spot={selectedSpot} />
+                ) : loading ? (
+                  <div className="flex items-center justify-center min-h-full p-4 md:p-6 text-center">
+                    <div className="text-center">
+                      <div className="w-8 h-8 border-4 border-neon-blue border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+                      <p className="text-gray-400">Loading surf spots...</p>
+                    </div>
+                  </div>
                 ) : (
                   <div className="flex items-center justify-center min-h-full p-4 md:p-6 text-center animate-fadeIn bg-gradient-radial from-dark-300 to-dark-100">
                     <div className="max-w-xl w-full">
@@ -128,7 +178,7 @@ function AppContent() {
                       {/* Quick Stats */}
                       <div className="grid grid-cols-3 gap-4 mb-8">
                         <div className="bg-dark-400 p-4 rounded-lg border border-dark-500">
-                          <div className="text-2xl font-bold text-neon-blue">11</div>
+                          <div className="text-2xl font-bold text-neon-blue">{spots.length}</div>
                           <div className="text-sm text-gray-400">Surf Spots</div>
                         </div>
                         <div className="bg-dark-400 p-4 rounded-lg border border-dark-500">
@@ -183,7 +233,7 @@ function AppContent() {
                         </div>
                         <div className="text-center">
                           <p className="text-gray-400 text-sm">
-                            Click on any surf spot to start exploring
+                            {spots.length > 0 ? 'Click on any surf spot to start exploring' : 'Loading surf spots...'}
                           </p>
                         </div>
                       </div>

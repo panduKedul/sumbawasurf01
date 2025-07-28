@@ -1,5 +1,7 @@
+import { supabase } from '../lib/supabase';
 import { SurfSpot } from '../types';
 
+// Static fallback data
 export const SURF_SPOTS: SurfSpot[] = [
   {
     id: 'northern-right',
@@ -134,3 +136,54 @@ export const SURF_SPOTS: SurfSpot[] = [
     imageUrl: 'https://images.pexels.com/photos/1032657/pexels-photo-1032657.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'
   }
 ];
+
+// Function to fetch spots from database with fallback to static data
+export async function fetchSpotsFromDatabase(): Promise<SurfSpot[]> {
+  try {
+    const { data, error } = await supabase
+      .from('surf_spots')
+      .select('*')
+      .eq('is_active', true)
+      .order('created_at', { ascending: true });
+
+    if (error) {
+      // If table doesn't exist or other error, silently fall back to static data
+      if (error.code === '42P01' || error.message.includes('relation') || error.message.includes('does not exist')) {
+        console.log('📊 Using static surf spots data (database table not found)');
+        return SURF_SPOTS;
+      }
+      throw error;
+    }
+
+    if (!data || data.length === 0) {
+      console.log('📊 No spots found in database, using static data');
+      return SURF_SPOTS;
+    }
+
+    // Transform database data to match SurfSpot interface
+    const transformedSpots: SurfSpot[] = data.map(spot => ({
+      id: spot.id,
+      name: spot.name,
+      description: spot.description,
+      waveType: spot.wave_type,
+      skillLevel: spot.skill_level,
+      bestSeason: spot.best_season,
+      tideConditions: spot.tide_conditions,
+      coordinates: [spot.latitude, spot.longitude] as [number, number],
+      forecastUrl: spot.forecast_url,
+      imageUrl: spot.image_url
+    }));
+
+    console.log(`✅ Loaded ${transformedSpots.length} surf spots from database`);
+    return transformedSpots;
+
+  } catch (error) {
+    console.log('📊 Database error, using static data:', error);
+    return SURF_SPOTS;
+  }
+}
+
+// Function to load spots (tries database first, falls back to static)
+export async function loadSpots(): Promise<SurfSpot[]> {
+  return await fetchSpotsFromDatabase();
+}
