@@ -27,8 +27,6 @@ export default function Header({
   showTides,
   toggleAdmin,
   showAdmin,
-  toggleAdmin,
-  showAdmin,
   resetToHome,
   showHome,
   toggleMobileMenu,
