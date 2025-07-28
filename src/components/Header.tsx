@@ -1,5 +1,5 @@
 import React from 'react';
-import { Menu, X, MapPin, Waves, Settings, Lock, Sun, Moon } from 'lucide-react';
+import { Menu, X, MapPin, Waves, Settings, Lock, Sun, Moon, Palette } from 'lucide-react';
 import { SurfSpot } from '../types';
 import { useAdmin } from '../contexts/AdminContext';
 import { useTheme } from '../contexts/ThemeContext';
@@ -41,23 +41,41 @@ export default function Header({
   const { theme, toggleTheme, getThemeClasses } = useTheme();
   const themeClasses = getThemeClasses();
 
+  const getThemeIcon = () => {
+    switch (theme) {
+      case 'light':
+        return <Sun className="w-4 h-4" />;
+      case 'ocean':
+        return <Waves className="w-4 h-4" />;
+      case 'dark':
+        return <Moon className="w-4 h-4" />;
+      default:
+        return <Palette className="w-4 h-4" />;
+    }
+  };
+
   return (
-    <header className={`fixed top-0 left-0 right-0 z-50 ${themeClasses.cardBg} backdrop-blur-md`}>
-      <div className="max-w-7xl mx-auto px-3 lg:px-6">
+    <header className={`fixed top-0 left-0 right-0 z-50 ${themeClasses.navbar}`}>
+      <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6">
         <div className="flex items-center justify-between h-14 lg:h-16">
           {/* Logo */}
           <div 
-            className="flex items-center space-x-2 lg:space-x-3 cursor-pointer group"
+            className="flex items-center space-x-2 cursor-pointer group"
             onClick={resetToHome}
           >
-            <div className={`p-1.5 lg:p-2 ${themeClasses.button} rounded-lg shadow-lg transition-all duration-300`}>
+            <div className={`p-1.5 lg:p-2 ${themeClasses.headerBg} rounded-lg shadow-lg transition-all duration-300`}>
               <Waves className="w-4 h-4 lg:w-5 lg:h-5 text-white" />
             </div>
-            <div>
+            <div className="hidden sm:block">
               <h1 className={`text-sm lg:text-xl font-bold ${themeClasses.accent}`}>
                 Sumbawa Surf Guide
               </h1>
-              <p className={`text-xs ${themeClasses.textSecondary} hidden sm:block`}>West Sumbawa</p>
+              <p className={`text-xs ${themeClasses.textSecondary}`}>West Sumbawa</p>
+            </div>
+            <div className="sm:hidden">
+              <h1 className={`text-sm font-bold ${themeClasses.accent}`}>
+                Sumbawa
+              </h1>
             </div>
           </div>
 
@@ -105,7 +123,7 @@ export default function Header({
                     : `${themeClasses.text} ${themeClasses.buttonHover}`
                 }`}
               >
-                Admin Panel
+                Admin
               </button>
             ) : (
               <button
@@ -124,15 +142,9 @@ export default function Header({
             <button
               onClick={toggleTheme}
               className={`p-2 rounded-lg transition-all duration-300 ${themeClasses.buttonHover} ${themeClasses.text}`}
-              title="Switch theme"
+              title={`Switch to ${theme === 'light' ? 'ocean' : theme === 'ocean' ? 'dark' : 'light'} theme`}
             >
-              {theme === 'light-gray' ? (
-                <Moon className="w-4 h-4 lg:w-5 lg:h-5" />
-              ) : theme === 'ocean-blue' ? (
-                <Sun className="w-4 h-4 lg:w-5 lg:h-5" />
-              ) : (
-                <Sun className="w-4 h-4 lg:w-5 lg:h-5" />
-              )}
+              {getThemeIcon()}
             </button>
 
             {/* Mobile Menu Button */}
@@ -147,7 +159,7 @@ export default function Header({
 
         {/* Mobile Menu */}
         {showMobileMenu && (
-          <div className={`md:hidden mt-2 p-3 lg:p-4 ${themeClasses.cardBg} rounded-lg mb-3`}>
+          <div className={`md:hidden mt-2 p-3 ${themeClasses.cardBg} rounded-lg mb-3 mx-2`}>
             <div className="space-y-2">
               <button
                 onClick={() => {
@@ -231,7 +243,7 @@ export default function Header({
                 </button>
                 
                 {showMobileSpots && (
-                  <div className="ml-4 mt-2 space-y-1 max-h-60 overflow-y-auto">
+                  <div className="ml-4 mt-2 space-y-1 max-h-48 overflow-y-auto">
                     {spots.map((spot) => (
                       <button
                         key={spot.id}
