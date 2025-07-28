@@ -173,7 +173,7 @@ function AppContent() {
                 </div>
                 
                 {/* Interactive Map */}
-                <div className="h-[40vh] md:h-[50vh] rounded-xl overflow-hidden shadow-2xl border border-dark-400 mb-6 w-full max-w-6xl mx-auto">
+                <div className="h-[35vh] sm:h-[40vh] md:h-[50vh] rounded-xl overflow-hidden shadow-2xl border border-dark-400 mb-6 w-full max-w-6xl mx-auto">
                   <Map spots={spots} onSelectSpot={handleSpotSelect} selectedSpot={selectedSpot} />
                 </div>
               </div>
