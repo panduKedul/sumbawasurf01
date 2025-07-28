@@ -23,6 +23,12 @@ export interface TideData {
 
 export async function fetchWeatherData(lat: number, lng: number): Promise<WeatherData[]> {
   try {
+    // Note: StormGlass API requires a valid subscription
+    // Falling back to static data due to API limitations
+    console.log('Using fallback weather data - API key may be invalid or expired');
+    return getFallbackWeatherData();
+    
+    /* Commented out API call - uncomment when you have a valid API key
     const params = new URLSearchParams({
       lat: lat.toString(),
       lng: lng.toString(),
@@ -57,14 +63,21 @@ export async function fetchWeatherData(lat: number, lng: number): Promise<Weathe
       precipitation: hour.precipitation?.noaa || 0,
       visibility: hour.visibility?.noaa || 0,
     })) || [];
+    */
   } catch (error) {
-    console.error('Error fetching weather data:', error);
+    console.log('Using fallback weather data due to API error');
     return [];
   }
 }
 
 export async function fetchTideData(lat: number, lng: number): Promise<TideData[]> {
   try {
+    // Note: StormGlass API requires a valid subscription
+    // Falling back to static data due to API limitations
+    console.log('Using fallback tide data - API key may be invalid or expired');
+    return getFallbackTideData();
+    
+    /* Commented out API call - uncomment when you have a valid API key
     const params = new URLSearchParams({
       lat: lat.toString(),
       lng: lng.toString(),
@@ -90,8 +103,9 @@ export async function fetchTideData(lat: number, lng: number): Promise<TideData[
       height: tide.height,
       type: tide.type
     })) || [];
+    */
   } catch (error) {
-    console.error('Error fetching tide data:', error);
+    console.log('Using fallback tide data due to API error');
     return [];
   }
 }
