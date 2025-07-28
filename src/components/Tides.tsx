@@ -130,9 +130,9 @@ export default function Tides({ spots }: TidesProps) {
   }
 
   return (
-    <div className="min-h-screen bg-dark-100 flex flex-col">
+    <div className="min-h-screen bg-dark-100">
       {/* Header with Spot Image - Responsive */}
-      <div className="relative h-40 lg:h-48 flex-shrink-0">
+      <div className="relative h-40 lg:h-48">
         <img
           src={selectedSpot.imageUrl}
           alt={selectedSpot.name}
@@ -157,7 +157,7 @@ export default function Tides({ spots }: TidesProps) {
           </div>
 
           {/* Spot Selector - Responsive */}
-          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 max-w-md mx-auto w-full">
+          <div className="flex flex-col sm:flex-row items-center gap-2 max-w-md mx-auto w-full">
             <select
               value={selectedSpot.id}
               onChange={(e) => {
@@ -175,7 +175,7 @@ export default function Tides({ spots }: TidesProps) {
             <button
               onClick={loadTideData}
               disabled={loading}
-              className="btn-elegant px-3 py-2 rounded-lg flex items-center justify-center space-x-2 backdrop-blur-sm text-sm whitespace-nowrap flex-shrink-0"
+              className="btn-elegant px-3 py-2 rounded-lg flex items-center justify-center space-x-2 backdrop-blur-sm text-sm whitespace-nowrap"
             >
               <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
               <span>Refresh</span>
@@ -208,9 +208,9 @@ export default function Tides({ spots }: TidesProps) {
       </div>
 
       {/* Main Content - Responsive Container */}
-      <div className="flex-1 overflow-y-auto bg-dark-200">
-        <div className="max-w-6xl mx-auto p-4 lg:p-6 space-y-6">
-          {/* Today's Tides - Responsive Grid */}
+      <div className="bg-dark-200">
+        <div className="max-w-4xl mx-auto p-4 lg:p-6 space-y-6">
+          {/* Today's Tides - Responsive Cards */}
           <div>
             <h3 className="text-lg lg:text-xl font-bold text-white mb-4 text-center flex items-center justify-center">
               <Activity className="w-5 h-5 text-neon-blue mr-2" />
@@ -344,8 +344,34 @@ export default function Tides({ spots }: TidesProps) {
           {/* Upcoming Tides Table - Responsive */}
           <div className="card-elegant p-4 lg:p-6">
             <h3 className="text-lg font-bold text-white mb-4 text-center">Upcoming Tides</h3>
-            <div className="overflow-x-auto">
-              <table className="w-full min-w-[400px]">
+            
+            {/* Mobile: Stack vertically */}
+            <div className="block lg:hidden space-y-3">
+              {upcomingTides.map((tide, index) => (
+                <div key={index} className="bg-dark-300 rounded-lg p-3 border border-dark-400">
+                  <div className="flex items-center justify-between mb-2">
+                    <div className="flex items-center space-x-2">
+                      {getTideIcon(tide.type)}
+                      <span className={`font-medium text-sm ${
+                        tide.type === 'high' ? 'text-blue-400' : 'text-orange-400'
+                      }`}>
+                        {tide.type === 'high' ? 'High' : 'Low'} Tide
+                      </span>
+                    </div>
+                    <span className="text-sm font-bold text-white">{tide.height.toFixed(1)}m</span>
+                  </div>
+                  <div className="flex items-center justify-between text-xs text-gray-400">
+                    <span>{formatDate(tide.time)}</span>
+                    <span>{formatTime(tide.time)}</span>
+                    {getPhaseIcon(tide.time)}
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Desktop: Table Layout */}
+            <div className="hidden lg:block overflow-x-auto">
+              <table className="w-full">
                 <thead>
                   <tr className="border-b border-dark-400">
                     <th className="text-left py-2 px-2 text-gray-300 font-semibold text-sm">Date & Time</th>
@@ -386,7 +412,7 @@ export default function Tides({ spots }: TidesProps) {
             </div>
           </div>
 
-          {/* Surf Spot Information - Responsive Grid */}
+          {/* Surf Spot Information - Responsive */}
           <div className="card-elegant p-4 lg:p-6 bg-gradient-to-br from-dark-300 to-dark-400">
             <h3 className="text-lg font-bold text-white mb-4 text-center">
               {selectedSpot.name} - Surf Information
