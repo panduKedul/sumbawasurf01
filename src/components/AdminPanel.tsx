@@ -184,8 +184,7 @@ export default function AdminPanel({ spots, onSpotsUpdate }: AdminPanelProps) {
 
   const handleLogout = () => {
     if (confirm('Are you sure you want to logout from admin panel?')) {
-      // Use the admin context logout function if available
-      window.location.reload();
+      logoutAdmin();
     }
   };
   if (!tableExists) {
