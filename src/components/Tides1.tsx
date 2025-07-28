@@ -451,33 +451,81 @@ export default function Tides1({ spots }: Tides1Props) {
         </div>
 
         {/* Weekly Tide Overview */}
-        <div className={`${themeClasses.cardBg} rounded-md sm:rounded-lg md:rounded-xl shadow-sm overflow-hidden`}>
-          <div className={`p-1.5 sm:p-2 md:p-3 border-b ${themeClasses.border}`}>
-            <h3 className={`text-xs sm:text-sm md:text-base font-bold ${themeClasses.text} text-center`}>7-Day Tide Overview</h3>
-          </div>
-          <div className="p-1.5 sm:p-2 md:p-3">
-            <div className="overflow-x-auto">
-              <div className="flex space-x-1 pb-2" style={{ minWidth: 'max-content' }}>
-                {Object.entries(weeklyTides).map(([date, tides], dayIndex) => (
-                  <div key={dayIndex} className={`flex-shrink-0 ${themeClasses.cardBg} rounded-md p-1.5 sm:p-2 border ${themeClasses.border} min-w-[70px] sm:min-w-[90px] md:min-w-[110px] shadow-sm`}>
-                    <h4 className={`text-center font-bold ${themeClasses.text} mb-1 text-xs`}>{formatDateShort(date)}</h4>
-                    <div className="space-y-0.5 sm:space-y-1">
-                      {tides.map((tide, tideIndex) => (
-                        <div key={tideIndex} className="flex items-center justify-between text-xs">
-                          <div className="flex items-center space-x-0.5">
-                            {getTideIcon(tide.type)}
-                            <span className={`${themeClasses.textSecondary}`}>{formatTime(tide.time)}</span>
+        <div className="relative overflow-hidden rounded-2xl">
+          <div className="absolute inset-0 bg-gradient-to-br from-teal-500/5 to-cyan-500/5 backdrop-blur-sm"></div>
+          <div className={`relative ${themeClasses.cardBg} shadow-2xl border ${themeClasses.border}`}>
+            <div className={`p-4 lg:p-6 border-b ${themeClasses.border}`}>
+              <h3 className={`text-lg lg:text-xl font-bold ${themeClasses.text} text-center`}>7-Day Overview</h3>
+            </div>
+            <div className="p-4 lg:p-6">
+              {/* Mobile: Horizontal Scroll with 4-hour intervals */}
+              <div className="lg:hidden">
+                <div className="overflow-x-auto pb-4">
+                  <div className="flex gap-3" style={{ minWidth: 'max-content' }}>
+                    {Object.entries(weeklyTides).map(([date, tides], dayIndex) => {
+                      // Filter tides to show only every 4 hours for mobile
+                      const filteredTides = tides.filter(tide => {
+                        const hour = new Date(tide.time).getHours();
+                        return hour % 4 === 0;
+                      });
+                      
+                      return (
+                        <div key={dayIndex} className="relative overflow-hidden rounded-xl flex-shrink-0 min-w-[120px]">
+                          <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 to-blue-500/10 backdrop-blur-sm"></div>
+                          <div className={`relative ${themeClasses.cardBg} p-3 border ${themeClasses.border} shadow-lg`}>
+                            <h4 className={`text-center font-bold ${themeClasses.text} mb-3 text-sm`}>{formatDateShort(date)}</h4>
+                            <div className="space-y-2">
+                              {filteredTides.map((tide, tideIndex) => (
+                                <div key={tideIndex} className="flex items-center justify-between text-xs">
+                                  <div className="flex items-center space-x-1">
+                                    {getTideIcon(tide.type)}
+                                    <span className={`${themeClasses.textSecondary}`}>{formatTime(tide.time)}</span>
+                                  </div>
+                                  <span className={`font-semibold ${
+                                    tide.type === 'high' ? 'text-blue-600' : 'text-orange-600'
+                                  }`}>
+                                    {tide.height.toFixed(1)}m
+                                  </span>
+                                </div>
+                              ))}
+                            </div>
                           </div>
-                          <span className={`font-semibold ${
-                            tide.type === 'high' ? 'text-blue-600' : 'text-orange-600'
-                          }`}>
-                            {tide.height.toFixed(1)}m
-                          </span>
                         </div>
-                      ))}
-                    </div>
+                      );
+                    })}
                   </div>
-                ))}
+                </div>
+              </div>
+
+              {/* Desktop: Grid Layout with all tides */}
+              <div className="hidden lg:block">
+                <div className="overflow-x-auto">
+                  <div className="flex gap-4" style={{ minWidth: 'max-content' }}>
+                    {Object.entries(weeklyTides).map(([date, tides], dayIndex) => (
+                      <div key={dayIndex} className="relative overflow-hidden rounded-xl flex-shrink-0 min-w-[160px]">
+                        <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 to-blue-500/10 backdrop-blur-sm"></div>
+                        <div className={`relative ${themeClasses.cardBg} p-4 border ${themeClasses.border} shadow-lg`}>
+                          <h4 className={`text-center font-bold ${themeClasses.text} mb-4 text-base`}>{formatDateShort(date)}</h4>
+                          <div className="space-y-3">
+                            {tides.map((tide, tideIndex) => (
+                              <div key={tideIndex} className="flex items-center justify-between text-sm">
+                                <div className="flex items-center space-x-2">
+                                  {getTideIcon(tide.type)}
+                                  <span className={`${themeClasses.textSecondary}`}>{formatTime(tide.time)}</span>
+                                </div>
+                                <span className={`font-semibold ${
+                                  tide.type === 'high' ? 'text-blue-600' : 'text-orange-600'
+                                }`}>
+                                  {tide.height.toFixed(1)}m
+                                </span>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
               </div>
             </div>
           </div>
