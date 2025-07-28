@@ -9,10 +9,6 @@ interface HeaderProps {
   showWeather: boolean;
   toggleTides: () => void;
   showTides: boolean;
-  toggleWeather1: () => void;
-  showWeather1: boolean;
-  toggleTides1: () => void;
-  showTides1: boolean;
   toggleAdmin: () => void;
   showAdmin: boolean;
   resetToHome: () => void;
@@ -30,10 +26,6 @@ export default function Header({
   showWeather,
   toggleTides,
   showTides,
-  toggleWeather1,
-  showWeather1,
-  toggleTides1,
-  showTides1,
   toggleAdmin,
   showAdmin,
   resetToHome,
@@ -111,28 +103,6 @@ export default function Header({
               }`}
             >
               Tides
-            </button>
-            
-            <button
-              onClick={toggleWeather1}
-              className={`px-3 lg:px-4 py-2 rounded-lg font-medium transition-all duration-300 text-sm lg:text-base ${
-                showWeather1 
-                  ? `${themeClasses.button} shadow-sm` 
-                  : `${themeClasses.text} ${themeClasses.buttonHover}`
-              }`}
-            >
-              Weather_1
-            </button>
-            
-            <button
-              onClick={toggleTides1}
-              className={`px-3 lg:px-4 py-2 rounded-lg font-medium transition-all duration-300 text-sm lg:text-base ${
-                showTides1 
-                  ? `${themeClasses.button} shadow-sm` 
-                  : `${themeClasses.text} ${themeClasses.buttonHover}`
-              }`}
-            >
-              Tides_1
             </button>
             
             {isAdminLoggedIn ? (
@@ -222,34 +192,6 @@ export default function Header({
                 }`}
               >
                 Tides
-              </button>
-              
-              <button
-                onClick={() => {
-                  toggleWeather1();
-                  toggleMobileMenu();
-                }}
-                className={`w-full text-left px-3 py-2 rounded-lg font-medium transition-all duration-300 text-sm ${
-                  showWeather1 
-                    ? `${themeClasses.button}` 
-                    : `${themeClasses.text} ${themeClasses.buttonHover}`
-                }`}
-              >
-                Weather_1
-              </button>
-              
-              <button
-                onClick={() => {
-                  toggleTides1();
-                  toggleMobileMenu();
-                }}
-                className={`w-full text-left px-3 py-2 rounded-lg font-medium transition-all duration-300 text-sm ${
-                  showTides1 
-                    ? `${themeClasses.button}` 
-                    : `${themeClasses.text} ${themeClasses.buttonHover}`
-                }`}
-              >
-                Tides_1
               </button>
               
               {isAdminLoggedIn ? (

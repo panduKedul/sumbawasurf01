@@ -27,8 +27,6 @@ function AppContent() {
   const [selectedSpot, setSelectedSpot] = useState<SurfSpot | null>(null);
   const [showWeather, setShowWeather] = useState(false);
   const [showTides, setShowTides] = useState(false);
-  const [showWeather1, setShowWeather1] = useState(false);
-  const [showTides1, setShowTides1] = useState(false);
   const [showAdmin, setShowAdmin] = useState(false);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const [showMobileSpots, setShowMobileSpots] = useState(false);
@@ -57,67 +55,43 @@ function AppContent() {
     setSelectedSpot(spot);
     setShowWeather(false);
     setShowTides(false);
-    setShowWeather1(false);
-    setShowTides1(false);
-    setShowWeather1(false);
-    setShowTides1(false);
     setShowAdmin(false);
   };
 
   const toggleWeather = () => {
-    setShowWeather(!showWeather);
-    setShowTides(false);
-    setShowWeather1(false);
-    setShowTides1(false);
-    setShowAdmin(false);
-    setSelectedSpot(null);
+    if (!showWeather) {
+      setShowWeather(true);
+      setShowTides(false);
+      setShowAdmin(false);
+      setSelectedSpot(null);
+    }
   };
 
   const toggleTides = () => {
-    setShowWeather(false);
-    setShowTides(!showTides);
-    setShowWeather1(false);
-    setShowTides1(false);
-    setShowAdmin(false);
-    setSelectedSpot(null);
-  };
-
-  const toggleWeather1 = () => {
-    setShowWeather(false);
-    setShowTides(false);
-    setShowWeather1(!showWeather1);
-    setShowTides1(false);
-    setShowAdmin(false);
-    setSelectedSpot(null);
-  };
-
-  const toggleTides1 = () => {
-    setShowWeather(false);
-    setShowTides(false);
-    setShowWeather1(false);
-    setShowTides1(!showTides1);
-    setShowAdmin(false);
-    setSelectedSpot(null);
+    if (!showTides) {
+      setShowWeather(false);
+      setShowTides(true);
+      setShowAdmin(false);
+      setSelectedSpot(null);
+    }
   };
 
   const toggleAdmin = () => {
-    if (isAdminLoggedIn) {
+    if (isAdminLoggedIn && !showAdmin) {
       setShowWeather(false);
       setShowTides(false);
-      setShowWeather1(false);
-      setShowTides1(false);
-      setShowAdmin(!showAdmin);
+      setShowAdmin(true);
       setSelectedSpot(null);
     }
   };
 
   const resetToHome = () => {
-    setShowWeather(false);
-    setShowTides(false);
-    setShowWeather1(false);
-    setShowTides1(false);
-    setShowAdmin(false);
-    setSelectedSpot(null);
+    if (!showHome) {
+      setShowWeather(false);
+      setShowTides(false);
+      setShowAdmin(false);
+      setSelectedSpot(null);
+    }
   };
 
   const toggleMobileMenu = () => {
@@ -152,10 +126,6 @@ function AppContent() {
         showWeather={showWeather}
         toggleTides={toggleTides}
         showTides={showTides}
-        toggleWeather1={toggleWeather1}
-        showWeather1={showWeather1}
-        toggleTides1={toggleTides1}
-        showTides1={showTides1}
         toggleAdmin={toggleAdmin}
         showAdmin={showAdmin}
         resetToHome={resetToHome}
@@ -190,12 +160,8 @@ function AppContent() {
 
         <div className={`flex-1 flex flex-col transition-all duration-300 ${showMobileMenu ? 'blur-[2px] pointer-events-none' : ''}`}>
           {showWeather ? (
-            <Weather spots={spots} />
+            <Weather1 spots={spots} />
           ) : showTides ? (
-            <Tides spots={spots} />
-         ) : showWeather1 ? (
-           <Weather1 spots={spots} />
-         ) : showTides1 ? (
            <Tides1 spots={spots} />
           ) : showAdmin && isAdminLoggedIn ? (
             <AdminPanel 

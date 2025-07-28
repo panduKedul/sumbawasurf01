@@ -111,7 +111,8 @@ export default function Weather1({ spots }: Weather1Props) {
   const uvLevel = getUVLevel(uvIndex);
 
   const getHourlyForecast = () => {
-    return weatherData.slice(0, 24);
+    // Show data every 4 hours: 00:00, 04:00, 08:00, 12:00, 16:00, 20:00
+    return weatherData.filter((_, index) => index % 4 === 0).slice(0, 6);
   };
 
   if (!selectedSpot) {
@@ -339,7 +340,43 @@ export default function Weather1({ spots }: Weather1Props) {
             </div>
             
             <div className="p-4 lg:p-6">
-              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 lg:gap-6">
+              {/* Mobile: Horizontal Scroll */}
+              <div className="lg:hidden">
+                <div className="overflow-x-auto pb-4">
+                  <div className="flex gap-3" style={{ minWidth: 'max-content' }}>
+                    {getHourlyForecast().map((hour, index) => (
+                      <div key={index} className="relative overflow-hidden rounded-xl flex-shrink-0 min-w-[90px]">
+                        <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-purple-500/10 backdrop-blur-sm"></div>
+                        <div className={`relative ${themeClasses.cardBg} p-3 border ${themeClasses.border} shadow-lg`}>
+                          <div className="text-center">
+                            <p className={`text-xs ${themeClasses.textSecondary} mb-2 font-medium`}>
+                              {new Date(hour.time).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false })}
+                            </p>
+                            <div className="space-y-2">
+                              <div className="flex items-center justify-center space-x-1">
+                                <Thermometer className="w-3 h-3 text-orange-500" />
+                                <span className={`text-xs ${themeClasses.text} font-medium`}>{hour.airTemperature.toFixed(0)}°C</span>
+                              </div>
+                              <div className="flex items-center justify-center space-x-1">
+                                <Wind className="w-3 h-3 text-cyan-500" />
+                                <span className={`text-xs ${themeClasses.textSecondary}`}>{hour.windSpeed.toFixed(0)} m/s</span>
+                              </div>
+                              <div className="flex items-center justify-center space-x-1">
+                                <Waves className="w-3 h-3 text-blue-500" />
+                                <span className={`text-xs ${themeClasses.textSecondary}`}>{hour.waveHeight.toFixed(1)}m</span>
+                              </div>
+                              <div className="flex items-center justify-center space-x-1">
+                                <Cloud className="w-3 h-3 text-gray-500" />
+                                <span className={`text-xs ${themeClasses.textSecondary}`}>{hour.cloudCover.toFixed(0)}%</span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
                 {getHourlyForecast().map((hour, index) => (
                   <div key={index} className="relative overflow-hidden rounded-xl group">
                     <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-purple-500/10 backdrop-blur-sm group-hover:from-blue-500/20 group-hover:to-purple-500/20 transition-all"></div>
@@ -375,6 +412,8 @@ export default function Weather1({ spots }: Weather1Props) {
           </div>
         </div>
 
+              {/* Desktop: Grid Layout */}
+              <div className="hidden lg:grid lg:grid-cols-6 gap-4">
         {/* Location & Update Info */}
         <div className="relative overflow-hidden rounded-xl">
           <div className="absolute inset-0 bg-gradient-to-br from-gray-500/5 to-slate-500/5 backdrop-blur-sm"></div>
