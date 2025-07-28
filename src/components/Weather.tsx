@@ -170,8 +170,8 @@ export default function Weather({ spots }: WeatherProps) {
       {/* Main Content */}
       <div className="p-3 sm:p-4 lg:p-6 space-y-4 max-w-4xl mx-auto">
         
-        {/* Mobile-First Weather Map */}
-        <div className={`h-40 sm:h-48 lg:h-64 ${themeClasses.cardBg} rounded-xl overflow-hidden shadow-sm`}>
+        {/* Responsive Weather Map */}
+        <div className={`h-32 sm:h-40 md:h-48 lg:h-64 ${themeClasses.cardBg} rounded-lg sm:rounded-xl overflow-hidden shadow-sm`}>
           <iframe
             src={getWindyUrl()}
             className="w-full h-full border-0"
@@ -182,13 +182,13 @@ export default function Weather({ spots }: WeatherProps) {
 
         {/* Mobile-Optimized Current Weather Cards */}
         {currentWeather && (
-          <div className={`${themeClasses.cardBg} p-3 sm:p-4 lg:p-6 rounded-xl shadow-sm`}>
-            <h2 className={`text-sm sm:text-base lg:text-xl font-bold ${themeClasses.text} mb-3 text-center flex items-center justify-center`}>
-              <Activity className={`w-4 h-4 sm:w-5 sm:h-5 ${themeClasses.accent} mr-2`} />
+          <div className={`${themeClasses.cardBg} p-2 sm:p-3 md:p-4 lg:p-6 rounded-lg sm:rounded-xl shadow-sm`}>
+            <h2 className={`text-xs sm:text-sm md:text-base lg:text-xl font-bold ${themeClasses.text} mb-2 sm:mb-3 text-center flex items-center justify-center`}>
+              <Activity className={`w-3 h-3 sm:w-4 sm:h-4 md:w-5 md:h-5 ${themeClasses.accent} mr-1 sm:mr-2`} />
               Current Conditions
             </h2>
             
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2 sm:gap-3">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-1 sm:gap-2 md:gap-3">
               {[
                 { icon: Thermometer, label: 'Air Temp', value: `${currentWeather.airTemperature.toFixed(1)}°C`, color: 'text-orange-500' },
                 { icon: Waves, label: 'Water Temp', value: `${currentWeather.waterTemperature.toFixed(1)}°C`, color: 'text-blue-500' },
@@ -197,10 +197,10 @@ export default function Weather({ spots }: WeatherProps) {
                 { icon: Eye, label: 'Visibility', value: `${currentWeather.visibility.toFixed(1)}km`, color: 'text-purple-500' },
                 { icon: Sun, label: 'UV Index', value: `${uvIndex} - ${uvLevel.level}`, color: uvLevel.color }
               ].map((item, index) => (
-                <div key={index} className={`${themeClasses.cardBg} p-2 sm:p-3 rounded-lg text-center shadow-sm border ${themeClasses.border}`}>
-                  <item.icon className={`w-4 h-4 sm:w-5 sm:h-5 ${item.color} mx-auto mb-1 sm:mb-2`} />
+                <div key={index} className={`${themeClasses.cardBg} p-1 sm:p-2 md:p-3 rounded-md sm:rounded-lg text-center shadow-sm border ${themeClasses.border}`}>
+                  <item.icon className={`w-3 h-3 sm:w-4 sm:h-4 md:w-5 md:h-5 ${item.color} mx-auto mb-1`} />
                   <span className={`${themeClasses.textSecondary} text-xs block mb-1`}>{item.label}</span>
-                  <span className={`${themeClasses.text} font-semibold text-xs sm:text-sm`}>{item.value}</span>
+                  <span className={`${themeClasses.text} font-semibold text-xs`}>{item.value}</span>
                 </div>
               ))}
             </div>
@@ -208,18 +208,18 @@ export default function Weather({ spots }: WeatherProps) {
         )}
 
         {/* Mobile-Optimized Hourly Forecast */}
-        <div className={`${themeClasses.cardBg} p-3 sm:p-4 lg:p-6 rounded-xl shadow-sm`}>
-          <h3 className={`text-sm sm:text-base lg:text-xl font-bold ${themeClasses.text} mb-3 text-center flex items-center justify-center`}>
-            <Activity className={`w-4 h-4 sm:w-5 sm:h-5 ${themeClasses.accent} mr-2`} />
+        <div className={`${themeClasses.cardBg} p-2 sm:p-3 md:p-4 lg:p-6 rounded-lg sm:rounded-xl shadow-sm`}>
+          <h3 className={`text-xs sm:text-sm md:text-base lg:text-xl font-bold ${themeClasses.text} mb-2 sm:mb-3 text-center flex items-center justify-center`}>
+            <Activity className={`w-3 h-3 sm:w-4 sm:h-4 md:w-5 md:h-5 ${themeClasses.accent} mr-1 sm:mr-2`} />
             12-Hour Forecast
           </h3>
           
           <div className="overflow-x-auto">
-            <div className="flex gap-2 pb-2" style={{ minWidth: 'max-content' }}>
+            <div className="flex gap-1 sm:gap-2 pb-2" style={{ minWidth: 'max-content' }}>
               {getHourlyForecast().map((hour, index) => (
-                <div key={index} className={`flex-shrink-0 ${themeClasses.cardBg} rounded-lg p-2 sm:p-3 border ${themeClasses.border} min-w-[70px] sm:min-w-[90px] shadow-sm`}>
+                <div key={index} className={`flex-shrink-0 ${themeClasses.cardBg} rounded-md sm:rounded-lg p-1 sm:p-2 md:p-3 border ${themeClasses.border} min-w-[60px] sm:min-w-[70px] md:min-w-[90px] shadow-sm`}>
                   <div className="text-center">
-                    <p className={`text-xs ${themeClasses.textSecondary} mb-2 font-medium`}>
+                    <p className={`text-xs ${themeClasses.textSecondary} mb-1 sm:mb-2 font-medium`}>
                       {new Date(hour.time).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false })}
                     </p>
                     <div className="space-y-1">
@@ -244,7 +244,7 @@ export default function Weather({ spots }: WeatherProps) {
         </div>
 
         {/* Mobile-Optimized Location Info */}
-        <div className={`${themeClasses.cardBg} p-3 sm:p-4 rounded-xl text-center shadow-sm`}>
+        <div className={`${themeClasses.cardBg} p-2 sm:p-3 md:p-4 rounded-lg sm:rounded-xl text-center shadow-sm`}>
           <div className={`flex flex-col space-y-2 ${themeClasses.textSecondary}`}>
             <div className="flex items-center justify-center space-x-2">
               <MapPin className={`w-3 h-3 sm:w-4 sm:h-4 ${themeClasses.accent}`} />

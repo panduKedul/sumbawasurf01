@@ -222,32 +222,32 @@ export default function AdminPanel({ spots, onSpotsUpdate }: AdminPanelProps) {
   return (
     <div className={`min-h-screen ${themeClasses.bg} pt-16 overflow-x-hidden`}>
       {/* Header */}
-      <div className={`${themeClasses.cardBg} border-b ${themeClasses.border} p-3 sm:p-4 lg:p-6`}>
+      <div className={`${themeClasses.cardBg} border-b ${themeClasses.border} p-2 sm:p-3 md:p-4 lg:p-6`}>
         <div className="max-w-4xl mx-auto">
-          <div className="flex flex-col items-center space-y-3 mb-4">
-            <div className={`p-2 ${themeClasses.headerBg} rounded-lg shadow-sm`}>
-              <Settings className="w-5 h-5 text-white" />
+          <div className="flex flex-col items-center space-y-2 sm:space-y-3 mb-3 sm:mb-4">
+            <div className={`p-1 sm:p-2 ${themeClasses.headerBg} rounded-md sm:rounded-lg shadow-sm`}>
+              <Settings className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
             </div>
             <div className="text-center">
-              <h1 className={`text-lg sm:text-xl lg:text-3xl font-bold ${themeClasses.accent}`}>Admin Panel</h1>
-              <p className={`text-xs sm:text-sm lg:text-base ${themeClasses.textSecondary}`}>Manage surf spots and content</p>
+              <h1 className={`text-sm sm:text-lg md:text-xl lg:text-3xl font-bold ${themeClasses.accent}`}>Admin Panel</h1>
+              <p className={`text-xs sm:text-sm ${themeClasses.textSecondary}`}>Manage surf spots and content</p>
             </div>
           </div>
           
-          <div className="flex flex-col space-y-2 max-w-sm mx-auto">
+          <div className="flex flex-col space-y-1 sm:space-y-2 max-w-xs sm:max-w-sm mx-auto">
             <button
               onClick={handleCreate}
               disabled={loading}
-              className={`${themeClasses.button} px-3 py-2 rounded-lg font-medium flex items-center justify-center space-x-2 text-xs sm:text-sm w-full transition-all duration-300 shadow-sm`}
+              className={`${themeClasses.button} px-2 sm:px-3 py-1 sm:py-2 rounded-md sm:rounded-lg font-medium flex items-center justify-center space-x-1 sm:space-x-2 text-xs w-full transition-all duration-300 shadow-sm`}
             >
-              <Plus className="w-3 h-3 sm:w-4 sm:h-4" />
+              <Plus className="w-3 h-3" />
               <span>Add New Spot</span>
             </button>
             <button
               onClick={handleLogout}
-              className="bg-red-600 hover:bg-red-700 text-white px-3 py-2 rounded-lg font-medium flex items-center justify-center space-x-2 text-xs sm:text-sm w-full transition-all duration-300 shadow-sm"
+              className="bg-red-600 hover:bg-red-700 text-white px-2 sm:px-3 py-1 sm:py-2 rounded-md sm:rounded-lg font-medium flex items-center justify-center space-x-1 sm:space-x-2 text-xs w-full transition-all duration-300 shadow-sm"
             >
-              <LogOut className="w-3 h-3 sm:w-4 sm:h-4" />
+              <LogOut className="w-3 h-3" />
               <span>Logout</span>
             </button>
           </div>
@@ -255,58 +255,58 @@ export default function AdminPanel({ spots, onSpotsUpdate }: AdminPanelProps) {
       </div>
 
       {/* Main Content */}
-      <div className="p-3 sm:p-4 lg:p-6 space-y-4 max-w-4xl mx-auto">
+      <div className="p-2 sm:p-3 md:p-4 lg:p-6 space-y-3 sm:space-y-4 max-w-4xl mx-auto">
 
         {/* Create/Edit Form */}
         {(isCreating || isEditing) && (
-          <div className={`${themeClasses.cardBg} p-3 sm:p-4 lg:p-6 rounded-xl shadow-xl`}>
-            <div className="flex items-center justify-between mb-4 sm:mb-6">
-              <h2 className={`text-sm sm:text-base lg:text-lg font-bold ${themeClasses.text}`}>
+          <div className={`${themeClasses.cardBg} p-2 sm:p-3 md:p-4 lg:p-6 rounded-lg sm:rounded-xl shadow-sm`}>
+            <div className="flex items-center justify-between mb-3 sm:mb-4 md:mb-6">
+              <h2 className={`text-xs sm:text-sm md:text-base lg:text-lg font-bold ${themeClasses.text}`}>
                 {isCreating ? 'Create New Surf Spot' : 'Edit Surf Spot'}
               </h2>
               <button
                 onClick={handleCancel}
                 className={`${themeClasses.textSecondary} hover:${themeClasses.text} transition-colors`}
               >
-                <X className="w-5 h-5 sm:w-6 sm:h-6" />
+                <X className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6" />
               </button>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-2 sm:gap-3 md:gap-4">
               <div>
-                <label className={`block text-xs sm:text-sm font-medium ${themeClasses.text} mb-2`}>
+                <label className={`block text-xs font-medium ${themeClasses.text} mb-1 sm:mb-2`}>
                   Spot Name
                 </label>
                 <input
                   type="text"
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  className={`${themeClasses.cardBg} ${themeClasses.border} ${themeClasses.text} w-full px-3 py-2 rounded-lg text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500`}
+                  className={`${themeClasses.cardBg} ${themeClasses.border} ${themeClasses.text} w-full px-2 sm:px-3 py-1 sm:py-2 rounded-md sm:rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-blue-500`}
                   placeholder="Enter spot name"
                 />
               </div>
 
               <div>
-                <label className={`block text-xs sm:text-sm font-medium ${themeClasses.text} mb-2`}>
+                <label className={`block text-xs font-medium ${themeClasses.text} mb-1 sm:mb-2`}>
                   Wave Type
                 </label>
                 <input
                   type="text"
                   value={formData.waveType}
                   onChange={(e) => setFormData({ ...formData, waveType: e.target.value })}
-                  className={`${themeClasses.cardBg} ${themeClasses.border} ${themeClasses.text} w-full px-3 py-2 rounded-lg text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500`}
+                  className={`${themeClasses.cardBg} ${themeClasses.border} ${themeClasses.text} w-full px-2 sm:px-3 py-1 sm:py-2 rounded-md sm:rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-blue-500`}
                   placeholder="e.g., Right-hand reef break"
                 />
               </div>
 
               <div>
-                <label className={`block text-xs sm:text-sm font-medium ${themeClasses.text} mb-2`}>
+                <label className={`block text-xs font-medium ${themeClasses.text} mb-1 sm:mb-2`}>
                   Skill Level
                 </label>
                 <select
                   value={formData.skillLevel}
                   onChange={(e) => setFormData({ ...formData, skillLevel: e.target.value })}
-                  className={`${themeClasses.cardBg} ${themeClasses.border} ${themeClasses.text} w-full px-3 py-2 rounded-lg text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500`}
+                  className={`${themeClasses.cardBg} ${themeClasses.border} ${themeClasses.text} w-full px-2 sm:px-3 py-1 sm:py-2 rounded-md sm:rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-blue-500`}
                 >
                   <option value="Beginner">Beginner</option>
                   <option value="Intermediate">Intermediate</option>
@@ -316,33 +316,33 @@ export default function AdminPanel({ spots, onSpotsUpdate }: AdminPanelProps) {
               </div>
 
               <div>
-                <label className={`block text-xs sm:text-sm font-medium ${themeClasses.text} mb-2`}>
+                <label className={`block text-xs font-medium ${themeClasses.text} mb-1 sm:mb-2`}>
                   Best Season
                 </label>
                 <input
                   type="text"
                   value={formData.bestSeason}
                   onChange={(e) => setFormData({ ...formData, bestSeason: e.target.value })}
-                  className={`${themeClasses.cardBg} ${themeClasses.border} ${themeClasses.text} w-full px-3 py-2 rounded-lg text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500`}
+                  className={`${themeClasses.cardBg} ${themeClasses.border} ${themeClasses.text} w-full px-2 sm:px-3 py-1 sm:py-2 rounded-md sm:rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-blue-500`}
                   placeholder="e.g., April to October"
                 />
               </div>
 
               <div>
-                <label className={`block text-xs sm:text-sm font-medium ${themeClasses.text} mb-2`}>
+                <label className={`block text-xs font-medium ${themeClasses.text} mb-1 sm:mb-2`}>
                   Tide Conditions
                 </label>
                 <input
                   type="text"
                   value={formData.tideConditions}
                   onChange={(e) => setFormData({ ...formData, tideConditions: e.target.value })}
-                  className={`${themeClasses.cardBg} ${themeClasses.border} ${themeClasses.text} w-full px-3 py-2 rounded-lg text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500`}
+                  className={`${themeClasses.cardBg} ${themeClasses.border} ${themeClasses.text} w-full px-2 sm:px-3 py-1 sm:py-2 rounded-md sm:rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-blue-500`}
                   placeholder="e.g., Mid tide"
                 />
               </div>
 
               <div>
-                <label className={`block text-xs sm:text-sm font-medium ${themeClasses.text} mb-2`}>
+                <label className={`block text-xs font-medium ${themeClasses.text} mb-1 sm:mb-2`}>
                   Latitude
                 </label>
                 <input
@@ -350,13 +350,13 @@ export default function AdminPanel({ spots, onSpotsUpdate }: AdminPanelProps) {
                   step="any"
                   value={formData.latitude}
                   onChange={(e) => setFormData({ ...formData, latitude: parseFloat(e.target.value) || 0 })}
-                  className={`${themeClasses.cardBg} ${themeClasses.border} ${themeClasses.text} w-full px-3 py-2 rounded-lg text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500`}
+                  className={`${themeClasses.cardBg} ${themeClasses.border} ${themeClasses.text} w-full px-2 sm:px-3 py-1 sm:py-2 rounded-md sm:rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-blue-500`}
                   placeholder="-8.675539"
                 />
               </div>
 
               <div>
-                <label className={`block text-xs sm:text-sm font-medium ${themeClasses.text} mb-2`}>
+                <label className={`block text-xs font-medium ${themeClasses.text} mb-1 sm:mb-2`}>
                   Longitude
                 </label>
                 <input
@@ -364,64 +364,64 @@ export default function AdminPanel({ spots, onSpotsUpdate }: AdminPanelProps) {
                   step="any"
                   value={formData.longitude}
                   onChange={(e) => setFormData({ ...formData, longitude: parseFloat(e.target.value) || 0 })}
-                  className={`${themeClasses.cardBg} ${themeClasses.border} ${themeClasses.text} w-full px-3 py-2 rounded-lg text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500`}
+                  className={`${themeClasses.cardBg} ${themeClasses.border} ${themeClasses.text} w-full px-2 sm:px-3 py-1 sm:py-2 rounded-md sm:rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-blue-500`}
                   placeholder="116.767209"
                 />
               </div>
 
-              <div className="lg:col-span-2">
-                <label className={`block text-xs sm:text-sm font-medium ${themeClasses.text} mb-2`}>
+              <div className="md:col-span-2">
+                <label className={`block text-xs font-medium ${themeClasses.text} mb-1 sm:mb-2`}>
                   Description
                 </label>
                 <textarea
                   value={formData.description}
                   onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                  className={`${themeClasses.cardBg} ${themeClasses.border} ${themeClasses.text} w-full px-3 py-2 rounded-lg h-16 sm:h-20 resize-none text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500`}
+                  className={`${themeClasses.cardBg} ${themeClasses.border} ${themeClasses.text} w-full px-2 sm:px-3 py-1 sm:py-2 rounded-md sm:rounded-lg h-12 sm:h-16 md:h-20 resize-none text-xs focus:outline-none focus:ring-2 focus:ring-blue-500`}
                   placeholder="Describe the surf spot..."
                 />
               </div>
 
               <div>
-                <label className={`block text-xs sm:text-sm font-medium ${themeClasses.text} mb-2`}>
+                <label className={`block text-xs font-medium ${themeClasses.text} mb-1 sm:mb-2`}>
                   Forecast URL
                 </label>
                 <input
                   type="url"
                   value={formData.forecastUrl}
                   onChange={(e) => setFormData({ ...formData, forecastUrl: e.target.value })}
-                  className={`${themeClasses.cardBg} ${themeClasses.border} ${themeClasses.text} w-full px-3 py-2 rounded-lg text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500`}
+                  className={`${themeClasses.cardBg} ${themeClasses.border} ${themeClasses.text} w-full px-2 sm:px-3 py-1 sm:py-2 rounded-md sm:rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-blue-500`}
                   placeholder="https://www.surf-forecast.com/..."
                 />
               </div>
 
               <div>
-                <label className={`block text-xs sm:text-sm font-medium ${themeClasses.text} mb-2`}>
+                <label className={`block text-xs font-medium ${themeClasses.text} mb-1 sm:mb-2`}>
                   Image URL
                 </label>
                 <input
                   type="url"
                   value={formData.imageUrl}
                   onChange={(e) => setFormData({ ...formData, imageUrl: e.target.value })}
-                  className={`${themeClasses.cardBg} ${themeClasses.border} ${themeClasses.text} w-full px-3 py-2 rounded-lg text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500`}
+                  className={`${themeClasses.cardBg} ${themeClasses.border} ${themeClasses.text} w-full px-2 sm:px-3 py-1 sm:py-2 rounded-md sm:rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-blue-500`}
                   placeholder="https://images.pexels.com/..."
                 />
               </div>
             </div>
 
-            <div className="flex flex-col space-y-2 mt-4">
+            <div className="flex flex-col space-y-1 sm:space-y-2 mt-3 sm:mt-4">
               <button
                 onClick={handleCancel}
                 disabled={loading}
-                className={`px-3 py-2 ${themeClasses.textSecondary} hover:${themeClasses.text} transition-colors text-xs sm:text-sm w-full text-center`}
+                className={`px-2 sm:px-3 py-1 sm:py-2 ${themeClasses.textSecondary} hover:${themeClasses.text} transition-colors text-xs w-full text-center`}
               >
                 Cancel
               </button>
               <button
                 onClick={handleSave}
                 disabled={loading}
-                className={`${themeClasses.button} px-3 py-2 rounded-lg font-medium flex items-center justify-center space-x-2 text-xs sm:text-sm w-full transition-all duration-300 shadow-sm`}
+                className={`${themeClasses.button} px-2 sm:px-3 py-1 sm:py-2 rounded-md sm:rounded-lg font-medium flex items-center justify-center space-x-1 sm:space-x-2 text-xs w-full transition-all duration-300 shadow-sm`}
               >
-                <Save className="w-3 h-3 sm:w-4 sm:h-4" />
+                <Save className="w-3 h-3" />
                 <span>{loading ? 'Saving...' : 'Save Spot'}</span>
               </button>
             </div>
@@ -429,20 +429,20 @@ export default function AdminPanel({ spots, onSpotsUpdate }: AdminPanelProps) {
         )}
 
         {/* Spots List */}
-        <div className={`${themeClasses.cardBg} rounded-xl shadow-xl overflow-hidden`}>
-          <div className={`p-3 sm:p-4 border-b ${themeClasses.border}`}>
-            <h2 className={`text-sm sm:text-base lg:text-lg font-bold ${themeClasses.text} text-center`}>Surf Spots ({spots.length})</h2>
+        <div className={`${themeClasses.cardBg} rounded-lg sm:rounded-xl shadow-sm overflow-hidden`}>
+          <div className={`p-2 sm:p-3 md:p-4 border-b ${themeClasses.border}`}>
+            <h2 className={`text-xs sm:text-sm md:text-base lg:text-lg font-bold ${themeClasses.text} text-center`}>Surf Spots ({spots.length})</h2>
           </div>
           
-          <div className={`divide-y ${themeClasses.border} max-h-96 overflow-y-auto`}>
+          <div className={`divide-y ${themeClasses.border} max-h-64 sm:max-h-80 md:max-h-96 overflow-y-auto`}>
             {spots.map((spot) => (
-              <div key={spot.id} className={`p-3 sm:p-4 flex items-center justify-between hover:${themeClasses.buttonHover} transition-colors`}>
-                <div className="flex items-center space-x-3 flex-1 min-w-0">
-                  <div className={`p-2 ${themeClasses.headerBg} rounded-lg shadow-sm`}>
-                    <Waves className="w-4 h-4 text-white" />
+              <div key={spot.id} className={`p-2 sm:p-3 md:p-4 flex items-center justify-between hover:${themeClasses.buttonHover} transition-colors`}>
+                <div className="flex items-center space-x-2 sm:space-x-3 flex-1 min-w-0">
+                  <div className={`p-1 sm:p-2 ${themeClasses.headerBg} rounded-md sm:rounded-lg shadow-sm`}>
+                    <Waves className="w-3 h-3 sm:w-4 sm:h-4 text-white" />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <h3 className={`font-bold ${themeClasses.text} text-xs sm:text-sm truncate`}>{spot.name}</h3>
+                    <h3 className={`font-bold ${themeClasses.text} text-xs truncate`}>{spot.name}</h3>
                     <div className={`text-xs ${themeClasses.textSecondary} truncate`}>
                       {spot.skillLevel} • {spot.waveType}
                     </div>
@@ -453,16 +453,16 @@ export default function AdminPanel({ spots, onSpotsUpdate }: AdminPanelProps) {
                   <button
                     onClick={() => handleEdit(spot)}
                     disabled={loading}
-                    className={`p-2 ${themeClasses.textSecondary} hover:${themeClasses.accent} transition-colors rounded-lg`}
+                    className={`p-1 sm:p-2 ${themeClasses.textSecondary} hover:${themeClasses.accent} transition-colors rounded-md sm:rounded-lg`}
                   >
-                    <Edit className="w-4 h-4" />
+                    <Edit className="w-3 h-3 sm:w-4 sm:h-4" />
                   </button>
                   <button
                     onClick={() => handleDelete(spot)}
                     disabled={loading}
-                    className={`p-2 ${themeClasses.textSecondary} hover:text-red-500 transition-colors rounded-lg`}
+                    className={`p-1 sm:p-2 ${themeClasses.textSecondary} hover:text-red-500 transition-colors rounded-md sm:rounded-lg`}
                   >
-                    <Trash2 className="w-4 h-4" />
+                    <Trash2 className="w-3 h-3 sm:w-4 sm:h-4" />
                   </button>
                 </div>
               </div>
