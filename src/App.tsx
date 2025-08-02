@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
+import { AuthProvider } from './contexts/AuthContext';
 import { AdminProvider } from './contexts/AdminContext';
 import { ThemeProvider } from './contexts/ThemeContext';
 import Header from './components/Header';
@@ -9,6 +10,10 @@ import SpotList from './components/SpotList';
 import SpotDetails from './components/SpotDetails';
 import AdminPanel from './components/AdminPanel';
 import AdminLogin from './components/AdminLogin';
+import Login from './components/Login';
+import Register from './components/Register';
+import ForgotPassword from './components/ForgotPassword';
+import UserProfile from './components/UserProfile';
 import Weather1 from './components/Weather1';
 import Tides1 from './components/Tides1';
 import Footer from './components/Footer';
@@ -16,9 +21,11 @@ import { loadSpots } from './data/spots';
 import { SurfSpot } from './types';
 import { useAdmin } from './contexts/AdminContext';
 import { useTheme } from './contexts/ThemeContext';
+import { useAuth } from './contexts/AuthContext';
 
 function AppContent() {
   const { isAdminLoggedIn, showAdminLogin } = useAdmin();
+  const { user, loading: authLoading } = useAuth();
   const { getThemeClasses } = useTheme();
   const themeClasses = getThemeClasses();
   const [spots, setSpots] = useState<SurfSpot[]>([]);
@@ -218,13 +225,19 @@ function AppContent() {
 function App() {
   return (
     <ThemeProvider>
-      <AdminProvider>
-        <Router>
-          <Routes>
-            <Route path="/" element={<AppContent />} />
-          </Routes>
-        </Router>
-      </AdminProvider>
+      <AuthProvider>
+        <AdminProvider>
+          <Router>
+            <Routes>
+              <Route path="/" element={<AppContent />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+              <Route path="/forgot-password" element={<ForgotPassword />} />
+              <Route path="/profile" element={<UserProfile />} />
+            </Routes>
+          </Router>
+        </AdminProvider>
+      </AuthProvider>
     </ThemeProvider>
   );
 }

@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
-import { Menu, X, MapPin, Waves, Lock, Sun, Moon } from 'lucide-react';
+import { Menu, X, MapPin, Waves, Lock, Sun, Moon, User, LogOut } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
 import { SurfSpot } from '../types';
 import { useAdmin } from '../contexts/AdminContext';
+import { useAuth } from '../contexts/AuthContext';
 import { useTheme } from '../contexts/ThemeContext';
 
 interface HeaderProps {
@@ -30,12 +32,15 @@ export default function Header({
   onSelectSpot
 }: HeaderProps) {
   const { isAdminLoggedIn, toggleAdminLogin } = useAdmin();
+  const { user, signOut } = useAuth();
   const { theme, toggleTheme, getThemeClasses } = useTheme();
   const themeClasses = getThemeClasses();
+  const navigate = useNavigate();
   
   // Mobile menu states - separated for better control
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const [showMobileSpots, setShowMobileSpots] = useState(false);
+  const [showUserMenu, setShowUserMenu] = useState(false);
 
   const getThemeIcon = () => {
     return theme === 'light' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />;
@@ -94,6 +99,23 @@ export default function Header({
     // Don't close menu for theme toggle
   };
 
+  const handleSignOut = async () => {
+    if (confirm('Are you sure you want to sign out?')) {
+      await signOut();
+      navigate('/');
+    }
+    setShowUserMenu(false);
+  };
+
+  const handleProfileClick = () => {
+    navigate('/profile');
+    setShowUserMenu(false);
+  };
+
+  const handleLoginClick = () => {
+    navigate('/login');
+    setShowUserMenu(false);
+  };
   const toggleMobileSpots = () => {
     setShowMobileSpots(!showMobileSpots);
   };
@@ -199,6 +221,48 @@ export default function Header({
 
             {/* Right Side Controls */}
             <div className="flex items-center space-x-1 xs:space-x-2">
+              {/* User Menu - Desktop */}
+              <div className="hidden md:block relative">
+                {user ? (
+                  <>
+                    <button
+                      onClick={() => setShowUserMenu(!showUserMenu)}
+                      className={`flex items-center space-x-2 p-1.5 xs:p-2 rounded-lg transition-all duration-300 focus:outline-none ${themeClasses.buttonHover} ${themeClasses.text}`}
+                    >
+                      <User className="w-4 h-4" />
+                      <span className="text-sm font-medium">{user.user_metadata?.full_name || user.email}</span>
+                    </button>
+                    
+                    {showUserMenu && (
+                      <div className={`absolute right-0 top-full mt-2 w-48 ${themeClasses.cardBg} rounded-lg shadow-xl border ${themeClasses.border} py-2 z-50`}>
+                        <button
+                          onClick={handleProfileClick}
+                          className={`w-full text-left px-4 py-2 text-sm ${themeClasses.text} ${themeClasses.buttonHover} flex items-center space-x-2`}
+                        >
+                          <User className="w-4 h-4" />
+                          <span>Profile</span>
+                        </button>
+                        <button
+                          onClick={handleSignOut}
+                          className={`w-full text-left px-4 py-2 text-sm ${themeClasses.text} ${themeClasses.buttonHover} flex items-center space-x-2`}
+                        >
+                          <LogOut className="w-4 h-4" />
+                          <span>Sign Out</span>
+                        </button>
+                      </div>
+                    )}
+                  </>
+                ) : (
+                  <Link
+                    to="/login"
+                    className={`flex items-center space-x-2 px-3 py-2 rounded-lg font-medium transition-all duration-300 text-sm ${themeClasses.button}`}
+                  >
+                    <User className="w-4 h-4" />
+                    <span>Sign In</span>
+                  </Link>
+                )}
+              </div>
+
               {/* Theme Toggle Button */}
               <button
                 onClick={handleThemeToggle}
@@ -354,6 +418,35 @@ export default function Header({
                   </span>
                   <span>{theme === 'light' ? '🌙 Dark Mode' : '☀️ Light Mode'}</span>
                 </button>
+
+                {/* User Menu - Mobile */}
+                {user ? (
+                  <>
+                    <button
+                      onClick={handleProfileClick}
+                      className={`w-full text-left px-3 xs:px-4 py-2.5 xs:py-3 rounded-lg font-medium transition-all duration-300 flex items-center space-x-1.5 xs:space-x-2 text-xs xs:text-sm focus:outline-none ${themeClasses.text} ${themeClasses.buttonHover}`}
+                    >
+                      <User className="w-3 h-3 xs:w-4 xs:h-4" />
+                      <span>👤 Profile</span>
+                    </button>
+                    <button
+                      onClick={handleSignOut}
+                      className={`w-full text-left px-3 xs:px-4 py-2.5 xs:py-3 rounded-lg font-medium transition-all duration-300 flex items-center space-x-1.5 xs:space-x-2 text-xs xs:text-sm focus:outline-none ${themeClasses.text} ${themeClasses.buttonHover}`}
+                    >
+                      <LogOut className="w-3 h-3 xs:w-4 xs:h-4" />
+                      <span>🚪 Sign Out</span>
+                    </button>
+                  </>
+                ) : (
+                  <Link
+                    to="/login"
+                    onClick={closeMobileMenu}
+                    className={`w-full text-left px-3 xs:px-4 py-2.5 xs:py-3 rounded-lg font-medium transition-all duration-300 flex items-center space-x-1.5 xs:space-x-2 text-xs xs:text-sm focus:outline-none ${themeClasses.text} ${themeClasses.buttonHover}`}
+                  >
+                    <User className="w-3 h-3 xs:w-4 xs:h-4" />
+                    <span>🔐 Sign In</span>
+                  </Link>
+                )}
               </div>
             </div>
           </div>
