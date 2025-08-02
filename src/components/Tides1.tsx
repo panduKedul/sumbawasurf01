@@ -587,7 +587,6 @@ export default function Tides1({ spots }: Tides1Props) {
                   <div className="absolute bottom-0 left-0 right-0 flex justify-between items-end pb-1">
                     {Array.from({ length: 7 }, (_, i) => {
                       const hour = i * 4; // Show every 4 hours: 0, 4, 8, 12, 16, 20, 24
-                      const heightPercent = (tide.height / 2.5) * 100;
                       return (
                         <div
                           key={i}

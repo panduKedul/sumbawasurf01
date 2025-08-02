@@ -51,7 +51,6 @@ function AppContent() {
     setShowWeather(false);
     setShowTides(false);
     setShowAdmin(false);
-    setShowMobileMenu(false);
   };
 
   const toggleWeather = () => {
@@ -59,7 +58,6 @@ function AppContent() {
     setShowTides(false);
     setShowAdmin(false);
     setSelectedSpot(null);
-    setShowMobileMenu(false);
   };
 
   const toggleTides = () => {
@@ -67,7 +65,6 @@ function AppContent() {
     setShowTides(true);
     setShowAdmin(false);
     setSelectedSpot(null);
-    setShowMobileMenu(false);
   };
 
   const toggleAdmin = () => {
