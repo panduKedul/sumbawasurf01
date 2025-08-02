@@ -112,25 +112,25 @@ export default function Header({
     <>
       {/* Main Header */}
       <header className={`fixed top-0 left-0 right-0 z-40 ${themeClasses.navbar}`}>
-        <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6">
-          <div className="flex items-center justify-between h-14 lg:h-16">
+        <div className="max-w-7xl mx-auto px-2 xs:px-3 sm:px-4 lg:px-6">
+          <div className="flex items-center justify-between h-12 xs:h-14 lg:h-16">
             {/* Logo */}
             <button 
               className="flex items-center space-x-2 cursor-pointer group focus:outline-none"
               onClick={resetToHome}
               type="button"
             >
-              <div className={`p-1.5 lg:p-2 ${themeClasses.headerBg} rounded-lg shadow-lg transition-all duration-300`}>
-                <Waves className="w-4 h-4 lg:w-5 lg:h-5 text-white" />
+              <div className={`p-1 xs:p-1.5 lg:p-2 ${themeClasses.headerBg} rounded-lg shadow-lg transition-all duration-300`}>
+                <Waves className="w-3 h-3 xs:w-4 xs:h-4 lg:w-5 lg:h-5 text-white" />
               </div>
               <div className="hidden sm:block">
-                <h1 className={`text-sm lg:text-xl font-bold ${themeClasses.accent}`}>
+                <h1 className={`text-xs xs:text-sm lg:text-xl font-bold ${themeClasses.accent}`}>
                   Sumbawa Surf Guide
                 </h1>
-                <p className={`text-xs ${themeClasses.textSecondary}`}>West Sumbawa</p>
+                <p className={`text-xs xs:text-xs ${themeClasses.textSecondary}`}>West Sumbawa</p>
               </div>
               <div className="sm:hidden">
-                <h1 className={`text-sm font-bold ${themeClasses.accent}`}>
+                <h1 className={`text-xs xs:text-sm font-bold ${themeClasses.accent}`}>
                   Sumbawa
                 </h1>
               </div>
@@ -198,25 +198,27 @@ export default function Header({
             </nav>
 
             {/* Right Side Controls */}
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center space-x-1 xs:space-x-2">
               {/* Theme Toggle Button */}
               <button
                 onClick={handleThemeToggle}
                 type="button"
-                className={`p-2 rounded-lg transition-all duration-300 focus:outline-none ${themeClasses.buttonHover} ${themeClasses.text}`}
+                className={`p-1.5 xs:p-2 rounded-lg transition-all duration-300 focus:outline-none ${themeClasses.buttonHover} ${themeClasses.text}`}
                 title={`Switch to ${theme === 'light' ? 'dark' : 'light'} theme`}
               >
-                {getThemeIcon()}
+                <span className="w-3 h-3 xs:w-4 xs:h-4 flex items-center justify-center">
+                  {getThemeIcon()}
+                </span>
               </button>
 
               {/* Mobile Menu Button */}
               <button
                 onClick={toggleMobileMenu}
                 type="button"
-                className={`md:hidden p-2 rounded-lg transition-all duration-300 focus:outline-none ${themeClasses.buttonHover} ${themeClasses.text}`}
+                className={`md:hidden p-1.5 xs:p-2 rounded-lg transition-all duration-300 focus:outline-none ${themeClasses.buttonHover} ${themeClasses.text}`}
                 aria-label={showMobileMenu ? 'Close menu' : 'Open menu'}
               >
-                {showMobileMenu ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+                {showMobileMenu ? <X className="w-4 h-4 xs:w-5 xs:h-5" /> : <Menu className="w-4 h-4 xs:w-5 xs:h-5" />}
               </button>
             </div>
           </div>
@@ -232,38 +234,38 @@ export default function Header({
           {/* Mobile Menu Content */}
           <div className="absolute top-0 left-0 right-0">
             {/* Mobile Header Bar */}
-            <div className={`${themeClasses.navbar} px-3 py-4`}>
+            <div className={`${themeClasses.navbar} px-2 xs:px-3 py-3 xs:py-4`}>
               <div className="flex items-center justify-between">
-                <div className="flex items-center space-x-2">
-                  <div className={`p-1.5 ${themeClasses.headerBg} rounded-lg shadow-lg`}>
-                    <Waves className="w-4 h-4 text-white" />
+                <div className="flex items-center space-x-1.5 xs:space-x-2">
+                  <div className={`p-1 xs:p-1.5 ${themeClasses.headerBg} rounded-lg shadow-lg`}>
+                    <Waves className="w-3 h-3 xs:w-4 xs:h-4 text-white" />
                   </div>
-                  <h1 className={`text-sm font-bold ${themeClasses.accent}`}>
+                  <h1 className={`text-xs xs:text-sm font-bold ${themeClasses.accent}`}>
                     Sumbawa Surf Guide
                   </h1>
                 </div>
                 <button
                   onClick={closeMobileMenu}
                   type="button"
-                  className={`p-2 rounded-lg ${themeClasses.buttonHover} ${themeClasses.text} focus:outline-none`}
+                  className={`p-1.5 xs:p-2 rounded-lg ${themeClasses.buttonHover} ${themeClasses.text} focus:outline-none`}
                   aria-label="Close menu"
                 >
-                  <X className="w-5 h-5" />
+                  <X className="w-4 h-4 xs:w-5 xs:h-5" />
                 </button>
               </div>
             </div>
 
             {/* Mobile Menu Items */}
             <div 
-              className={`mx-3 mt-2 p-4 ${themeClasses.cardBg} rounded-xl shadow-2xl border ${themeClasses.border} backdrop-blur-xl`}
+              className={`mx-2 xs:mx-3 mt-1.5 xs:mt-2 p-3 xs:p-4 ${themeClasses.cardBg} rounded-xl shadow-2xl border ${themeClasses.border} backdrop-blur-xl`}
               onClick={handleMenuContentClick}
             >
-              <div className="space-y-2">
+              <div className="space-y-1.5 xs:space-y-2">
                 {/* Home */}
                 <button
                   onClick={handleHomeClick}
                   type="button"
-                  className={`w-full text-left px-4 py-3 rounded-lg font-medium transition-all duration-300 text-sm focus:outline-none ${
+                  className={`w-full text-left px-3 xs:px-4 py-2.5 xs:py-3 rounded-lg font-medium transition-all duration-300 text-xs xs:text-sm focus:outline-none ${
                     showHome 
                       ? `${themeClasses.button}` 
                       : `${themeClasses.text} ${themeClasses.buttonHover}`
@@ -276,7 +278,7 @@ export default function Header({
                 <button
                   onClick={handleWeatherClick}
                   type="button"
-                  className={`w-full text-left px-4 py-3 rounded-lg font-medium transition-all duration-300 text-sm focus:outline-none ${
+                  className={`w-full text-left px-3 xs:px-4 py-2.5 xs:py-3 rounded-lg font-medium transition-all duration-300 text-xs xs:text-sm focus:outline-none ${
                     showWeather 
                       ? `${themeClasses.button}` 
                       : `${themeClasses.text} ${themeClasses.buttonHover}`
@@ -289,7 +291,7 @@ export default function Header({
                 <button
                   onClick={handleTidesClick}
                   type="button"
-                  className={`w-full text-left px-4 py-3 rounded-lg font-medium transition-all duration-300 text-sm focus:outline-none ${
+                  className={`w-full text-left px-3 xs:px-4 py-2.5 xs:py-3 rounded-lg font-medium transition-all duration-300 text-xs xs:text-sm focus:outline-none ${
                     showTides 
                       ? `${themeClasses.button}` 
                       : `${themeClasses.text} ${themeClasses.buttonHover}`
@@ -302,7 +304,7 @@ export default function Header({
                 <button
                   onClick={handleAdminClick}
                   type="button"
-                  className={`w-full text-left px-4 py-3 rounded-lg font-medium transition-all duration-300 flex items-center space-x-2 text-sm focus:outline-none ${
+                  className={`w-full text-left px-3 xs:px-4 py-2.5 xs:py-3 rounded-lg font-medium transition-all duration-300 flex items-center space-x-2 text-xs xs:text-sm focus:outline-none ${
                     (showAdmin && isAdminLoggedIn)
                       ? `${themeClasses.button}` 
                       : `${themeClasses.text} ${themeClasses.buttonHover}`
@@ -316,7 +318,7 @@ export default function Header({
                   <button
                     onClick={toggleMobileSpots}
                     type="button"
-                    className={`w-full text-left px-4 py-3 rounded-lg transition-all duration-300 flex items-center justify-between font-medium text-sm focus:outline-none ${themeClasses.text} ${themeClasses.buttonHover}`}
+                    className={`w-full text-left px-3 xs:px-4 py-2.5 xs:py-3 rounded-lg transition-all duration-300 flex items-center justify-between font-medium text-xs xs:text-sm focus:outline-none ${themeClasses.text} ${themeClasses.buttonHover}`}
                   >
                     <span>🏄‍♂️ Surf Spots</span>
                     <span className={`transform transition-transform duration-200 ${showMobileSpots ? 'rotate-180' : ''}`}>
@@ -325,15 +327,15 @@ export default function Header({
                   </button>
                   
                   {showMobileSpots && (
-                    <div className="ml-4 mt-2 space-y-1 max-h-48 overflow-y-auto">
+                    <div className="ml-3 xs:ml-4 mt-1.5 xs:mt-2 space-y-1 max-h-40 xs:max-h-48 overflow-y-auto">
                       {spots.map((spot) => (
                         <button
                           key={spot.id}
                           onClick={() => handleSpotClick(spot)}
                           type="button"
-                          className={`w-full text-left px-4 py-2 rounded-lg transition-all duration-300 flex items-center space-x-2 text-sm focus:outline-none ${themeClasses.textSecondary} ${themeClasses.buttonHover}`}
+                          className={`w-full text-left px-3 xs:px-4 py-1.5 xs:py-2 rounded-lg transition-all duration-300 flex items-center space-x-1.5 xs:space-x-2 text-xs xs:text-sm focus:outline-none ${themeClasses.textSecondary} ${themeClasses.buttonHover}`}
                         >
-                          <MapPin className="w-3 h-3 flex-shrink-0" />
+                          <MapPin className="w-2.5 h-2.5 xs:w-3 xs:h-3 flex-shrink-0" />
                           <span className="truncate">{spot.name}</span>
                         </button>
                       ))}
@@ -345,9 +347,11 @@ export default function Header({
                 <button
                   onClick={handleThemeToggle}
                   type="button"
-                  className={`w-full text-left px-4 py-3 rounded-lg font-medium transition-all duration-300 flex items-center space-x-2 text-sm focus:outline-none ${themeClasses.text} ${themeClasses.buttonHover}`}
+                  className={`w-full text-left px-3 xs:px-4 py-2.5 xs:py-3 rounded-lg font-medium transition-all duration-300 flex items-center space-x-1.5 xs:space-x-2 text-xs xs:text-sm focus:outline-none ${themeClasses.text} ${themeClasses.buttonHover}`}
                 >
-                  {getThemeIcon()}
+                  <span className="w-3 h-3 xs:w-4 xs:h-4 flex items-center justify-center">
+                    {getThemeIcon()}
+                  </span>
                   <span>{theme === 'light' ? '🌙 Dark Mode' : '☀️ Light Mode'}</span>
                 </button>
               </div>

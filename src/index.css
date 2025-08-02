@@ -41,6 +41,39 @@ body {
   body {
     padding-top: 0;
   }
+  
+  /* iPhone 13 specific optimizations */
+  @media (max-width: 390px) {
+    body {
+      font-size: 14px;
+      line-height: 1.4;
+    }
+    
+    /* Ensure proper viewport handling */
+    html {
+      -webkit-text-size-adjust: 100%;
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+    
+    /* Optimize touch targets for iPhone 13 */
+    button, 
+    [role="button"],
+    input[type="button"],
+    input[type="submit"] {
+      min-height: 44px;
+      min-width: 44px;
+      touch-action: manipulation;
+    }
+    
+    /* Prevent zoom on input focus */
+    input, 
+    select, 
+    textarea {
+      font-size: 16px;
+    }
+  }
 }
 
 /* Elegant card styling */
