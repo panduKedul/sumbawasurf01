@@ -86,7 +86,7 @@ export default function Tides1({ spots }: Tides1Props) {
 
   const getWeeklyTides = () => {
     const grouped: { [key: string]: TideData[] } = {};
-    tideData.slice(0, 28).forEach(tide => {
+    tideData.slice(0, 72).forEach(tide => { // 3 days * 24 hours = 72 hours
       const date = new Date(tide.time).toDateString();
       if (!grouped[date]) grouped[date] = [];
       grouped[date].push(tide);
@@ -455,19 +455,21 @@ export default function Tides1({ spots }: Tides1Props) {
         </div>
 
         {/* Tide Chart Visualization */}
-        <div className={`${themeClasses.cardBg} rounded-lg sm:rounded-xl shadow-sm overflow-hidden`}>
+        <div className="relative overflow-hidden rounded-lg xs:rounded-xl sm:rounded-2xl">
+          <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-cyan-500/5 backdrop-blur-sm"></div>
+          <div className={`relative ${themeClasses.cardBg} shadow-2xl border ${themeClasses.border}`}>
           <div className={`p-2 sm:p-3 border-b ${themeClasses.border}`}>
-            <h3 className={`text-xs sm:text-sm font-bold ${themeClasses.text} text-center flex items-center justify-center space-x-1 sm:space-x-2`}>
+            <h3 className={`text-sm xs:text-base sm:text-lg lg:text-xl font-bold ${themeClasses.text} text-center flex items-center justify-center space-x-2 xs:space-x-2 sm:space-x-3`}>
               <BarChart3 className={`w-3 h-3 sm:w-4 sm:h-4 ${themeClasses.accent}`} />
-              <span>24-Hour Tide Chart</span>
+              <span>24-Hour Spline Chart</span>
             </h3>
           </div>
           
-          <div className="p-2 sm:p-3">
-            <div className={`relative h-16 sm:h-24 md:h-32 lg:h-40 ${themeClasses.cardBg} rounded-md p-1.5 sm:p-2 border ${themeClasses.border} shadow-inner`}>
-              <div className="absolute inset-1.5 sm:inset-2">
+          <div className="p-2 xs:p-3 sm:p-4 lg:p-6">
+            <div className={`relative h-32 xs:h-40 sm:h-48 md:h-56 lg:h-64 ${themeClasses.cardBg} rounded-lg xs:rounded-xl p-2 xs:p-3 sm:p-4 border ${themeClasses.border} shadow-inner`}>
+              <div className="absolute inset-2 xs:inset-3 sm:inset-4">
                 {/* Y-axis labels */}
-                <div className={`absolute left-0 top-0 bottom-0 flex flex-col justify-between text-xs ${themeClasses.textSecondary}`}>
+                <div className={`absolute left-0 top-0 bottom-0 flex flex-col justify-between text-xs xs:text-xs sm:text-sm ${themeClasses.textSecondary} font-mono`}>
                   <span>2.5m</span>
                   <span>2.0m</span>
                   <span>1.5m</span>
@@ -477,35 +479,121 @@ export default function Tides1({ spots }: Tides1Props) {
                 </div>
                 
                 {/* Chart area */}
-                <div className="ml-2 sm:ml-4 md:ml-6 h-full relative">
+                <div className="ml-4 xs:ml-6 sm:ml-8 md:ml-10 h-full relative overflow-hidden">
                   {/* Grid lines */}
                   <div className="absolute inset-0">
                     {[0, 20, 40, 60, 80, 100].map((percent) => (
                       <div
                         key={percent}
-                        className={`absolute w-full border-t ${themeClasses.border}`}
+                        className={`absolute w-full border-t ${themeClasses.border} opacity-30`}
                         style={{ top: `${percent}%` }}
+                      />
+                    ))}
+                    {/* Vertical grid lines for hours */}
+                    {Array.from({ length: 25 }, (_, i) => (
+                      <div
+                        key={`v-${i}`}
+                        className={`absolute h-full border-l ${themeClasses.border} opacity-20`}
+                        style={{ left: `${(i / 24) * 100}%` }}
                       />
                     ))}
                   </div>
                   
-                  {/* Tide points */}
-                  <div className="absolute inset-0 flex items-end justify-between">
-                    {todayTides.slice(0, 4).map((tide, index) => {
+                  {/* Spline Chart - SVG Path */}
+                  <div className="absolute inset-0">
+                    <svg className="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
+                      <defs>
+                        <linearGradient id="tideGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                          <stop offset="0%" stopColor="rgba(59, 130, 246, 0.3)" />
+                          <stop offset="100%" stopColor="rgba(59, 130, 246, 0.1)" />
+                        </linearGradient>
+                      </defs>
+                      
+                      {/* Generate hourly tide data for smooth curve */}
+                      {(() => {
+                        const hourlyTides = Array.from({ length: 24 }, (_, hour) => {
+                          const time = new Date();
+                          time.setHours(hour, 0, 0, 0);
+                          
+                          // Generate smooth tide curve using sine wave
+                          const baseHeight = 1.5;
+                          const amplitude = 1.0;
+                          const frequency = 2; // 2 cycles per day (2 high, 2 low tides)
+                          const phase = (hour / 24) * 2 * Math.PI * frequency;
+                          const height = baseHeight + amplitude * Math.sin(phase);
+                          
+                          return {
+                            hour,
+                            height: Math.max(0.2, height),
+                            x: (hour / 24) * 100,
+                            y: 100 - ((height / 2.5) * 100)
+                          };
+                        });
+                        
+                        // Create smooth spline path
+                        const pathData = hourlyTides.reduce((path, point, index) => {
+                          if (index === 0) {
+                            return `M ${point.x} ${point.y}`;
+                          }
+                          
+                          const prevPoint = hourlyTides[index - 1];
+                          const nextPoint = hourlyTides[index + 1] || point;
+                          
+                          // Calculate control points for smooth curve
+                          const cp1x = prevPoint.x + (point.x - prevPoint.x) * 0.3;
+                          const cp1y = prevPoint.y;
+                          const cp2x = point.x - (nextPoint.x - point.x) * 0.3;
+                          const cp2y = point.y;
+                          
+                          return `${path} C ${cp1x} ${cp1y}, ${cp2x} ${cp2y}, ${point.x} ${point.y}`;
+                        }, '');
+                        
+                        return (
+                          <>
+                            {/* Area fill */}
+                            <path
+                              d={`${pathData} L 100 100 L 0 100 Z`}
+                              fill="url(#tideGradient)"
+                              opacity="0.6"
+                            />
+                            
+                            {/* Main line */}
+                            <path
+                              d={pathData}
+                              fill="none"
+                              stroke="rgb(59, 130, 246)"
+                              strokeWidth="0.5"
+                              className="drop-shadow-sm"
+                            />
+                            
+                            {/* Data points */}
+                            {hourlyTides.filter((_, i) => i % 3 === 0).map((point, index) => (
+                              <circle
+                                key={index}
+                                cx={point.x}
+                                cy={point.y}
+                                r="0.8"
+                                fill="rgb(59, 130, 246)"
+                                className="drop-shadow-sm"
+                              />
+                            ))}
+                          </>
+                        );
+                      })()}
+                    </svg>
+                  </div>
+                  
+                  {/* Hour labels */}
+                  <div className="absolute bottom-0 left-0 right-0 flex justify-between items-end pb-1">
+                    {Array.from({ length: 7 }, (_, i) => {
+                      const hour = i * 4; // Show every 4 hours: 0, 4, 8, 12, 16, 20, 24
                       const heightPercent = (tide.height / 2.5) * 100;
                       return (
                         <div
-                          key={index}
-                          className="flex flex-col items-center"
-                          style={{ height: `${heightPercent}%` }}
+                          key={i}
+                          className={`text-xs xs:text-xs sm:text-sm ${themeClasses.textSecondary} font-mono text-center`}
                         >
-                          <div className={`w-1 h-1 sm:w-1.5 sm:h-1.5 rounded-full mb-0.5 sm:mb-1 shadow-sm ${
-                            tide.type === 'high' ? 'bg-blue-500' : 'bg-orange-500'
-                          }`} />
-                          <div className={`text-xs ${themeClasses.textSecondary} text-center`}>
-                            <div className="font-medium">{formatTime(tide.time)}</div>
-                            <div>{tide.height.toFixed(1)}m</div>
-                          </div>
+                          {hour === 24 ? '00' : hour.toString().padStart(2, '0')}:00
                         </div>
                       );
                     })}
@@ -528,20 +616,17 @@ export default function Tides1({ spots }: Tides1Props) {
               <div className="lg:hidden">
                 <div className="overflow-x-auto pb-2 sm:pb-4">
                   <div className="flex gap-2 sm:gap-3" style={{ minWidth: 'max-content' }}>
-                    {Object.entries(weeklyTides).map(([date, tides], dayIndex) => {
-                      // Filter tides to show only every 4 hours for mobile
-                      const filteredTides = tides.filter(tide => {
-                        const hour = new Date(tide.time).getHours();
-                        return hour % 4 === 0;
-                      });
+                    {Object.entries(weeklyTides).slice(0, 3).map(([date, tides], dayIndex) => {
+                      // Show hourly data for mobile but limit to prevent overflow
+                      const hourlyTides = tides.slice(0, 12); // Show first 12 hours of the day
                       
                       return (
                         <div key={dayIndex} className="relative overflow-hidden rounded-lg sm:rounded-xl flex-shrink-0 min-w-[100px] sm:min-w-[120px]">
                           <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 to-blue-500/10 backdrop-blur-sm"></div>
                           <div className={`relative ${themeClasses.cardBg} p-2 sm:p-3 border ${themeClasses.border} shadow-lg`}>
                             <h4 className={`text-center font-bold ${themeClasses.text} mb-2 sm:mb-3 text-xs sm:text-sm`}>{formatDateShort(date)}</h4>
-                            <div className="space-y-1 sm:space-y-2">
-                              {filteredTides.map((tide, tideIndex) => (
+                            <div className="space-y-1 sm:space-y-2 max-h-32 sm:max-h-40 overflow-y-auto">
+                              {hourlyTides.map((tide, tideIndex) => (
                                 <div key={tideIndex} className="flex items-center justify-between text-xs">
                                   <div className="flex items-center space-x-0.5 sm:space-x-1">
                                     {getTideIcon(tide.type)}
@@ -567,12 +652,12 @@ export default function Tides1({ spots }: Tides1Props) {
               <div className="hidden lg:block">
                 <div className="overflow-x-auto">
                   <div className="flex gap-4" style={{ minWidth: 'max-content' }}>
-                    {Object.entries(weeklyTides).map(([date, tides], dayIndex) => (
+                    {Object.entries(weeklyTides).slice(0, 3).map(([date, tides], dayIndex) => (
                       <div key={dayIndex} className="relative overflow-hidden rounded-xl flex-shrink-0 min-w-[160px]">
                         <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 to-blue-500/10 backdrop-blur-sm"></div>
                         <div className={`relative ${themeClasses.cardBg} p-4 border ${themeClasses.border} shadow-lg`}>
                           <h4 className={`text-center font-bold ${themeClasses.text} mb-4 text-base`}>{formatDateShort(date)}</h4>
-                          <div className="space-y-3">
+                          <div className="space-y-2 max-h-80 overflow-y-auto">
                             {tides.map((tide, tideIndex) => (
                               <div key={tideIndex} className="flex items-center justify-between text-sm">
                                 <div className="flex items-center space-x-2">
@@ -594,6 +679,7 @@ export default function Tides1({ spots }: Tides1Props) {
                 </div>
               </div>
             </div>
+          </div>
           </div>
         </div>
 
