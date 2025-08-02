@@ -9,7 +9,7 @@ export default function Login() {
   const { signIn, loading } = useAuth();
   const { getThemeClasses } = useTheme();
   const themeClasses = getThemeClasses();
-  
+
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -19,19 +19,22 @@ export default function Login() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!formData.email || !formData.password) {
       toast.error('Please fill in all fields');
       return;
     }
 
     setIsSubmitting(true);
-    
+
     try {
       const result = await signIn(formData.email, formData.password);
-      
+
       if (!result.success) {
         toast.error(result.error || 'Failed to sign in');
+      } else {
+        toast.success('Login successful');
+        window.location.href = '/'; // ✅ redirect ke halaman utama tanpa useRouter
       }
     } catch (error) {
       toast.error('An unexpected error occurred');
@@ -39,6 +42,7 @@ export default function Login() {
       setIsSubmitting(false);
     }
   };
+
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData(prev => ({

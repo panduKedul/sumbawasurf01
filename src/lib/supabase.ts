@@ -3,9 +3,11 @@ import { createClient } from '@supabase/supabase-js';
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
+
+
 // Use placeholder values if environment variables are not set
-const defaultUrl = 'https://placeholder.supabase.co';
-const defaultKey = 'placeholder-key';
+const defaultUrl = 'https://broqdtxonfkxskzwhtor.supabase.co';
+const defaultKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJyb3FkdHhvbmZreHNrendodG9yIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQxNDExNTEsImV4cCI6MjA2OTcxNzE1MX0.5iOvgJRrWSUAM5wb2zsTJCKYeCIAjFIHtAme3H3NMx4';
 
 export const supabase = createClient(
   supabaseUrl || defaultUrl, 

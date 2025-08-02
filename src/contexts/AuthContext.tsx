@@ -1,95 +1,91 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { User, Session, AuthError } from '@supabase/supabase-js';
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  ReactNode,
+} from 'react';
 import { supabase } from '../lib/supabase';
+import bcrypt from 'bcryptjs';
 import toast from 'react-hot-toast';
 
+interface Profile {
+  id: string;
+  email: string;
+  full_name: string;
+}
+
 interface AuthContextType {
-  user: User | null;
-  session: Session | null;
+  user: Profile | null;
   loading: boolean;
-  signUp: (email: string, password: string, fullName: string) => Promise<{ success: boolean; error?: string }>;
-  signIn: (email: string, password: string) => Promise<{ success: boolean; error?: string }>;
-  signOut: () => Promise<void>;
-  resetPassword: (email: string) => Promise<{ success: boolean; error?: string }>;
+  signUp: (
+    email: string,
+    password: string,
+    fullName: string
+  ) => Promise<{ success: boolean; error?: string }>;
+  signIn: (
+    email: string,
+    password: string
+  ) => Promise<{ success: boolean; error?: string }>;
+  signOut: () => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<User | null>(null);
-  const [session, setSession] = useState<Session | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState<Profile | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
 
+  // LocalStorage persistence (optional)
   useEffect(() => {
-    // Get initial session
-    const getInitialSession = async () => {
-      try {
-        const { data: { session }, error } = await supabase.auth.getSession();
-        if (error) {
-          console.error('Error getting session:', error);
-        } else {
-          setSession(session);
-          setUser(session?.user ?? null);
-        }
-      } catch (error) {
-        console.error('Error in getInitialSession:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    getInitialSession();
-
-    // Listen for auth changes
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (event, session) => {
-        console.log('Auth state changed:', event, session?.user?.email);
-        setSession(session);
-        setUser(session?.user ?? null);
-        setLoading(false);
-
-        if (event === 'SIGNED_IN') {
-          toast.success('Successfully signed in!');
-        } else if (event === 'SIGNED_OUT') {
-          toast.success('Successfully signed out!');
-        }
-      }
-    );
-
-    return () => {
-      subscription.unsubscribe();
-    };
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    }
   }, []);
 
-  const signUp = async (email: string, password: string, fullName: string) => {
+  const signUp = async (
+    email: string,
+    password: string,
+    fullName: string
+  ) => {
+    setLoading(true);
     try {
-      setLoading(true);
-      const { data, error } = await supabase.auth.signUp({
-        email,
-        password,
-        options: {
-          data: {
-            full_name: fullName,
-          }
-        }
-      });
+      // cek jika email sudah digunakan
+      const { data: existing } = await supabase
+        .from('profiles')
+        .select('id')
+        .eq('email', email)
+        .maybeSingle();
+
+      if (existing) {
+        return { success: false, error: 'Email already registered' };
+      }
+
+      const passwordHash = await bcrypt.hash(password, 10);
+
+      const { data, error } = await supabase
+        .from('profiles')
+        .insert({
+          email,
+          full_name: fullName,
+          password_hash: passwordHash,
+        })
+        .select()
+        .single();
 
       if (error) {
         return { success: false, error: error.message };
       }
 
-      if (data.user && !data.session) {
-        return { 
-          success: true, 
-          error: 'Please check your email for verification link before signing in.' 
-        };
-      }
-
+      setUser(data);
+      localStorage.setItem('user', JSON.stringify(data));
       return { success: true };
-    } catch (error) {
-      return { 
-        success: false, 
-        error: error instanceof Error ? error.message : 'An unexpected error occurred' 
+    } catch (err) {
+      return {
+        success: false,
+        error:
+          err instanceof Error ? err.message : 'Unexpected registration error',
       };
     } finally {
       setLoading(false);
@@ -97,69 +93,54 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   const signIn = async (email: string, password: string) => {
+    setLoading(true);
     try {
-      setLoading(true);
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
+      const { data: user, error } = await supabase
+        .from('profiles')
+        .select('id, email, full_name, password_hash')
+        .eq('email', email)
+        .single();
 
-      if (error) {
-        return { success: false, error: error.message };
+      if (error || !user) {
+        return { success: false, error: 'Email not found' };
       }
 
+      const isValid = await bcrypt.compare(password, user.password_hash);
+      if (!isValid) {
+        return { success: false, error: 'Incorrect password' };
+      }
+
+      const cleanUser = {
+        id: user.id,
+        email: user.email,
+        full_name: user.full_name,
+      };
+
+      setUser(cleanUser);
+      localStorage.setItem('user', JSON.stringify(cleanUser));
       return { success: true };
-    } catch (error) {
-      return { 
-        success: false, 
-        error: error instanceof Error ? error.message : 'An unexpected error occurred' 
+    } catch (err) {
+      return {
+        success: false,
+        error: err instanceof Error ? err.message : 'Login error',
       };
     } finally {
       setLoading(false);
     }
   };
 
-  const signOut = async () => {
-    try {
-      setLoading(true);
-      const { error } = await supabase.auth.signOut();
-      if (error) {
-        toast.error('Error signing out: ' + error.message);
-      }
-    } catch (error) {
-      toast.error('Error signing out');
-    } finally {
-      setLoading(false);
-    }
+  const signOut = () => {
+    setUser(null);
+    localStorage.removeItem('user');
+    toast.success('Logged out');
   };
 
-  const resetPassword = async (email: string) => {
-    try {
-      const { error } = await supabase.auth.resetPasswordForEmail(email, {
-        redirectTo: `${window.location.origin}/reset-password`,
-      });
-
-      if (error) {
-        return { success: false, error: error.message };
-      }
-
-      return { success: true };
-    } catch (error) {
-      return { 
-        success: false, 
-        error: error instanceof Error ? error.message : 'An unexpected error occurred' 
-      };
-    }
-  };
-
-  const value = {
+  const value: AuthContextType = {
     user,
-    session,
     loading,
     signUp,
     signIn,
     signOut,
-    resetPassword,
   };
 
   return (
@@ -171,8 +152,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
 export function useAuth() {
   const context = useContext(AuthContext);
-  if (context === undefined) {
-    throw new Error('useAuth must be used within an AuthProvider');
+  if (!context) {
+    throw new Error('useAuth must be used inside AuthProvider');
   }
   return context;
 }
