@@ -2,7 +2,13 @@ import React from 'react';
 import { Waves, Heart, MapPin } from 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
 
-export default function Footer() {
+interface FooterProps {
+  onNavigateToWeather?: () => void;
+  onNavigateToTides?: () => void;
+  onSelectRandomSpot?: () => void;
+}
+
+export default function Footer({ onNavigateToWeather, onNavigateToTides, onSelectRandomSpot }: FooterProps) {
   const { getThemeClasses } = useTheme();
   const themeClasses = getThemeClasses();
 
@@ -32,15 +38,24 @@ export default function Footer() {
           <div className="text-center">
             <h4 className={`${themeClasses.footerText} font-semibold mb-3 sm:mb-4 text-sm sm:text-base`}>Quick Links</h4>
             <div className="space-y-1 sm:space-y-2">
-              <p className={`text-xs sm:text-sm ${themeClasses.textSecondary} hover:${themeClasses.accent} transition-colors cursor-pointer`}>
+              <button
+                onClick={onSelectRandomSpot}
+                className={`text-xs sm:text-sm ${themeClasses.textSecondary} hover:${themeClasses.accent} transition-colors cursor-pointer block w-full text-center`}
+              >
                 Surf Spots
-              </p>
-              <p className={`text-xs sm:text-sm ${themeClasses.textSecondary} hover:${themeClasses.accent} transition-colors cursor-pointer`}>
+              </button>
+              <button
+                onClick={onNavigateToWeather}
+                className={`text-xs sm:text-sm ${themeClasses.textSecondary} hover:${themeClasses.accent} transition-colors cursor-pointer block w-full text-center`}
+              >
                 Weather Maps
-              </p>
-              <p className={`text-xs sm:text-sm ${themeClasses.textSecondary} hover:${themeClasses.accent} transition-colors cursor-pointer`}>
+              </button>
+              <button
+                onClick={onNavigateToTides}
+                className={`text-xs sm:text-sm ${themeClasses.textSecondary} hover:${themeClasses.accent} transition-colors cursor-pointer block w-full text-center`}
+              >
                 Tide Information
-              </p>
+              </button>
             </div>
           </div>
 

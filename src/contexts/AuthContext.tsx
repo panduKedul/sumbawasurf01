@@ -56,27 +56,26 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   ) => {
     setLoading(true);
     try {
-      // cek jika email sudah digunakan
-      const { data: existing } = await supabase
+      // Check if email already exists
+      const { data: existingUser, error: checkError } = await supabase
         .from('profiles')
         .select('id')
         .eq('email', email)
-        .single();
+        .maybeSingle();
 
-      if (existing) {
-        return { success: false, error: 'Email already registered' };
-      }
-    } catch (existingError: any) {
-      // If error is not "no rows returned", then it's a real error
-      if (existingError.code !== 'PGRST116') {
+      if (checkError && checkError.code !== 'PGRST116') {
+        console.error('Error checking existing user:', checkError);
         return { success: false, error: 'Database error checking email' };
       }
-      // If PGRST116 (no rows), email is available - continue
-    }
 
-    try {
+      if (existingUser) {
+        return { success: false, error: 'Email already registered' };
+      }
+
+      // Hash password
       const passwordHash = await bcrypt.hash(password, 10);
 
+      // Insert new user
       const { data, error } = await supabase
         .from('profiles')
         .insert({
@@ -88,6 +87,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         .single();
 
       if (error) {
+        console.error('Error creating user:', error);
         return { success: false, error: error.message };
       }
 
@@ -96,17 +96,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         id: data.id,
         email: data.email,
         full_name: data.full_name,
-        created_at: data.created_at
       };
 
       setUser(cleanUser);
       localStorage.setItem('user', JSON.stringify(cleanUser));
       return { success: true };
-    } catch (err) {
+    } catch (err: any) {
+      console.error('Signup error:', err);
       return {
         success: false,
         error:
-          err instanceof Error ? err.message : 'Unexpected registration error',
+          err?.message || 'Unexpected registration error',
       };
     } finally {
       setLoading(false);

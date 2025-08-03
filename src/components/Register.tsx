@@ -45,12 +45,7 @@ export default function Register() {
       const result = await signUp(formData.email, formData.password, formData.fullName);
       
       if (result.success) {
-        if (result.error) {
-          // This is the email verification message
-          toast.success(result.error);
-        } else {
-          toast.success('Account created successfully!');
-        }
+        toast.success('Account created successfully!');
         // Redirect to login page after successful registration
         setTimeout(() => {
           navigate('/login');
@@ -66,6 +61,7 @@ export default function Register() {
         toast.error(result.error || 'Failed to create account');
       }
     } catch (error) {
+      console.error('Registration error:', error);
       toast.error('An unexpected error occurred');
     } finally {
       setIsSubmitting(false);

@@ -215,7 +215,16 @@ function AppContent() {
         </div>
       </main>
       
-      <Footer />
+      <Footer 
+        onNavigateToWeather={toggleWeather}
+        onNavigateToTides={toggleTides}
+        onSelectRandomSpot={() => {
+          if (spots.length > 0) {
+            const randomSpot = spots[Math.floor(Math.random() * spots.length)];
+            handleSpotSelect(randomSpot);
+          }
+        }}
+      />
     </div>
   );
 
