@@ -40,7 +40,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     const storedUser = localStorage.getItem('user');
     if (storedUser) {
-      setUser(JSON.parse(storedUser));
+      try {
+        setUser(JSON.parse(storedUser));
+      } catch (error) {
+        // Clear invalid stored user data
+        localStorage.removeItem('user');
+      }
     }
   }, []);
 
@@ -56,12 +61,20 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         .from('profiles')
         .select('id')
         .eq('email', email)
-        .maybeSingle();
+        .single();
 
       if (existing) {
         return { success: false, error: 'Email already registered' };
       }
+    } catch (existingError: any) {
+      // If error is not "no rows returned", then it's a real error
+      if (existingError.code !== 'PGRST116') {
+        return { success: false, error: 'Database error checking email' };
+      }
+      // If PGRST116 (no rows), email is available - continue
+    }
 
+    try {
       const passwordHash = await bcrypt.hash(password, 10);
 
       const { data, error } = await supabase
@@ -78,8 +91,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         return { success: false, error: error.message };
       }
 
-      setUser(data);
-      localStorage.setItem('user', JSON.stringify(data));
+      // Create clean user object without password_hash
+      const cleanUser = {
+        id: data.id,
+        email: data.email,
+        full_name: data.full_name,
+        created_at: data.created_at
+      };
+
+      setUser(cleanUser);
+      localStorage.setItem('user', JSON.stringify(cleanUser));
       return { success: true };
     } catch (err) {
       return {

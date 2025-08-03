@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Mail, Lock, Eye, EyeOff, LogIn, Waves } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { useTheme } from '../contexts/ThemeContext';
@@ -9,6 +9,7 @@ export default function Login() {
   const { signIn, loading } = useAuth();
   const { getThemeClasses } = useTheme();
   const themeClasses = getThemeClasses();
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     email: '',
@@ -56,6 +57,19 @@ export default function Login() {
       <div className="max-w-md w-full space-y-8">
         {/* Header */}
         <div className="text-center">
+          {/* Back Button */}
+          <div className="flex justify-start mb-4">
+            <button
+              onClick={() => navigate('/')}
+              className={`flex items-center space-x-2 ${themeClasses.textSecondary} hover:${themeClasses.text} transition-colors`}
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              </svg>
+              <span className="text-sm">Back to Home</span>
+            </button>
+          </div>
+          
           <div className="flex justify-center mb-6">
             <div className={`p-3 ${themeClasses.headerBg} rounded-2xl shadow-2xl`}>
               <Waves className="w-12 h-12 text-white" />
