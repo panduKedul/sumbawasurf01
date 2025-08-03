@@ -608,7 +608,7 @@ export default function Tides1({ spots }: Tides1Props) {
           <div className="absolute inset-0 bg-gradient-to-br from-teal-500/5 to-cyan-500/5 backdrop-blur-sm"></div>
           <div className={`relative ${themeClasses.cardBg} shadow-2xl border ${themeClasses.border}`}>
             <div className={`p-2 sm:p-4 lg:p-6 border-b ${themeClasses.border}`}>
-              <h3 className={`text-sm sm:text-lg lg:text-xl font-bold ${themeClasses.text} text-center`}>7-Day Overview</h3>
+              <h3 className={`text-sm sm:text-lg lg:text-xl font-bold ${themeClasses.text} text-center`}>3-Day Overview</h3>
             </div>
             <div className="p-2 sm:p-4 lg:p-6">
               {/* Mobile: Horizontal Scroll with 4-hour intervals */}
